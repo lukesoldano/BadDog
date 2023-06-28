@@ -13,6 +13,11 @@
 
 using namespace Graphics;
 
+namespace
+{
+   constexpr SDL_FRect SCREEN_CENTER{DEFAULT_WINDOW_WIDTH/2, DEFAULT_WINDOW_HEIGHT/2, 0, 0};
+}
+
 void GraphicsEngine::initialize()
 {
    LOG_MESSAGE("Enter GraphicsEngine::initialize()");
@@ -106,21 +111,56 @@ void GraphicsEngine::render()
    static auto kona_image_surface = Graphics::Surface::create_from_image(kona_image_path).value();
    static auto kona_image_texture = renderer.create_texture_from_surface(std::move(kona_image_surface)).value();
 
-   renderer.render(RenderInstructionFactory::get_instruction(background_image_texture,
-                                                             SDL_Rect{0, 0, 700, 500},
-                                                             SDL_Rect{0, 0, 700, 500}));
+   static Camera camera(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, DEFAULT_LEVEL_WIDTH, DEFAULT_LEVEL_HEIGHT);
 
    auto& game_state = GameState::instance();
+
+   const auto camera_frame = camera.get_frame(game_state.m_active_entities[0]);
+   
+   // Player position is centered unless near edges
+   auto player_camera_position = SCREEN_CENTER;
+   player_camera_position.h = 50;
+   player_camera_position.w = 50;
+   switch(camera_frame.m_x_frame_position)
+   {
+      case XFramePosition::on_left_edge:
+         player_camera_position.x = game_state.m_active_entities[0].x;
+         break;
+      case XFramePosition::on_right_edge:
+         player_camera_position.x = game_state.m_active_entities[0].x - DEFAULT_LEVEL_WIDTH + DEFAULT_WINDOW_WIDTH;
+         break;
+      case XFramePosition::off_edge: // fall through
+      default:
+         break; // do nothing
+   }
+
+   switch(camera_frame.m_y_frame_position)
+   {
+      case YFramePosition::on_top_edge:
+         player_camera_position.y = game_state.m_active_entities[0].y;
+         break;
+      case YFramePosition::on_bottom_edge:
+         player_camera_position.y =  game_state.m_active_entities[0].y - DEFAULT_LEVEL_HEIGHT + DEFAULT_WINDOW_HEIGHT;
+         break;
+      case YFramePosition::off_edge: // fall through
+      default:
+         break; // do nothing
+   }
+
+   renderer.render(RenderInstructionFactory::get_instruction(background_image_texture,
+                                                             camera_frame.m_rect,
+                                                             std::optional<SDL_Rect>()));
+
    renderer.set_draw_color(Color::black);
    renderer.render(RenderInstructionFactory::get_instruction(kona_image_texture,
                                                              std::nullopt,
-                                                             game_state.m_active_entities[0]));
+                                                             player_camera_position));
    
-   renderer.set_draw_color(Color::red);
-   for (const auto& entity : game_state.m_static_entities)
-   {
-      renderer.render(RenderInstructionFactory::get_instruction(entity.second));
-   }
+   // renderer.set_draw_color(Color::red);
+   // for (const auto& entity : game_state.m_static_entities)
+   // {
+   //    renderer.render(RenderInstructionFactory::get_instruction(entity.second));
+   // }
    
 
    

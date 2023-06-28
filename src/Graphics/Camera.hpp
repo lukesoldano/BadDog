@@ -7,6 +7,27 @@
 namespace Graphics
 {
 
+enum class XFramePosition
+{
+   off_edge = 0,
+   on_left_edge = 1,
+   on_right_edge = 2
+};
+
+enum class YFramePosition
+{
+   off_edge = 0,
+   on_top_edge = 1,
+   on_bottom_edge = 2
+};
+
+struct CameraFrame
+{
+   SDL_Rect m_rect;
+   XFramePosition m_x_frame_position;
+   YFramePosition m_y_frame_position;
+};
+
 class Camera
 {
    const int m_camera_width = 0;
@@ -23,7 +44,7 @@ public:
           size_t i_level_height);
    virtual ~Camera() = default;
 
-   SDL_Rect get_position(const SDL_FRect& i_focal_point) const noexcept;
+   CameraFrame get_frame(const SDL_FRect& i_focal_point) const noexcept;
 
 };
 

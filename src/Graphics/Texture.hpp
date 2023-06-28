@@ -12,6 +12,8 @@ class Texture
    // Friend permissions provided as the Renderer acts as a factory for Textures
    friend class Renderer;
 
+   SDL_Texture* m_texture = nullptr;
+
 public:
 
    Texture() = delete;
@@ -39,8 +41,6 @@ private:
    }
 
    void teardown_internal();
-
-   SDL_Texture* m_texture = nullptr;
 
 };
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Camera.hpp"
 #include "Window.hpp"
 
 #include <memory>
@@ -10,6 +11,8 @@ namespace Graphics
 // @warning This class is not thread safe
 class GraphicsEngine
 {
+   std::unique_ptr<Window> m_window;
+
 public:
 
    GraphicsEngine() = default;
@@ -23,10 +26,6 @@ public:
 
    // @warning Throws if m_window has become invalidated
    void render();
-
-private:
-
-   std::unique_ptr<Window> m_window;
 
 };
 
