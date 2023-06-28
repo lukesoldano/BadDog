@@ -69,13 +69,13 @@ std::vector<EntityId> SHM::get_neighbors(FRect i_area) const
       }
    }
 
-   // // Add all entities from neighboring cells
-   // for (const auto& neighbor_cell : get_neighboring_cells(i_area))
-   // {
-   //    o_neighboring_entities.insert(o_neighboring_entities.end(),
-   //                                  m_cells[neighbor_cell].cbegin(), 
-   //                                  m_cells[neighbor_cell].cend());
-   // }
+   // Add all entities from neighboring cells
+   for (const auto& neighbor_cell : get_neighboring_cells(area))
+   {
+      o_neighboring_entities.insert(o_neighboring_entities.end(),
+                                    m_cells[neighbor_cell].cbegin(), 
+                                    m_cells[neighbor_cell].cend());
+   }
 
    return o_neighboring_entities;
 }
@@ -155,7 +155,6 @@ std::vector<SpatialHashMapCell_t> SHM::get_neighboring_cells(SpatialHashMapCell_
 {
    if (CELL_WIDTH == LEVEL_WIDTH && CELL_HEIGHT == LEVEL_HEIGHT) return {};
 
-   // Case for two dimmensional grid
    std::vector<SpatialHashMapCell_t> o_neighboring_cells;
    const auto bordering_left = i_cell % X_CELLS == 0;
    const auto bordering_right = ((i_cell - X_CELLS + 1) % X_CELLS) == 0;
@@ -178,6 +177,78 @@ std::vector<SpatialHashMapCell_t> SHM::get_neighboring_cells(SpatialHashMapCell_
       if (!bordering_left) o_neighboring_cells.emplace_back(i_cell - 1 + X_CELLS);
       o_neighboring_cells.emplace_back(i_cell + X_CELLS);
       if (!bordering_right) o_neighboring_cells.emplace_back(i_cell + 1 + X_CELLS);
+   }
+
+   return o_neighboring_cells;
+}
+
+// This function should only be called with a frame that has been stretched to fill
+// the entirety of its respective cells
+template <size_t LEVEL_WIDTH, size_t LEVEL_HEIGHT, size_t CELL_WIDTH, size_t CELL_HEIGHT>
+std::vector<SpatialHashMapCell_t> SHM::get_neighboring_cells(const Rect& i_frame) const
+{
+   if (CELL_WIDTH == LEVEL_WIDTH && CELL_HEIGHT == LEVEL_HEIGHT) return {};
+
+   const Point frame_origin{i_frame.get_origin()};
+   const auto top_left_corner_cell = get_cell_for_position(frame_origin);
+   CHECK_CONDITION_RETURN_EMPTY_INITIALIZER(top_left_corner_cell.has_value());
+
+   const bool bordering_top = top_left_corner_cell.value() < X_CELLS;
+   const bool bordering_left = top_left_corner_cell.value() % X_CELLS == 0;
+
+   auto bottom_right_corner = frame_origin;
+   bottom_right_corner.x += i_frame.w - 1;
+   bottom_right_corner.y += i_frame.h - 1;
+
+   const auto bottom_right_corner_cell = get_cell_for_position(bottom_right_corner);
+   CHECK_CONDITION_RETURN_EMPTY_INITIALIZER(bottom_right_corner_cell.has_value());
+
+   const bool bordering_bottom{(X_CELLS * Y_CELLS) - 1 == bottom_right_corner_cell.value()};
+   const bool bordering_right{((bottom_right_corner_cell.value() - X_CELLS + 1) % X_CELLS) == 0};
+
+   const size_t frame_cell_width = i_frame.w / CELL_WIDTH; // leverages truncation
+
+   std::vector<SpatialHashMapCell_t> o_neighboring_cells;
+   if (!bordering_top) 
+   {
+      if (!bordering_left) o_neighboring_cells.emplace_back(top_left_corner_cell.value() - X_CELLS - 1);
+      if (!bordering_right) o_neighboring_cells.emplace_back(top_left_corner_cell.value() + frame_cell_width - X_CELLS + 1);
+   
+      for (auto i = top_left_corner_cell.value() - X_CELLS; 
+           i <= top_left_corner_cell.value() + frame_cell_width - X_CELLS;
+           ++i)
+      {
+         o_neighboring_cells.emplace_back(i);
+      }
+   }
+
+   if (!bordering_bottom) 
+   {
+      if (!bordering_left) o_neighboring_cells.emplace_back(bottom_right_corner_cell.value() - frame_cell_width + X_CELLS - 1);
+      if (!bordering_right) o_neighboring_cells.emplace_back(bottom_right_corner_cell.value() + X_CELLS + 1);
+   
+      for (auto i = bottom_right_corner_cell.value() - frame_cell_width + X_CELLS; 
+           i <= bottom_right_corner_cell.value() + X_CELLS;
+           ++i)
+      {
+         o_neighboring_cells.emplace_back(i);
+      }
+   }
+
+   if (!bordering_left)
+   {
+      for (auto i = 0; i <= i_frame.h / CELL_HEIGHT; ++i)
+      {
+         o_neighboring_cells.emplace_back(top_left_corner_cell.value() - 1 + i * X_CELLS);
+      }
+   }
+
+   if (!bordering_right)
+   {
+      for (auto i = 0; i <= i_frame.h / CELL_HEIGHT; ++i)
+      {
+         o_neighboring_cells.emplace_back(top_left_corner_cell.value() + frame_cell_width + 1 + i * X_CELLS);
+      }
    }
 
    return o_neighboring_cells;

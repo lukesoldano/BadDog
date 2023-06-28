@@ -7,7 +7,10 @@
 #include <memory>
 #include <vector>
 
-class Game
+namespace Game
+{
+
+class Engine
 {
    std::unique_ptr<UserInput::UserInputEngine> m_user_input_engine;
    std::unique_ptr<Graphics::GraphicsEngine> m_graphics_engine;
@@ -15,8 +18,8 @@ class Game
 
 public:
 
-   Game() = default;
-   virtual ~Game() = default;
+   Engine() = default;
+   virtual ~Engine() = default;
 
    int initialize();
    void teardown();
@@ -24,3 +27,5 @@ public:
    void run_gameloop();
 
 };
+
+} // namespace Game

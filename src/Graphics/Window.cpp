@@ -45,11 +45,11 @@ Window& Window::operator=(Window&& rhs)
 
 std::optional<Window> Window::create()
 {
-   auto sdl_window = SDL_CreateWindow(WINDOW_NAME,
+   auto sdl_window = SDL_CreateWindow(Game::Settings::WINDOW_NAME,
                                       SDL_WINDOWPOS_CENTERED,
                                       SDL_WINDOWPOS_CENTERED,
-                                      DEFAULT_WINDOW_WIDTH, 
-                                      DEFAULT_WINDOW_HEIGHT,
+                                      Game::Settings::DEFAULT_WINDOW_WIDTH, 
+                                      Game::Settings::DEFAULT_WINDOW_HEIGHT,
                                       SDL_WINDOW_SHOWN);
    if (nullptr == sdl_window)
    {

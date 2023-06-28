@@ -19,7 +19,8 @@ using namespace Graphics;
 
 namespace
 {
-   constexpr FRect SCREEN_CENTER{DEFAULT_WINDOW_WIDTH/2, DEFAULT_WINDOW_HEIGHT/2, 0, 0};
+   constexpr FRect SCREEN_CENTER{Game::Settings::DEFAULT_WINDOW_WIDTH/2, 
+                                 Game::Settings::DEFAULT_WINDOW_HEIGHT/2, 0, 0};
 }
 
 void GraphicsEngine::initialize()
@@ -115,9 +116,12 @@ void GraphicsEngine::render()
    // static auto kona_image_surface = Graphics::Surface::create_from_image(kona_image_path).value();
    // static auto kona_image_texture = renderer.create_texture_from_surface(std::move(kona_image_surface)).value();
 
-   static Camera camera(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, DEFAULT_LEVEL_WIDTH, DEFAULT_LEVEL_HEIGHT);
+   static Camera camera(Game::Settings::DEFAULT_WINDOW_WIDTH, 
+                        Game::Settings::DEFAULT_WINDOW_HEIGHT, 
+                        Game::Settings::DEFAULT_LEVEL_WIDTH, 
+                        Game::Settings::DEFAULT_LEVEL_HEIGHT);
 
-   auto& game_state = GameState::instance();
+   auto& game_state = Game::State::instance();
 
    const auto camera_frame = camera.get_frame(game_state.m_active_entities[0]);
    
@@ -131,7 +135,9 @@ void GraphicsEngine::render()
          player_camera_position.x = game_state.m_active_entities[0].x;
          break;
       case XFramePosition::on_right_edge:
-         player_camera_position.x = game_state.m_active_entities[0].x - DEFAULT_LEVEL_WIDTH + DEFAULT_WINDOW_WIDTH;
+         player_camera_position.x = game_state.m_active_entities[0].x - 
+                                    Game::Settings::DEFAULT_LEVEL_WIDTH + 
+                                    Game::Settings::DEFAULT_WINDOW_WIDTH;
          break;
       case XFramePosition::off_edge:
          // camera position gives centered position of frame, adjust by half width for actual
@@ -148,7 +154,9 @@ void GraphicsEngine::render()
          player_camera_position.y = game_state.m_active_entities[0].y;
          break;
       case YFramePosition::on_bottom_edge:
-         player_camera_position.y =  game_state.m_active_entities[0].y - DEFAULT_LEVEL_HEIGHT + DEFAULT_WINDOW_HEIGHT;
+         player_camera_position.y =  game_state.m_active_entities[0].y - 
+                                     Game::Settings::DEFAULT_LEVEL_HEIGHT + 
+                                     Game::Settings::DEFAULT_WINDOW_HEIGHT;
          break;
       case YFramePosition::off_edge:
          // camera position gives centered position of frame, adjust by half height for actual
@@ -167,14 +175,15 @@ void GraphicsEngine::render()
    renderer.render(RenderInstructionFactory::get_instruction(player_camera_position));
    
    renderer.set_draw_color(Color::red);
-   for (const auto& entity : game_state.m_static_entities)
+   for (const auto& entityId : game_state.m_spatial_hash_map.get_neighbors(camera_frame.m_level_position))
    {
-      if (Physics::CollisionDetector().are_aabbs_colliding(camera_frame.m_level_position, entity.second))
+      if (Physics::CollisionDetector().are_aabbs_colliding(camera_frame.m_level_position, 
+                                                           game_state.m_static_entities[entityId]))
       {
-         FRect render_rect{entity.second.x - camera_frame.m_level_position.x,
-                           entity.second.y - camera_frame.m_level_position.y,
-                           entity.second.w,
-                           entity.second.h};
+         FRect render_rect{game_state.m_static_entities[entityId].x - camera_frame.m_level_position.x,
+                           game_state.m_static_entities[entityId].y - camera_frame.m_level_position.y,
+                           game_state.m_static_entities[entityId].w,
+                           game_state.m_static_entities[entityId].h};
          renderer.render(RenderInstructionFactory::get_instruction(render_rect));
       }
    }

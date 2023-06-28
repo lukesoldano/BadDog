@@ -1,18 +1,23 @@
 #pragma once
 
+#include "GameSettings.hpp"
 #include "ProjectDefs.hpp"
+#include "SpatialHashMap.hpp"
 #include "UserInputDefs.hpp"
 
 #include <array>
 #include <unordered_map>
 
-class GameState
+namespace Game
+{
+
+class State
 {
 public:
 
-   static GameState& instance()
+   static State& instance()
    {
-      static GameState game_state;
+      static State game_state;
       return game_state;
    }
 
@@ -23,6 +28,8 @@ public:
    std::array<bool, static_cast<size_t>(Key::MAX_VALUE)> m_key_pressed{ false };
 
    // TODO REMOVE - HERE FOR TESTING
+   Physics::SpatialHashMap<Settings::DEFAULT_LEVEL_WIDTH, Settings::DEFAULT_LEVEL_HEIGHT, 100, 100> m_spatial_hash_map;
+
    std::unordered_map<EntityId, FRect> m_active_entities = { {0, {1000.0, 1000.0, 50.0, 50.0}} };
    std::unordered_map<EntityId, FRect> m_static_entities = { 
                                                                {1, {300.0, 100.0, 70.0, 70.0}},
@@ -35,7 +42,9 @@ public:
 
 private:
 
-   GameState() = default; 
-   ~GameState() = default;
+   State() = default; 
+   ~State() = default;
 
 };
+
+} // namespace Game

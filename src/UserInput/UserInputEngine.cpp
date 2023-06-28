@@ -9,7 +9,7 @@ using namespace UserInput;
 
 void UserInputEngine::process_input()
 {
-   auto& game_state = GameState::instance();
+   auto& game_state = Game::State::instance();
 
    // Reset inputs
    // game_state.m_key_pressed.fill(false);

@@ -13,7 +13,9 @@ using namespace Graphics;
 using namespace Physics;
 using namespace UserInput;
 
-int Game::initialize()
+using namespace Game;
+
+int Engine::initialize()
 {
    // Initialize SDL2
    if (0 != SDL_Init(SDL_INIT_TIMER & SDL_INIT_VIDEO & SDL_INIT_EVENTS & SDL_INIT_GAMECONTROLLER))
@@ -34,7 +36,7 @@ int Game::initialize()
    return 0;
 }
 
-void Game::teardown()
+void Engine::teardown()
 {
    m_graphics_engine->teardown();
    for (auto rit = m_logic_engines.rbegin(); rit != m_logic_engines.rend(); ++rit) (*rit)->teardown();
@@ -47,11 +49,11 @@ void Game::teardown()
    SDL_Quit();
 }
 
-void Game::run_gameloop()
+void Engine::run_gameloop()
 {
-   LOG_MESSAGE("Enter Game::run_gameloop()");
+   LOG_MESSAGE("Enter Engine::run_gameloop()");
 
-   auto& game_state = GameState::instance();
+   auto& game_state = State::instance();
 
    const double DESIRED_MS_PER_FRAME = 1000.0 /*ms*/ / 60.0 /*frame rate*/;
 
@@ -67,5 +69,5 @@ void Game::run_gameloop()
       if (sleep_time_ms > 0.0) SDL_Delay(static_cast<Uint32>(sleep_time_ms));
    }
 
-   LOG_MESSAGE("Exit Game::run_gameloop()");
+   LOG_MESSAGE("Exit Engine::run_gameloop()");
 } 

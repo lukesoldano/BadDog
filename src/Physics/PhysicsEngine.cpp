@@ -11,14 +11,14 @@ void PhysicsEngine::initialize()
 
    /////////////////////////////////////////////////////////////////////////////////////////////////
    // TODO Remove
-   auto& game_state = GameState::instance();
+   auto& game_state = Game::State::instance();
    for (const auto& entity : game_state.m_active_entities)
    {
-      m_spatial_hash_map.add_entity(entity.first, entity.second);
+      game_state.m_spatial_hash_map.add_entity(entity.first, entity.second);
    }
    for (const auto& entity : game_state.m_static_entities)
    {
-      m_spatial_hash_map.add_entity(entity.first, entity.second);
+      game_state.m_spatial_hash_map.add_entity(entity.first, entity.second);
    }
    /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -34,7 +34,7 @@ void PhysicsEngine::teardown()
 
 void PhysicsEngine::process()
 {
-   auto& game_state = GameState::instance();
+   auto& game_state = Game::State::instance();
 
    /////////////////////////////////////////////////////////////////////////////////////////////////
    // TODO Remove
@@ -46,10 +46,10 @@ void PhysicsEngine::process()
    
    game_state.m_active_entities[0].x += user_displacement.m_x;
    game_state.m_active_entities[0].y += user_displacement.m_y;
-   m_spatial_hash_map.move_entity(0, game_state.m_active_entities[0]);
+   game_state.m_spatial_hash_map.move_entity(0, game_state.m_active_entities[0]);
    
    // Broad phase checks
-   const auto neighbors = m_spatial_hash_map.get_neighbors(0);
+   const auto neighbors = game_state.m_spatial_hash_map.get_neighbors(0);
 
    // Narrow phase checks
    for (const auto& neighbor_id : neighbors)
@@ -59,7 +59,7 @@ void PhysicsEngine::process()
       {
          game_state.m_active_entities[0].x -= user_displacement.m_x;
          game_state.m_active_entities[0].y -= user_displacement.m_y;
-         m_spatial_hash_map.move_entity(0, game_state.m_active_entities[0]);
+         game_state.m_spatial_hash_map.move_entity(0, game_state.m_active_entities[0]);
       }
    }
    

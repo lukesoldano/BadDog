@@ -58,7 +58,7 @@ inline Point FPoint::to_point() const { return Point{std::lround(x), std::lround
 
 struct Rect : public SDL_Rect
 {
-   inline Point get_origin() { return {x, y}; };
+   inline Point get_origin() const { return {x, y}; };
 
    inline FRect to_frect() const;
    inline std::string to_string() const { TO_STRING(); }
@@ -76,7 +76,7 @@ struct Rect : public SDL_Rect
 
 struct FRect : public SDL_FRect
 {
-   inline FPoint get_origin() { return {x, y}; };
+   inline FPoint get_origin() const { return {x, y}; };
 
    inline Rect to_rect() const;
    inline std::string to_string() const { TO_STRING(); }

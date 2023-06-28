@@ -55,6 +55,7 @@ private:
    std::optional<SpatialHashMapCell_t> get_cell_for_position(Point i_position) const;
    std::optional<SpatialHashMapCell_t> get_cell_for_position(FPoint i_position) const;
    std::vector<SpatialHashMapCell_t> get_neighboring_cells(SpatialHashMapCell_t i_cell) const;
+   std::vector<SpatialHashMapCell_t> get_neighboring_cells(const Rect& i_frame) const;
 
 };
 

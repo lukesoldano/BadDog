@@ -2,9 +2,7 @@
 
 #include "CollisionDetector.hpp"
 #include "CollisionResolver.hpp"
-#include "GameSettings.hpp"
 #include "ILogicEngine.hpp"
-#include "SpatialHashMap.hpp"
 
 namespace Physics
 {
@@ -12,7 +10,6 @@ namespace Physics
 // @warning This class is not thread safe
 class PhysicsEngine : public ILogicEngine
 {
-   SpatialHashMap<DEFAULT_LEVEL_WIDTH, DEFAULT_LEVEL_HEIGHT, 100, 100> m_spatial_hash_map;
    CollisionDetector m_collision_detector;
    CollisionResolver m_collision_resolver;
 
