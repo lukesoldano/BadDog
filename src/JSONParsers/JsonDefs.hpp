@@ -1,10 +1,17 @@
 #pragma once
 
+#include "Logger.hpp"
+#include "ProjectDefs.hpp"
+
 #include <nlohmann/json.hpp>
 
+#include <assert.h>
 #include <optional>
 #include <string>
 #include <vector>
+
+#define CHECK_JSON_OBJECT_RETURN_NULLOPT(i_json) CHECK_CONDITION_RETURN_NULLOPT((!i_json.is_null() && i_json.is_object()));
+#define CHECK_JSON_OBJECT_RETURN_EMPTY_INITIALIZER(i_json) CHECK_CONDITION_RETURN_EMPTY_INITIALIZER((!i_json.is_null() && i_json.is_object()));
 
 namespace JSON
 {
@@ -44,8 +51,8 @@ constexpr auto LEVEL_ACTIVE_ENTITIES_ARRAY = "activeEntities";
 
 // Static entity keys (Common to all static entities)
 constexpr auto STATIC_ENTITY_TYPE = "type";
-constexpr auto STATIC_ENTITY_VISIBILITY = "visible";
-constexpr auto STATIC_ENTITY_INSTANCES = "instances";
+constexpr auto STATIC_ENTITY_VISIBILITY = "visible"; // default is false
+constexpr auto STATIC_ENTITY_INSTANCES_ARRAY = "instances";
 
 //// Static entity keys (Common to all instances)
 constexpr auto STATIC_ENTITY_LABEL = "label";
@@ -58,5 +65,12 @@ constexpr auto STATIC_ENTITY_RECT_HEIGHT = "height";
 constexpr auto STATIC_ENTITY_RECT_COLOR = "color";
 
 } // namespace Keys
+
+namespace Values
+{
+   // STatic entity values
+   //// Static rect entity values (Common to all rect)
+   constexpr auto STATIC_ENTITY_RECT_TYPE = "rect";
+}
 
 } // namespace JSON

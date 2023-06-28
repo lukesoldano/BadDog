@@ -1,6 +1,6 @@
 #include "GameEngine.hpp"
 #include "Logger.hpp"
-#include "StaticEntity.hpp"
+
 int main(int argc, char* args[])
 {
    LOG_MESSAGE("Enter main()");

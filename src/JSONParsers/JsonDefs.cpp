@@ -7,10 +7,9 @@ using namespace JSON;
 std::optional<FileInfo> FileInfo::from_json(const std::string& i_file_name,
                                             const nlohmann::json& i_json) noexcept
 {
-   if (i_json.is_null() || !i_json.is_object()) return std::nullopt;
-   
-   if (!i_json.contains(Keys::FILE_INFO_OBJECT)) return std::nullopt;
-   auto file_info_json = i_json[Keys::FILE_INFO_OBJECT];
+   CHECK_JSON_OBJECT_RETURN_NULLOPT(i_json);
+   CHECK_CONDITION_RETURN_NULLOPT(i_json.contains(Keys::FILE_INFO_OBJECT));
+   const auto file_info_json = i_json[Keys::FILE_INFO_OBJECT];
 
    std::string type;
    std::vector<std::string> authors;

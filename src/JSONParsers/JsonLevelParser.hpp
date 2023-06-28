@@ -1,17 +1,16 @@
 #pragma once
 
+#include "ExtendedOptional.hpp"
 #include "GameLevel.hpp"
-#include "JsonDefs.hpp"
 
-#include <filesystem>
-#include <optional>
+#include <nlohmann/json.hpp>
 
 namespace JSON
 {
 namespace LevelParser
 {
 
-   std::optional<Game::Level> get_game_level_from_json(nlohmann::json i_json);
+   extended_opt<Game::Level> get_game_level_from_json(nlohmann::json i_json);
 
 } // namespace LevelParser
 

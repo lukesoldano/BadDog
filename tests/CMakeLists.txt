@@ -27,6 +27,7 @@ add_executable(${TEST_PROJECT_NAME}
                ${CMAKE_CURRENT_LIST_DIR}/TestCollisionDetector.cpp
                ${CMAKE_CURRENT_LIST_DIR}/TestJsonParsers.cpp
                ${CMAKE_CURRENT_LIST_DIR}/TestSpatialHashMap.cpp
+               ${CMAKE_CURRENT_LIST_DIR}/TestUtilities.cpp
 )
 
 target_link_libraries(${TEST_PROJECT_NAME}

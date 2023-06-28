@@ -4,7 +4,7 @@ message("%% Entering Game Entities")
 # Set source files
 set(GAME_ENTITIES_SOURCE_FILES
 
-    ${CMAKE_CURRENT_LIST_DIR}/StaticEntity.cpp
+   #  ${CMAKE_CURRENT_LIST_DIR}/StaticEntity.cpp
 
     CACHE INTERNAL "GAME_ENTITIES_SOURCE_FILES")
 

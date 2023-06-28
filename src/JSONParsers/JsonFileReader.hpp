@@ -39,6 +39,7 @@ namespace FileReader
       }
       catch (nlohmann::json::parse_error& e)
       {
+         read_stream.close();
          assert(false && e.what());
          LOG_ERROR("Failed to parse json file: '" << 
                    i_json_file.string() << 
