@@ -39,23 +39,23 @@ void PhysicsEngine::process()
 
    if (user_displacement.m_x < 0) game_state.m_player_entity_rotation += 180.0f;
 
-   game_state.m_active_entities[0].x += user_displacement.m_x;
-   game_state.m_active_entities[0].y += user_displacement.m_y;
-   game_state.m_spatial_hash_map.move_entity(0, game_state.m_active_entities[0]);
+   game_state.m_player_entity.x += user_displacement.m_x;
+   game_state.m_player_entity.y += user_displacement.m_y;
+   game_state.m_spatial_hash_map.move_entity(Game::PLAYER_ENTITY_ID, game_state.m_player_entity);
    
    // Broad phase checks
-   const auto neighbors = game_state.m_spatial_hash_map.get_neighbors(0);
+   const auto neighbors = game_state.m_spatial_hash_map.get_neighbors(Game::PLAYER_ENTITY_ID);
 
    // Narrow phase checks
    for (const auto& neighbor_id : neighbors)
    {
-      if (m_collision_detector.are_aabbs_colliding(game_state.m_active_entities[0],
-                                                   game_state.m_static_entities[neighbor_id]))
+      if (m_collision_detector.are_aabbs_colliding(game_state.m_player_entity,
+                                                   game_state.m_static_entities[neighbor_id].get_hitbox()))
       {
-         game_state.m_active_entities[0].x -= user_displacement.m_x;
-         game_state.m_active_entities[0].y -= user_displacement.m_y;
-         game_state.m_spatial_hash_map.move_entity(0, game_state.m_active_entities[0]);
-         EventPublisher::instance().publish_event(PlayerCollisionWithStaticEntity{ neighbor_id });
+         game_state.m_player_entity.x -= user_displacement.m_x;
+         game_state.m_player_entity.y -= user_displacement.m_y;
+         game_state.m_spatial_hash_map.move_entity(Game::PLAYER_ENTITY_ID, game_state.m_player_entity);
+         PUBLISH_EVENT(PlayerCollisionWithStaticEntity, { neighbor_id });
       }
    }
    

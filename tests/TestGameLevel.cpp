@@ -26,20 +26,20 @@ TEST(GameLevel, ParseJsonLevelFile)
    ASSERT_TRUE(level.m_static_entities.size() >= 2);
 
    EXPECT_EQ(level.m_static_entities[0].m_label, "Test Rect 1");
-   ASSERT_TRUE(std::holds_alternative<FRectEntity>(level.m_static_entities[0].m_data));
-   EXPECT_TRUE(std::get<FRectEntity>(level.m_static_entities[0].m_data).m_visible);
-   EXPECT_EQ(std::get<FRectEntity>(level.m_static_entities[0].m_data).x, 100.0f);
-   EXPECT_EQ(std::get<FRectEntity>(level.m_static_entities[0].m_data).y, 100.0f);
-   EXPECT_EQ(std::get<FRectEntity>(level.m_static_entities[0].m_data).w, 20.0f);
-   EXPECT_EQ(std::get<FRectEntity>(level.m_static_entities[0].m_data).h, 20.0f);
-   EXPECT_EQ(std::get<FRectEntity>(level.m_static_entities[0].m_data).m_rgba_color, RgbaColor(Color::red));
+   ASSERT_TRUE(std::holds_alternative<FRectBarrier>(level.m_static_entities[0].m_data));
+   EXPECT_TRUE(std::get<FRectBarrier>(level.m_static_entities[0].m_data).m_visible);
+   EXPECT_EQ(std::get<FRectBarrier>(level.m_static_entities[0].m_data).x, 100.0f);
+   EXPECT_EQ(std::get<FRectBarrier>(level.m_static_entities[0].m_data).y, 100.0f);
+   EXPECT_EQ(std::get<FRectBarrier>(level.m_static_entities[0].m_data).w, 20.0f);
+   EXPECT_EQ(std::get<FRectBarrier>(level.m_static_entities[0].m_data).h, 20.0f);
+   EXPECT_EQ(std::get<FRectBarrier>(level.m_static_entities[0].m_data).m_rgba_color, RgbaColor(Color::red));
 
    EXPECT_EQ(level.m_static_entities[1].m_label, "Test Rect 2");
-   ASSERT_TRUE(std::holds_alternative<FRectEntity>(level.m_static_entities[1].m_data));
-   EXPECT_TRUE(std::get<FRectEntity>(level.m_static_entities[1].m_data).m_visible);
-   EXPECT_EQ(std::get<FRectEntity>(level.m_static_entities[1].m_data).x, 200.0f);
-   EXPECT_EQ(std::get<FRectEntity>(level.m_static_entities[1].m_data).y, 200.0f);
-   EXPECT_EQ(std::get<FRectEntity>(level.m_static_entities[1].m_data).w, 40.0f);
-   EXPECT_EQ(std::get<FRectEntity>(level.m_static_entities[1].m_data).h, 60.0f);
-   EXPECT_EQ(std::get<FRectEntity>(level.m_static_entities[1].m_data).m_rgba_color, RgbaColor(Color::blue));
+   ASSERT_TRUE(std::holds_alternative<FRectBarrier>(level.m_static_entities[1].m_data));
+   EXPECT_TRUE(std::get<FRectBarrier>(level.m_static_entities[1].m_data).m_visible);
+   EXPECT_EQ(std::get<FRectBarrier>(level.m_static_entities[1].m_data).x, 200.0f);
+   EXPECT_EQ(std::get<FRectBarrier>(level.m_static_entities[1].m_data).y, 200.0f);
+   EXPECT_EQ(std::get<FRectBarrier>(level.m_static_entities[1].m_data).w, 40.0f);
+   EXPECT_EQ(std::get<FRectBarrier>(level.m_static_entities[1].m_data).h, 60.0f);
+   EXPECT_EQ(std::get<FRectBarrier>(level.m_static_entities[1].m_data).m_rgba_color, RgbaColor(Color::blue));
 }

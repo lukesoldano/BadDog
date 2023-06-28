@@ -71,7 +71,7 @@ void Engine::run_gameloop()
       const double time_at_loop_start = SDL_GetTicks();
 
       const auto time_elapsed_ms = time_at_loop_start - loop_end_time;
-      EventPublisher::instance().publish_event(Game::Event::GameLoopElapsedTime{time_elapsed_ms});
+      PUBLISH_EVENT(Game::Event::GameLoopElapsedTime, {time_elapsed_ms});
 
       m_user_input_engine->process_input();
       for (auto& engine : m_logic_engines) engine->process();

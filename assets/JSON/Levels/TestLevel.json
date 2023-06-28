@@ -4,7 +4,7 @@
       "m_type" : "Level",
       "m_authors" : [ "Luke Soldano" ],
       "m_creation_date" : "2023-04-16",
-      "m_last_updated_date" : "2023-04-23"
+      "m_last_updated_date" : "2023-06-27"
    },
 
    "level_info" :
@@ -22,7 +22,7 @@
       [
          {
             "m_label" : "Test Rect 1",
-            "m_frect" : 
+            "m_frect_barrier" : 
             {
                "m_visible" : true,
                "m_x" : 100.0,
@@ -37,7 +37,7 @@
          },
          {
             "m_label" : "Test Rect 2",
-            "m_frect" :
+            "m_frect_barrier" :
             {
                "m_visible" : true,
                "m_x" : 200.0,
@@ -55,7 +55,7 @@
          },
          {
             "m_label" : "Test Rect 3",
-            "m_frect" : 
+            "m_frect_barrier" : 
             {
                "m_visible" : true,
                "m_x" : 300.0,
@@ -70,7 +70,7 @@
          },
          {
             "m_label" : "Test Rect 4",
-            "m_frect" : 
+            "m_frect_barrier" : 
             {
                "m_visible" : true,
                "m_x" : 380.0,
@@ -85,7 +85,7 @@
          },
          {
             "m_label" : "Test Rect 5",
-            "m_frect" : 
+            "m_frect_barrier" : 
             {
                "m_visible" : true,
                "m_x" : 500.0,
@@ -100,7 +100,7 @@
          },
          {
             "m_label" : "Test Rect 6",
-            "m_frect" : 
+            "m_frect_barrier" : 
             {
                "m_visible" : true,
                "m_x" : 150.0,

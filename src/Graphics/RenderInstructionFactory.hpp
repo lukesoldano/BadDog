@@ -1,8 +1,10 @@
 #pragma once
 
+#include "Camera.hpp"
 #include "GraphicsDefs.hpp"
 #include "Logger.hpp"
 #include "ProjectDefs.hpp"
+#include "StaticEntity.hpp"
 
 namespace Graphics
 {
@@ -25,6 +27,9 @@ namespace RenderInstructionFactory
                                               std::optional<FRect> i_render_quad = std::nullopt,
                                               float i_rotation_angle = 0.0f,
                                               SDL_RendererFlip i_flip = SDL_FLIP_NONE);
+
+   inline RenderInstruction_t get_static_entity_instruction(const CameraFrame& i_camera_frame,
+                                                            const Game::StaticEntity& i_entity);
 
    /////////////////////////////////////////////////////////////////////////////////////////////////
    // Definitions
@@ -148,6 +153,43 @@ namespace RenderInstructionFactory
          }
          return true;
       };
+   }
+
+   inline RenderInstruction_t get_static_entity_instruction(const CameraFrame& i_camera_frame,
+                                                            const Game::StaticEntity& i_entity)
+   {
+      if (std::holds_alternative<Game::FRectBarrier>(i_entity.m_data))
+      {
+         const auto& barrier = std::get<Game::FRectBarrier>(i_entity.m_data);
+         FRect barrier_frect = std::get<Game::FRectBarrier>(i_entity.m_data);
+         barrier_frect.x -= i_camera_frame.m_level_position.x;
+         barrier_frect.y -= i_camera_frame.m_level_position.y;
+
+         // renderer.set_draw_color(i_entity.m_rgba_color);
+         return [color = barrier.m_rgba_color, barrier_frect = std::move(barrier_frect)](SDL_Renderer& i_renderer)
+         {
+            if (0 != SDL_SetRenderDrawColor(&i_renderer, 
+                                            color.m_r, 
+                                            color.m_g, 
+                                            color.m_b, 
+                                            color.m_a))
+            {
+               LOG_WARNING("Failed to set draw color, SDL Error: " << SDL_GetError());
+               return false;
+            }
+
+            if (0 != SDL_RenderFillRectF(&i_renderer, &barrier_frect))
+            {
+               LOG_ERROR("Failed to render " << barrier_frect << ", SDL Error: " << SDL_GetError());
+               return false;
+            }
+            return true;
+         };
+      }
+      else
+      {
+         return RenderInstruction_t();
+      }
    }
 
 } // RenderInstructionFactory

@@ -5,12 +5,6 @@
 
 using namespace Gameplay;
 
-#define SUBSCRIBE_TO_EVENT(event_type, callback) \
-   EventPublisher::instance().subscribe_to_event<event_type>(TO_UINT_PTR(this), [this](const auto& i_event){ this->callback(i_event); })
-
-#define UNSUBSCRIBE_FROM_EVENT(event_type) \
-   EventPublisher::instance().unsubscribe_from_event<event_type>(TO_UINT_PTR(this))
-
 void GameplayEngine::initialize()
 {
    subscribe_to_events();
@@ -19,6 +13,9 @@ void GameplayEngine::initialize()
 void GameplayEngine::teardown()
 {
    unsubscribe_from_events();
+
+   // Depopulate queue
+   m_event_queue.clear();
 }
 
 void GameplayEngine::subscribe_to_events()
@@ -26,8 +23,8 @@ void GameplayEngine::subscribe_to_events()
    using namespace Game::Event;
    using namespace Physics::Event;
 
-   SUBSCRIBE_TO_EVENT(GameLoopElapsedTime, on_game_loop_elapsed_time);
-   SUBSCRIBE_TO_EVENT(PlayerCollisionWithStaticEntity, on_player_collision_with_static_entity);
+   M_SUBSCRIBE_TO_EVENT(GameLoopElapsedTime, on_game_loop_elapsed_time);
+   M_SUBSCRIBE_TO_EVENT(PlayerCollisionWithStaticEntity, on_player_collision_with_static_entity);
 }
 
 void GameplayEngine::unsubscribe_from_events()
@@ -35,7 +32,7 @@ void GameplayEngine::unsubscribe_from_events()
    using namespace Game::Event;
    using namespace Physics::Event;
 
-   UNSUBSCRIBE_FROM_EVENT(GameLoopElapsedTime);
+   M_UNSUBSCRIBE_FROM_EVENT(GameLoopElapsedTime);
 }
 
 void GameplayEngine::process()
