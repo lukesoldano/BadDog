@@ -12,14 +12,8 @@ public:
    UserInputEngine() = default;
    ~UserInputEngine() = default;
 
-   // @warning Throws on failure
-   void initialize();
-
-   // @note A symmetrical call to teardown should be made if a call to initialize was made
-   void teardown();
-
    void process();
 
 };
 
-} // namespace Graphics
+} // namespace UserInput

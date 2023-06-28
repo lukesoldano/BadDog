@@ -1,4 +1,5 @@
 
 
+* Need to determine how we want to manage game loop timing https://gameprogrammingpatterns.com/game-loop.html
 * Make all engines singletons
 * 

@@ -1,6 +1,7 @@
 #include "GraphicsEngine.hpp"
 
 #include "Logger.hpp"
+#include "GameState.hpp"
 #include "ProjectDefs.hpp"
 #include "RenderInstructionFactory.hpp"
 
@@ -47,24 +48,24 @@ void GraphicsEngine::initialize()
 
    /////////////////////////////////////////////////////////////////////////////////////////////////
    // Preload textures
-   const FileSystem::Path background_image_path{std::string(ASSETS_DIRECTORY) + "/windowsxp.png"};
-   auto background_image_surface_optional = Graphics::Surface::create_from_image(background_image_path);
-   if (std::nullopt == background_image_surface_optional)
-   {
-      LOG_ERROR("Failed to load background image to surface!");
-      throw std::system_error(EACCES, 
-                              std::generic_category(), 
-                              "Failed to load background image to surface!");
-   }
+   // const FileSystem::Path background_image_path{std::string(ASSETS_DIRECTORY) + "/windowsxp.png"};
+   // auto background_image_surface_optional = Graphics::Surface::create_from_image(background_image_path);
+   // if (std::nullopt == background_image_surface_optional)
+   // {
+   //    LOG_ERROR("Failed to load background image to surface!");
+   //    throw std::system_error(EACCES, 
+   //                            std::generic_category(), 
+   //                            "Failed to load background image to surface!");
+   // }
 
-   auto background_image_texture_optional = m_window->get_renderer().create_texture_from_surface(std::move(background_image_surface_optional.value()));
-   if (std::nullopt == background_image_texture_optional)
-   {
-      LOG_ERROR("Failed to load background image to texture!");
-      throw std::system_error(EACCES, 
-                              std::generic_category(), 
-                              "Failed to load background image to texture!");
-   }
+   // auto background_image_texture_optional = m_window->get_renderer().create_texture_from_surface(std::move(background_image_surface_optional.value()));
+   // if (std::nullopt == background_image_texture_optional)
+   // {
+   //    LOG_ERROR("Failed to load background image to texture!");
+   //    throw std::system_error(EACCES, 
+   //                            std::generic_category(), 
+   //                            "Failed to load background image to texture!");
+   // }
 
    LOG_MESSAGE("Exit GraphicsEngine::initialize()");
 }
@@ -96,13 +97,22 @@ void GraphicsEngine::render()
 
    /////////////////////////////////////////////////////////////////////////////////////////////////
    // TODO: Remove, this is just test bed code (Enter your test bed code here)
-   static FileSystem::Path background_image_path{std::string(ASSETS_DIRECTORY) + "/windowsxp.png"};
+   static FileSystem::Path background_image_path{std::string(ASSETS_DIRECTORY) + "/test_background.jpg"};
    static auto background_image_surface = Graphics::Surface::create_from_image(background_image_path).value();
    static auto background_image_texture = renderer.create_texture_from_surface(std::move(background_image_surface)).value();
 
    renderer.render(RenderInstructionFactory::get_instruction(background_image_texture,
                                                              SDL_Rect{0, 0, 680, 480},
                                                              SDL_Rect{0, 0, 680, 480}));
+
+   auto& game_state = GameState::instance();
+   renderer.set_draw_color(Color::black);
+   renderer.render(RenderInstructionFactory::get_instruction(game_state.m_obstacle_position));
+   
+   renderer.set_draw_color(Color::red);
+   renderer.render(RenderInstructionFactory::get_instruction(game_state.m_player_position));
+   
+
    
    /////////////////////////////////////////////////////////////////////////////////////////////////
 

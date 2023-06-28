@@ -3,6 +3,7 @@
 #include "GameState.hpp"
 #include "GraphicsEngine.hpp"
 #include "Logger.hpp"
+#include "PhysicsEngine.hpp"
 #include "UserInputEngine.hpp"
 
 #include "SDL.h"
@@ -11,11 +12,13 @@
 #include <system_error>
 
 using namespace Graphics;
+using namespace Physics;
 using namespace UserInput;
 
 namespace
 {
    GraphicsEngine graphics_engine;
+   PhysicsEngine physics_engine;
    UserInputEngine user_input_engine;
 }
 
@@ -29,7 +32,6 @@ int initialize()
    }
 
    graphics_engine.initialize();
-   user_input_engine.initialize();
 
    return 0;
 }
@@ -37,7 +39,6 @@ int initialize()
 void teardown()
 {
    // Tearing down in reverse order
-   user_input_engine.teardown();
    graphics_engine.teardown();
 
    SDL_Quit();
@@ -45,12 +46,15 @@ void teardown()
 
 void run_gameloop()
 {
-   // @TODO Need to determine how we want to manage game loop timing
-   //       https://gameprogrammingpatterns.com/game-loop.html
-   while (!GameState::Instance().m_quit_program)
+   auto& game_state = GameState::instance();
+   while (!game_state.m_quit_program)
    {
       user_input_engine.process();
+      physics_engine.process();
       graphics_engine.render();
+
+      // TODO: Temporary to make framerate near 30 FPS
+      SDL_Delay(1000/30);
    }
 }
 

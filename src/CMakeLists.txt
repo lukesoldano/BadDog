@@ -5,6 +5,7 @@ message("%% Entering src")
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Common)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Graphics)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Logging)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Physics)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/UserInput)
 
 ####################################################################################################
@@ -13,6 +14,7 @@ set(${PROJECT_NAME}_SOURCE_FILES
     ${COMMON_SOURCE_FILES}
     ${GRAPHICS_SOURCE_FILES}
     ${LOGGING_SOURCE_FILES}
+    ${PHYSICS_SOURCE_FILES}
     ${USER_INPUT_SOURCE_FILES}
     
     ${CMAKE_CURRENT_LIST_DIR}/main.cpp
@@ -25,10 +27,8 @@ set(${PROJECT_NAME}_HEADER_FILES
     ${COMMON_HEADER_FILES}
     ${GRAPHICS_HEADER_FILES}
     ${LOGGING_HEADER_FILES}
+    ${PHYSICS_HEADER_FILES}
     ${USER_INPUT_HEADER_FILES}
-
-    ${CMAKE_CURRENT_LIST_DIR}/GameState.hpp
-    ${CMAKE_CURRENT_LIST_DIR}/ProjectDefs.hpp
 
     CACHE INTERNAL "${PROJECT_NAME}_HEADER_FILES")
 
@@ -38,6 +38,7 @@ set(${PROJECT_NAME}_INCLUDE_DIRS
     ${COMMON_INCLUDE_DIRS}
     ${GRAPHICS_INCLUDE_DIRS}
     ${LOGGING_INCLUDE_DIRS}
+    ${PHYSICS_INCLUDE_DIRS}
     ${USER_INPUT_INCLUDE_DIRS}
 
     ${CMAKE_CURRENT_LIST_DIR}
