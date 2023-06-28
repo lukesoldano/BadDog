@@ -1,6 +1,5 @@
 #pragma once
 
-#include "CommonDefs.hpp"
 #include "GraphicsDefs.hpp"
 #include "Logger.hpp"
 

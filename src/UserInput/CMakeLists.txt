@@ -1,22 +1,25 @@
-message("%% Entering Common")
+message("%% Entering UserInput")
 
 ####################################################################################################
 # Set source files
-set(COMMON_SOURCE_FILES
+set(USER_INPUT_SOURCE_FILES
 
-    CACHE INTERNAL "COMMON_SOURCE_FILES")
+    ${CMAKE_CURRENT_LIST_DIR}/UserInputEngine.cpp
+
+    CACHE INTERNAL "USER_INPUT_SOURCE_FILES")
 
 ####################################################################################################
 # Set header files
-set(COMMON_HEADER_FILES
+set(USER_INPUT_HEADER_FILES
 
-    ${CMAKE_CURRENT_LIST_DIR}/FileSystem.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/UserInputEngine.hpp
 
-    CACHE INTERNAL "COMMON_HEADER_FILES")
+    CACHE INTERNAL "USER_INPUT_HEADER_FILES")
 
 ####################################################################################################
 # Set include dirs
-set(COMMON_INCLUDE_DIRS
+set(USER_INPUT_INCLUDE_DIRS
+
     ${CMAKE_CURRENT_LIST_DIR}
 
-    CACHE INTERNAL "COMMON_INCLUDE_DIRS")
+    CACHE INTERNAL "USER_INPUT_INCLUDE_DIRS")

@@ -9,12 +9,12 @@ namespace Graphics
 
 // @warning This class is not thread safe
 // @warning This class should not be sub-classed
-class GameGraphics
+class GraphicsEngine
 {
 public:
 
-   GameGraphics() = default;
-   ~GameGraphics() = default;
+   GraphicsEngine() = default;
+   ~GraphicsEngine() = default;
 
    // @warning Throws on failure
    void initialize();
@@ -22,7 +22,7 @@ public:
    // @note A symmetrical call to teardown should be made if a call to initialize was made
    void teardown();
 
-   // @warning Throws on failure
+   // @warning Throws if m_window has become invalidated
    void render();
 
 private:

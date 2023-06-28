@@ -1,9 +1,8 @@
-#include "GameGraphics.hpp"
+#include "GraphicsEngine.hpp"
 
 #include "Logger.hpp"
 #include "ProjectDefs.hpp"
 #include "RenderInstructionFactory.hpp"
-#include "GlobalState.hpp"
 
 #include "SDL.h"
 #include "SDL_image.h"
@@ -12,9 +11,9 @@
 
 using namespace Graphics;
 
-void GameGraphics::initialize()
+void GraphicsEngine::initialize()
 {
-   LOG_MESSAGE("Enter GameGraphics::initialize()");
+   LOG_MESSAGE("Enter GraphicsEngine::initialize()");
 
    /////////////////////////////////////////////////////////////////////////////////////////////////
    // Initialize SDL2
@@ -67,17 +66,13 @@ void GameGraphics::initialize()
                               "Failed to load background image to texture!");
    }
 
-   GlobalState::Instance().m_background_texture = std::make_unique<Texture>(std::move(background_image_texture_optional.value()));
-
-   LOG_MESSAGE("Exit GameGraphics::initialize()");
+   LOG_MESSAGE("Exit GraphicsEngine::initialize()");
 }
 
 // Tears down objects in reverse order
-void GameGraphics::teardown()
+void GraphicsEngine::teardown()
 {
-   LOG_MESSAGE("Enter GameGraphics::teardown()");
-
-   GlobalState::Instance().m_background_texture.reset();
+   LOG_MESSAGE("Enter GraphicsEngine::teardown()");
 
    if (nullptr != m_window)
    {
@@ -86,10 +81,10 @@ void GameGraphics::teardown()
 
    IMG_Quit();
 
-   LOG_MESSAGE("Exit GameGraphics::teardown()");
+   LOG_MESSAGE("Exit GraphicsEngine::teardown()");
 }
 
-void GameGraphics::render()
+void GraphicsEngine::render()
 {
    if (nullptr == m_window)
    {
@@ -101,20 +96,15 @@ void GameGraphics::render()
 
    /////////////////////////////////////////////////////////////////////////////////////////////////
    // TODO: Remove, this is just test bed code (Enter your test bed code here)
-   renderer.render(RenderInstructionFactory::get_instruction(*GlobalState::Instance().m_background_texture.get(),
-                                                             {0, 0, 680, 480}));
+   static FileSystem::Path background_image_path{std::string(ASSETS_DIRECTORY) + "/windowsxp.png"};
+   static auto background_image_surface = Graphics::Surface::create_from_image(background_image_path).value();
+   static auto background_image_texture = renderer.create_texture_from_surface(std::move(background_image_surface)).value();
+
+   renderer.render(RenderInstructionFactory::get_instruction(background_image_texture,
+                                                             SDL_Rect{0, 0, 680, 480},
+                                                             SDL_Rect{0, 0, 680, 480}));
    
    /////////////////////////////////////////////////////////////////////////////////////////////////
-
-   //////////////////////////////////////////////////////////////////////////////////////////////
-   // TODO REMOVE THIS  
-   const auto& current_dog_state = GlobalState::Instance().m_current_dog_state;
-   renderer.render(RenderInstructionFactory::get_instruction({340.0f, 360.0f}, 
-                                                             current_dog_state.m_position));
-   renderer.render(RenderInstructionFactory::get_instruction({340.0f + 25.0f, 360.0f + 25.0f}, 
-                                                             {current_dog_state.m_position.x + 10.0f,
-                                                              current_dog_state.m_position.y}));
-   //////////////////////////////////////////////////////////////////////////////////////////////
 
    renderer.render_present();
 }

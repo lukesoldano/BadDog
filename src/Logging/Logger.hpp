@@ -12,7 +12,7 @@
                              __func__ << ": " << \
                              message << std::endl;
    #define LOG_WARNING(warning) \
-      std::cout << "WRN|" << std::chrono::system_clock::now() << "|" << \
+      std::cerr << "WRN|" << std::chrono::system_clock::now() << "|" << \
                              __FILE__ << ":" << \
                              __LINE__ << ":" << \
                              __func__ << ": " << \
