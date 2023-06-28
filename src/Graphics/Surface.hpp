@@ -1,7 +1,6 @@
 #pragma once
 
-#include "FileSystem.hpp"
-
+#include <filesystem>
 #include <optional>
 
 // Forward declarations
@@ -26,7 +25,7 @@ public:
    Surface& operator=(const Surface&) = delete;
    Surface& operator=(Surface&& rhs);
 
-   static std::optional<Surface> create_from_image(FileSystem::Path i_image_path);
+   static std::optional<Surface> create_from_image(std::filesystem::path i_image_path);
    
    // @warning Tear down any held surfaces before exiting the SDL for the sake of cleanliness
    void teardown();

@@ -109,11 +109,11 @@ void GraphicsEngine::render()
 
    /////////////////////////////////////////////////////////////////////////////////////////////////
    // TODO: Remove, this is just test bed code (Enter your test bed code here)
-   static FileSystem::Path background_image_path{std::string(ASSETS_DIRECTORY) + "/test_background.jpg"};
+   static std::filesystem::path background_image_path{std::string(ASSETS_DIRECTORY) + "/test_background.jpg"};
    static auto background_image_surface = Graphics::Surface::create_from_image(background_image_path).value();
    static auto background_image_texture = renderer.create_texture_from_surface(std::move(background_image_surface)).value();
 
-   static FileSystem::Path kona_image_path{std::string(ASSETS_DIRECTORY) + "/Kona-Walk-Sheet.png"};
+   static std::filesystem::path kona_image_path{std::string(ASSETS_DIRECTORY) + "/Kona-Walk-Sheet.png"};
    static auto kona_image_surface = Graphics::Surface::create_from_image(kona_image_path).value();
    static auto kona_image_texture = renderer.create_texture_from_surface(std::move(kona_image_surface)).value();
    static SpriteSheet<1, 8> kona_sprite_sheet(std::move(kona_image_texture));

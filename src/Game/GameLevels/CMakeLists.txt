@@ -4,7 +4,7 @@ message("%% Entering Game Levels")
 # Set source files
 set(GAME_LEVELS_SOURCE_FILES
 
-   #  ${CMAKE_CURRENT_LIST_DIR}/GameEngine.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/GameLevel.cpp
 
     CACHE INTERNAL "GAME_LEVELS_SOURCE_FILES")
 
@@ -12,6 +12,7 @@ set(GAME_LEVELS_SOURCE_FILES
 # Set header files
 set(GAME_LEVELS_HEADER_FILES
 
+    ${CMAKE_CURRENT_LIST_DIR}/GameLevel.hpp
 
     CACHE INTERNAL "GAME_LEVELS_HEADER_FILES")
 

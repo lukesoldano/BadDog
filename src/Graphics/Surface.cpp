@@ -38,13 +38,13 @@ Surface& Surface::operator=(Surface&& rhs)
    return *this;
 }
 
-std::optional<Surface> Surface::create_from_image(FileSystem::Path i_image_path)
+std::optional<Surface> Surface::create_from_image(std::filesystem::path i_image_path)
 {
-	auto surface = IMG_Load(i_image_path.m_path.c_str());
+	auto surface = IMG_Load(i_image_path.string().c_str());
 	if (nullptr == surface)
 	{
       LOG_ERROR("Failed to create an SDL surface using path: " << 
-                i_image_path.m_path << 
+                i_image_path.string() << 
                 " - IMG error: " << 
                 IMG_GetError());
       return std::nullopt;

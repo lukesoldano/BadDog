@@ -36,7 +36,9 @@ include_directories(${${PROJECT_NAME}_DEPENDENCY_INCLUDE_DIRS}
 
 ####################################################################################################
 # Add required definition
-add_definitions(-DASSETS_DIRECTORY="${CMAKE_CURRENT_LIST_DIR}/assets")
+add_definitions(-DASSETS_DIRECTORY="${CMAKE_CURRENT_LIST_DIR}/assets"
+                -DJSON_ASSETS_DIRECTORY="${CMAKE_CURRENT_LIST_DIR}/assets/JSON"
+                -DJSON_LEVEL_ASSETS_DIRECTORY="${CMAKE_CURRENT_LIST_DIR}/assets/JSON/Levels")
 
 ####################################################################################################
 # Make source code a static library that can be linked to, link it to dependencies

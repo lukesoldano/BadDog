@@ -25,6 +25,7 @@ enable_testing()
 add_executable(${TEST_PROJECT_NAME}
                ${CMAKE_CURRENT_LIST_DIR}/TestCamera.cpp
                ${CMAKE_CURRENT_LIST_DIR}/TestCollisionDetector.cpp
+               ${CMAKE_CURRENT_LIST_DIR}/TestJsonParsers.cpp
                ${CMAKE_CURRENT_LIST_DIR}/TestSpatialHashMap.cpp
 )
 

@@ -3,27 +3,53 @@
    {
       "type" : "Level",
       "authors" : [ "Luke Soldano" ],
-      "creationData" : "4/16/23",
-      "lastUpdatedDate" : "4/16/23"
+      "creationDate" : "2023-04-16",
+      "lastUpdatedDate" : "2023-04-23"
    },
 
    "levelInfo" :
    {
       "name" : "Test Level",
-      "widthPixels" : 2000,
-      "heightPixels" : 2000
-   },
+      "width" : 2000,
+      "height" : 2000,
+      "borderWidth" : 10,
 
-   "levelStaticEntities" :
-   [
-      {
-      }
-   ],
+      "staticEntities" :
+      [
+         {
+            "type" : "rect",
+            "visible" : true,
+            "instances" : 
+            [
+               {
+                  "label" : "Test Rect 1",
+                  "x" : 100,
+                  "y" : 100,
+                  "width" : 20,
+                  "height" : 20,
+                  "color" : "red"
+               },
+               {
+                  "label" : "Test Rect 2",
+                  "x" : 200,
+                  "y" : 200,
+                  "width" : 40,
+                  "height" : 60,
+                  "color" : "blue"
+               }
+            ]
+         },
+         {
+            
+         }
+      ],
 
-   "levelDynamicEntities" :
-   [
-      {
+      "activeEntities" :
+      [
+         {
 
-      }
-   ]
+         }
+      ]
+   }
+
 }
