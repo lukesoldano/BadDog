@@ -1,5 +1,6 @@
 #include "GraphicsEngine.hpp"
 
+#include "Camera.hpp"
 #include "Logger.hpp"
 #include "GameState.hpp"
 #include "ProjectDefs.hpp"

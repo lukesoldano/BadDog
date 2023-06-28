@@ -11,6 +11,7 @@ set(COMMON_SOURCE_FILES
 set(COMMON_HEADER_FILES
 
     ${CMAKE_CURRENT_LIST_DIR}/FileSystem.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/GameSettings.hpp
     ${CMAKE_CURRENT_LIST_DIR}/GameState.hpp
     ${CMAKE_CURRENT_LIST_DIR}/ILogicEngine.hpp
     ${CMAKE_CURRENT_LIST_DIR}/ProjectDefs.hpp

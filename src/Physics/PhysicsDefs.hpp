@@ -16,7 +16,8 @@ struct Vector2DFloat
    Vector2DFloat& operator+=(const Vector2DFloat& rhs);
    Vector2DFloat operator-(const Vector2DFloat& rhs) const;
    Vector2DFloat& operator-=(const Vector2DFloat& rhs);
-
 };
+
+
 
 } // namespace Physics

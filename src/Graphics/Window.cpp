@@ -1,5 +1,6 @@
 #include "Window.hpp"
 
+#include "GameSettings.hpp"
 #include "Logger.hpp"
 #include "ProjectDefs.hpp"
 
@@ -8,13 +9,6 @@
 #include <assert.h>
 
 using namespace Graphics;
-
-namespace
-{
-   constexpr auto WINDOW_NAME = "2DPlatformer"; 
-   constexpr int DEFAULT_WINDOW_WIDTH = 680;
-   constexpr int DEFAULT_WINDOW_HEIGHT = 480;
-}
 
 Window::Window(SDL_Window* i_sdl_window, Renderer&& renderer) :
    m_sdl_window(i_sdl_window),
