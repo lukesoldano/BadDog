@@ -1,6 +1,6 @@
 # Introduction
 ## What are we Making?
-Still figuring that out, for now just trying to get the basics of game setup going so we can extrapolate on that and make a 2D Platformer game
+Still figuring that out, for now just trying to get the basics of game setup going so we can extrapolate on that and make a 2D-Isometric game
 
 # Building
 ## Platforms
@@ -63,5 +63,3 @@ This is a loose style guide to follow for consistency. It is not the only way to
 Thanks to lazyfoo and their game development guide as it was immensely helpful in this process.
 
 http://lazyfoo.net/SDL_tutorials/index.php
-
-# Resources that Helped

@@ -17,9 +17,7 @@ void PhysicsEngine::process()
    if (game_state.m_key_pressed[static_cast<uint8_t>(Key::s)]) user_displacement.second += 10;
    
    auto collision_position = m_collision_detector.check(game_state.m_player_position,
-                                                        game_state.m_obstacle_position,
-                                                        user_displacement,
-                                                        {0, 0});
+                                                        game_state.m_obstacle_position);
    if (!collision_position.has_value())
    {
       game_state.m_player_position.x += user_displacement.first;
@@ -27,8 +25,8 @@ void PhysicsEngine::process()
    }
    else
    {
-      game_state.m_player_position.x = collision_position.value().first;
-      game_state.m_player_position.y = collision_position.value().second;
+      game_state.m_player_position.x = collision_position.value().x;
+      game_state.m_player_position.y = collision_position.value().y;
    }
    //
 }

@@ -18,10 +18,7 @@ public:
    virtual ~CollisionDetector() = default;
 
    // Returns nullopt if no collision, o/w xy position where collision would occur
-   std::optional<XYPosition_t> check(const SDL_Rect& object1, 
-                                     const SDL_Rect& object2, 
-                                     const DisplacementVector_t& object1_displacement,
-                                     const DisplacementVector_t& object2_displacement) const;
+   std::optional<XYPosition> check(const SDL_Rect& object1, const SDL_Rect& object2) const;
 
 };
 

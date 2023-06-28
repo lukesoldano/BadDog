@@ -5,7 +5,12 @@
 namespace Physics
 {
 
-   using XYPosition_t = std::pair<int, int>;
+   struct XYPosition
+   {
+      int x = 0;
+      int y = 0;
+   };
+
    using DisplacementVector_t = std::pair<int, int>;
 
 } // namespace Physics

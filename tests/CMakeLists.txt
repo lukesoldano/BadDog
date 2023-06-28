@@ -29,6 +29,7 @@ add_executable(${TEST_PROJECT_NAME}
 
                ${CMAKE_CURRENT_LIST_DIR}/TestGraphicsDefs.cpp
                ${CMAKE_CURRENT_LIST_DIR}/TestRenderer.cpp
+               ${CMAKE_CURRENT_LIST_DIR}/TestSpatialHashMap.cpp
                ${CMAKE_CURRENT_LIST_DIR}/TestSurface.cpp
                ${CMAKE_CURRENT_LIST_DIR}/TestTexture.cpp
                ${CMAKE_CURRENT_LIST_DIR}/TestWindow.cpp
