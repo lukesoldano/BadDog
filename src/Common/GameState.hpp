@@ -23,8 +23,8 @@ public:
    std::array<bool, static_cast<size_t>(Key::MAX_VALUE)> m_key_pressed{ false };
 
    // TODO REMOVE - HERE FOR TESTING
-   std::unordered_map<EntityId_t, FRect> m_active_entities = { {0, {1000.0, 1000.0, 26.0, 22.0}} };
-   std::unordered_map<EntityId_t, FRect> m_static_entities = { 
+   std::unordered_map<EntityId, FRect> m_active_entities = { {0, {1000.0, 1000.0, 50.0, 50.0}} };
+   std::unordered_map<EntityId, FRect> m_static_entities = { 
                                                                {1, {300.0, 100.0, 70.0, 70.0}},
                                                                {2, {200.0, 370.0, 50.0, 75.0}},
                                                                {3, {400.0, 400.0, 50.0, 25.0}},

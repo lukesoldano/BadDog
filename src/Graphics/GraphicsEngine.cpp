@@ -111,9 +111,9 @@ void GraphicsEngine::render()
    static auto background_image_surface = Graphics::Surface::create_from_image(background_image_path).value();
    static auto background_image_texture = renderer.create_texture_from_surface(std::move(background_image_surface)).value();
 
-   static FileSystem::Path kona_image_path{std::string(ASSETS_DIRECTORY) + "/KonaTemp.png"};
-   static auto kona_image_surface = Graphics::Surface::create_from_image(kona_image_path).value();
-   static auto kona_image_texture = renderer.create_texture_from_surface(std::move(kona_image_surface)).value();
+   // static FileSystem::Path kona_image_path{std::string(ASSETS_DIRECTORY) + "/KonaTemp.png"};
+   // static auto kona_image_surface = Graphics::Surface::create_from_image(kona_image_path).value();
+   // static auto kona_image_texture = renderer.create_texture_from_surface(std::move(kona_image_surface)).value();
 
    static Camera camera(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT, DEFAULT_LEVEL_WIDTH, DEFAULT_LEVEL_HEIGHT);
 
@@ -123,8 +123,8 @@ void GraphicsEngine::render()
    
    // Player position is centered unless near edges
    auto player_camera_position = SCREEN_CENTER;
-   player_camera_position.h = 50;
-   player_camera_position.w = 50;
+   player_camera_position.w = game_state.m_active_entities[0].w;
+   player_camera_position.h = game_state.m_active_entities[0].h;
    switch(camera_frame.m_x_frame_position)
    {
       case XFramePosition::on_left_edge:
@@ -133,7 +133,11 @@ void GraphicsEngine::render()
       case XFramePosition::on_right_edge:
          player_camera_position.x = game_state.m_active_entities[0].x - DEFAULT_LEVEL_WIDTH + DEFAULT_WINDOW_WIDTH;
          break;
-      case XFramePosition::off_edge: // fall through
+      case XFramePosition::off_edge:
+         // camera position gives centered position of frame, adjust by half width for actual
+         // entity position
+         player_camera_position.x -= (game_state.m_active_entities[0].w / 2.0f);
+         break;
       default:
          break; // do nothing
    }
@@ -146,37 +150,31 @@ void GraphicsEngine::render()
       case YFramePosition::on_bottom_edge:
          player_camera_position.y =  game_state.m_active_entities[0].y - DEFAULT_LEVEL_HEIGHT + DEFAULT_WINDOW_HEIGHT;
          break;
-      case YFramePosition::off_edge: // fall through
+      case YFramePosition::off_edge:
+         // camera position gives centered position of frame, adjust by half height for actual
+         // entity position
+         player_camera_position.y -= (game_state.m_active_entities[0].h / 2.0f);
+         break;
       default:
          break; // do nothing
    }
 
-   static int i=1;
-
-   if (i++ % 60 == 0)
-   {
-      LOG_MESSAGE("Position: " << game_state.m_active_entities[0].x << " " << game_state.m_active_entities[0].y);
-      LOG_MESSAGE("Camera: " << player_camera_position.x << " " << player_camera_position.y);
-   }
-
    renderer.render(RenderInstructionFactory::get_instruction(background_image_texture,
-                                                             camera_frame.m_rect,
+                                                             camera_frame.m_level_position.to_rect(),
                                                              std::optional<Rect>()));
 
    renderer.set_draw_color(Color::black);
-   renderer.render(RenderInstructionFactory::get_instruction(kona_image_texture,
-                                                             std::nullopt,
-                                                             player_camera_position));
+   renderer.render(RenderInstructionFactory::get_instruction(player_camera_position));
    
    renderer.set_draw_color(Color::red);
    for (const auto& entity : game_state.m_static_entities)
    {
-      if (Physics::CollisionDetector().are_aabbs_colliding(camera_frame.m_rect.to_frect(), entity.second))
+      if (Physics::CollisionDetector().are_aabbs_colliding(camera_frame.m_level_position, entity.second))
       {
-         FRect render_rect{entity.second.x - camera_frame.m_rect.x,
-                               entity.second.y - camera_frame.m_rect.y,
-                               entity.second.w,
-                               entity.second.h};
+         FRect render_rect{entity.second.x - camera_frame.m_level_position.x,
+                           entity.second.y - camera_frame.m_level_position.y,
+                           entity.second.w,
+                           entity.second.h};
          renderer.render(RenderInstructionFactory::get_instruction(render_rect));
       }
    }

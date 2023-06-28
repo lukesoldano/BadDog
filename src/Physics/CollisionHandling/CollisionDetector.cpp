@@ -27,8 +27,6 @@ bool CollisionDetector::are_aabbs_colliding(const FRect& object1,
       if (object1.y >= object2.y + object2.h) return false;
    }
 
-   LOG_MESSAGE("Object1: " << object1 << " colliding with Object2: " << object2);
-
    return true;
 }
 

@@ -14,11 +14,11 @@ void PhysicsEngine::initialize()
    auto& game_state = GameState::instance();
    for (const auto& entity : game_state.m_active_entities)
    {
-      m_spatial_hash_map.add_entity(entity.first, {entity.second.x, entity.second.y});
+      m_spatial_hash_map.add_entity(entity.first, entity.second);
    }
    for (const auto& entity : game_state.m_static_entities)
    {
-      m_spatial_hash_map.add_entity(entity.first, {entity.second.x, entity.second.y});
+      m_spatial_hash_map.add_entity(entity.first, entity.second);
    }
    /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -46,8 +46,7 @@ void PhysicsEngine::process()
    
    game_state.m_active_entities[0].x += user_displacement.m_x;
    game_state.m_active_entities[0].y += user_displacement.m_y;
-   m_spatial_hash_map.move_entity(0, { game_state.m_active_entities[0].x, 
-                                       game_state.m_active_entities[0].y });
+   m_spatial_hash_map.move_entity(0, game_state.m_active_entities[0]);
    
    // Broad phase checks
    const auto neighbors = m_spatial_hash_map.get_neighbors(0);
@@ -60,8 +59,7 @@ void PhysicsEngine::process()
       {
          game_state.m_active_entities[0].x -= user_displacement.m_x;
          game_state.m_active_entities[0].y -= user_displacement.m_y;
-         m_spatial_hash_map.move_entity(0, { game_state.m_active_entities[0].x, 
-                                             game_state.m_active_entities[0].y });
+         m_spatial_hash_map.move_entity(0, game_state.m_active_entities[0]);
       }
    }
    

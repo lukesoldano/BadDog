@@ -10,7 +10,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Value definitions
-using EntityId_t = uint16_t;
+using EntityId = uint16_t;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Structs
@@ -24,6 +24,19 @@ using EntityId_t = uint16_t;
 struct FRect;
 
 //// Structs
+struct FPoint : public SDL_FPoint
+{
+   inline std::string to_string() const { TO_STRING(); }
+
+   friend std::ostream& operator<<(std::ostream& os, const FPoint& fPoint)
+   {
+      os << "fPoint : {x: " << fPoint.x 
+         << ", y: " << fPoint.y << "}";
+      return os;
+   }
+
+};
+
 struct Rect : public SDL_Rect
 {
    inline FRect to_frect() const;

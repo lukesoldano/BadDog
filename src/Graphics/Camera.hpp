@@ -22,7 +22,7 @@ enum class YFramePosition
 
 struct CameraFrame
 {
-   Rect m_rect;
+   FRect m_level_position;
    XFramePosition m_x_frame_position;
    YFramePosition m_y_frame_position;
 };

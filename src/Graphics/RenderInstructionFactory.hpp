@@ -82,6 +82,10 @@ namespace RenderInstructionFactory
    }
 
    // For rendering any specific portion of a texture
+   // @param[in] i_render_clip determines what quadrant of the texture you want to render -
+   //            entire texture is rendered if nullopt is provided
+   // @param[in] i_render_quad determines what quadrant of the surface you want to render this
+   //            texture quadrant to - entire surface allowed if nullopt is provided
    inline RenderInstruction_t get_instruction(const Texture& i_texture,
                                               std::optional<Rect> i_render_clip,
                                               std::optional<Rect> i_render_quad)
@@ -103,6 +107,11 @@ namespace RenderInstructionFactory
    }
 
    // For rendering any specific portion of a texture (float-based)
+   // For rendering any specific portion of a texture
+   // @param[in] i_render_clip determines what quadrant of the texture you want to render -
+   //            entire texture is rendered if nullopt is provided
+   // @param[in] i_render_quad determines what quadrant of the surface you want to render this
+   //            texture quadrant to - entire surface allowed if nullopt is provided
    inline RenderInstruction_t get_instruction(const Texture& i_texture,
                                               std::optional<Rect> i_render_clip,
                                               std::optional<FRect> i_render_quad)
