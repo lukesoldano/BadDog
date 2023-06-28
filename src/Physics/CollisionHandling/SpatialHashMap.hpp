@@ -3,8 +3,6 @@
 #include "PhysicsDefs.hpp"
 #include "ProjectDefs.hpp"
 
-#include "SDL_rect.h"
-
 #include <algorithm>
 #include <array>
 #include <optional>

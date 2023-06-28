@@ -19,7 +19,7 @@ using namespace Graphics;
 
 namespace
 {
-   constexpr SDL_FRect SCREEN_CENTER{DEFAULT_WINDOW_WIDTH/2, DEFAULT_WINDOW_HEIGHT/2, 0, 0};
+   constexpr FRect SCREEN_CENTER{DEFAULT_WINDOW_WIDTH/2, DEFAULT_WINDOW_HEIGHT/2, 0, 0};
 }
 
 void GraphicsEngine::initialize()
@@ -151,9 +151,17 @@ void GraphicsEngine::render()
          break; // do nothing
    }
 
+   static int i=1;
+
+   if (i++ % 60 == 0)
+   {
+      LOG_MESSAGE("Position: " << game_state.m_active_entities[0].x << " " << game_state.m_active_entities[0].y);
+      LOG_MESSAGE("Camera: " << player_camera_position.x << " " << player_camera_position.y);
+   }
+
    renderer.render(RenderInstructionFactory::get_instruction(background_image_texture,
                                                              camera_frame.m_rect,
-                                                             std::optional<SDL_Rect>()));
+                                                             std::optional<Rect>()));
 
    renderer.set_draw_color(Color::black);
    renderer.render(RenderInstructionFactory::get_instruction(kona_image_texture,
@@ -163,9 +171,9 @@ void GraphicsEngine::render()
    renderer.set_draw_color(Color::red);
    for (const auto& entity : game_state.m_static_entities)
    {
-      if (Physics::CollisionDetector().are_aabbs_colliding(RECT_TO_FRECT(camera_frame.m_rect), entity.second))
+      if (Physics::CollisionDetector().are_aabbs_colliding(camera_frame.m_rect.to_frect(), entity.second))
       {
-         SDL_FRect render_rect{entity.second.x - camera_frame.m_rect.x,
+         FRect render_rect{entity.second.x - camera_frame.m_rect.x,
                                entity.second.y - camera_frame.m_rect.y,
                                entity.second.w,
                                entity.second.h};

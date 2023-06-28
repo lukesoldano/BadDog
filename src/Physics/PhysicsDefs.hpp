@@ -1,9 +1,5 @@
 #pragma once
 
-#include "SDL_rect.h"
-
-#include <utility>
-
 namespace Physics
 {
 

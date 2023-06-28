@@ -1,8 +1,7 @@
 #pragma once
 
 #include "GameSettings.hpp"
-
-#include <SDL_rect.h>
+#include "ProjectDefs.hpp"
 
 namespace Graphics
 {
@@ -23,7 +22,7 @@ enum class YFramePosition
 
 struct CameraFrame
 {
-   SDL_Rect m_rect;
+   Rect m_rect;
    XFramePosition m_x_frame_position;
    YFramePosition m_y_frame_position;
 };
@@ -44,7 +43,7 @@ public:
           size_t i_level_height);
    virtual ~Camera() = default;
 
-   CameraFrame get_frame(const SDL_FRect& i_focal_point) const noexcept;
+   CameraFrame get_frame(const FRect& i_focal_point) const noexcept;
 
 };
 

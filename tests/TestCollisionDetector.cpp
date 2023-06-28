@@ -8,8 +8,8 @@ TEST(CollisionDetector, AABBRectOnRectCollisionOverlap)
 {
    CollisionDetector detector;
 
-   SDL_FRect object1{200.0, 200.0, 100.0, 100.0};
-   SDL_FRect object2 = object1;
+   FRect object1{200.0, 200.0, 100.0, 100.0};
+   FRect object2 = object1;
 
    EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
    EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
@@ -19,8 +19,8 @@ TEST(CollisionDetector, AABBRectOnRectCollisionTop)
 {
    CollisionDetector detector;
 
-   SDL_FRect object1{0.0, 0.0, 100.0, 100.0};
-   SDL_FRect object2{200.0, 200.0, 100.0, 100.0};
+   FRect object1{0.0, 0.0, 100.0, 100.0};
+   FRect object2{200.0, 200.0, 100.0, 100.0};
 
    EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
    EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
@@ -50,8 +50,8 @@ TEST(CollisionDetector, AABBRectOnRectCollisionBottom)
 {
    CollisionDetector detector;
 
-   SDL_FRect object1{0.0, 0.0, 100.0, 100.0};
-   SDL_FRect object2{200.0, 200.0, 100.0, 100.0};
+   FRect object1{0.0, 0.0, 100.0, 100.0};
+   FRect object2{200.0, 200.0, 100.0, 100.0};
 
    EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
    EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
@@ -81,8 +81,8 @@ TEST(CollisionDetector, AABBRectOnRectCollisionLeft)
 {
    CollisionDetector detector;
 
-   SDL_FRect object1{0.0, 0.0, 100.0, 100.0};
-   SDL_FRect object2{200.0, 200.0, 100.0, 100.0};
+   FRect object1{0.0, 0.0, 100.0, 100.0};
+   FRect object2{200.0, 200.0, 100.0, 100.0};
 
    EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
    EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
@@ -112,8 +112,8 @@ TEST(CollisionDetector, AABBRectOnRectCollisionRight)
 {
    CollisionDetector detector;
 
-   SDL_FRect object1{0.0, 0.0, 100.0, 100.0};
-   SDL_FRect object2{200.0, 200.0, 100.0, 100.0};
+   FRect object1{0.0, 0.0, 100.0, 100.0};
+   FRect object2{200.0, 200.0, 100.0, 100.0};
 
    EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
    EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
@@ -143,8 +143,8 @@ TEST(CollisionDetector, AABBRectOnRectCollisionTopLeft)
 {
    CollisionDetector detector;
 
-   SDL_FRect object1{0.0, 0.0, 100.0, 100.0};
-   SDL_FRect object2{200.0, 200.0, 100.0, 100.0};
+   FRect object1{0.0, 0.0, 100.0, 100.0};
+   FRect object2{200.0, 200.0, 100.0, 100.0};
 
    EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
    EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
@@ -199,8 +199,8 @@ TEST(CollisionDetector, AABBRectOnRectCollisionBottomLeft)
 {
    CollisionDetector detector;
 
-   SDL_FRect object1{0.0, 0.0, 100.0, 100.0};
-   SDL_FRect object2{200.0, 200.0, 100.0, 100.0};
+   FRect object1{0.0, 0.0, 100.0, 100.0};
+   FRect object2{200.0, 200.0, 100.0, 100.0};
 
    EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
    EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
@@ -250,8 +250,8 @@ TEST(CollisionDetector, AABBRectOnRectCollisionTopRight)
 {
    CollisionDetector detector;
 
-   SDL_FRect object1{0.0, 0.0, 100.0, 100.0};
-   SDL_FRect object2{200.0, 200.0, 100.0, 100.0};
+   FRect object1{0.0, 0.0, 100.0, 100.0};
+   FRect object2{200.0, 200.0, 100.0, 100.0};
 
    EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
    EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
@@ -306,8 +306,8 @@ TEST(CollisionDetector, AABBRectOnRectCollisionBottomRight)
 {
    CollisionDetector detector;
 
-   SDL_FRect object1{0.0, 0.0, 100.0, 100.0};
-   SDL_FRect object2{200.0, 200.0, 100.0, 100.0};
+   FRect object1{0.0, 0.0, 100.0, 100.0};
+   FRect object2{200.0, 200.0, 100.0, 100.0};
 
    EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
    EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));

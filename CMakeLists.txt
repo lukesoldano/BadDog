@@ -70,6 +70,12 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                    ${SDL2_IMAGE_LIBRARY_DIR}/SDL2_imaged.dll
                    ${CMAKE_CURRENT_BINARY_DIR}/Debug)
 
+# ## Move the SDL2_ttf.dll into the build directory
+# add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+#                    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+#                    ${SDL2_TTF_LIBRARY_DIR}/SDL2_ttfd.dll
+#                    ${CMAKE_CURRENT_BINARY_DIR}/Debug)
+
 ####################################################################################################
 # Add unit tests if specified
 if (BUILD_UNIT_TESTS)

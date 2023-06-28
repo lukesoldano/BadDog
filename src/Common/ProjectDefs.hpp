@@ -5,15 +5,62 @@
 #include "SDL_rect.h"
 
 #include <assert.h>
+#include <cmath>
+#include <iostream>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Value definitions
 using EntityId_t = uint16_t;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-// Utility Macros
-#define RECT_TO_FRECT(rect) SDL_FRect{(float)rect.x, (float)rect.y, (float)rect.w, (float)rect.h}
-#define FRECT_TO_RECT(rect) SDL_FRect{(int)rect.x, (int)rect.y, (int)rect.w, (int)rect.h}
+// Structs
+//// Temporary shortening macros
+#define TO_STRING() \
+      std::ostringstream os; \
+      os << *this; \
+      return os.str();
+
+//// Predeclarations
+struct FRect;
+
+//// Structs
+struct Rect : public SDL_Rect
+{
+   inline FRect to_frect() const;
+   inline std::string to_string() const { TO_STRING(); }
+
+   friend std::ostream& operator<<(std::ostream& os, const Rect& rect)
+   {
+      os << "Rect : {x: " << rect.x 
+         << ", y: " << rect.y 
+         << ", w: " << rect.w 
+         << ", h: " << rect.h << "}";
+      return os;
+   }
+
+};
+
+struct FRect : public SDL_FRect
+{
+   inline Rect to_rect() const;
+   inline std::string to_string() const { TO_STRING(); }
+
+   friend std::ostream& operator<<(std::ostream& os, const FRect& frect)
+   {
+      os << "FRect : {x: " << frect.x 
+         << ", y: " << frect.y 
+         << ", w: " << frect.w 
+         << ", h: " << frect.h << "}";
+      return os;
+   }
+
+};
+
+inline FRect Rect::to_frect() const { return FRect{float(x), float(y), float(w), float(h)}; }
+inline Rect FRect::to_rect() const { return Rect{std::lround(x), std::lround(y), std::lround(w), std::lround(h)}; }
+
+//// Undefine shorterning macros
+#undef TO_STRING
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check macros

@@ -7,7 +7,7 @@ using namespace Graphics;
 TEST(Camera, GetPosition) 
 {
    Camera camera(400, 300, 1000, 1000);
-   SDL_FRect focal_point{500.0f, 500.0f, 50.0f, 50.0f};
+   FRect focal_point{500.0f, 500.0f, 50.0f, 50.0f};
 
    auto frame = camera.get_frame(focal_point);
    EXPECT_EQ(frame.m_rect.x, 325); // (x + w/2) - cam_w/2
@@ -15,7 +15,7 @@ TEST(Camera, GetPosition)
    EXPECT_EQ(frame.m_x_frame_position, XFramePosition::off_edge);
    EXPECT_EQ(frame.m_y_frame_position, YFramePosition::off_edge);
 
-   focal_point = SDL_FRect{320.0f, 740.0f, 50.0f, 25.0f};
+   focal_point = FRect{320.0f, 740.0f, 50.0f, 25.0f};
    frame = camera.get_frame(focal_point);
    EXPECT_EQ(frame.m_rect.x, 145); // (x + w/2) - cam_w/2
    EXPECT_EQ(frame.m_rect.y, 602); // (y + h/2) - cam_h/2
@@ -26,7 +26,7 @@ TEST(Camera, GetPosition)
 TEST(Camera, GetPositionLeftEdge) 
 {
    Camera camera(400, 300, 1000, 1000);
-   SDL_FRect focal_point{100.0f, 500.0f, 50.0f, 50.0f};
+   FRect focal_point{100.0f, 500.0f, 50.0f, 50.0f};
 
    auto frame = camera.get_frame(focal_point);
    EXPECT_EQ(frame.m_rect.x, 0); // clamped
@@ -38,7 +38,7 @@ TEST(Camera, GetPositionLeftEdge)
 TEST(Camera, GetPositionRightEdge) 
 {
    Camera camera(400, 300, 1000, 1000);
-   SDL_FRect focal_point{900.0f, 500.0f, 50.0f, 50.0f};
+   FRect focal_point{900.0f, 500.0f, 50.0f, 50.0f};
 
    auto frame = camera.get_frame(focal_point);
    EXPECT_EQ(frame.m_rect.x, 600); // clamped
@@ -50,7 +50,7 @@ TEST(Camera, GetPositionRightEdge)
 TEST(Camera, GetPositionTopEdge) 
 {
    Camera camera(400, 300, 1000, 1000);
-   SDL_FRect focal_point{500.0f, 100.0f, 50.0f, 50.0f};
+   FRect focal_point{500.0f, 100.0f, 50.0f, 50.0f};
 
    auto frame = camera.get_frame(focal_point);
    EXPECT_EQ(frame.m_rect.x, 325); // (x + w/2) - cam_w/2
@@ -62,7 +62,7 @@ TEST(Camera, GetPositionTopEdge)
 TEST(Camera, GetPositionBottomEdge) 
 {
    Camera camera(400, 300, 1000, 1000);
-   SDL_FRect focal_point{500.0f, 900.0f, 50.0f, 50.0f};
+   FRect focal_point{500.0f, 900.0f, 50.0f, 50.0f};
 
    auto frame = camera.get_frame(focal_point);
    EXPECT_EQ(frame.m_rect.x, 325); // (x + w/2) - cam_w/2
@@ -74,7 +74,7 @@ TEST(Camera, GetPositionBottomEdge)
 TEST(Camera, TopLeftCorner) 
 {
    Camera camera(400, 300, 1000, 1000);
-   SDL_FRect focal_point{100.0f, 100.0f, 50.0f, 50.0f};
+   FRect focal_point{100.0f, 100.0f, 50.0f, 50.0f};
 
    auto frame = camera.get_frame(focal_point);
    EXPECT_EQ(frame.m_rect.x, 0); // clamped
@@ -86,7 +86,7 @@ TEST(Camera, TopLeftCorner)
 TEST(Camera, TopRightCorner) 
 {
    Camera camera(400, 300, 1000, 1000);
-   SDL_FRect focal_point{900.0f, 100.0f, 50.0f, 50.0f};
+   FRect focal_point{900.0f, 100.0f, 50.0f, 50.0f};
 
    auto frame = camera.get_frame(focal_point);
    EXPECT_EQ(frame.m_rect.x, 600); // clamped
@@ -98,7 +98,7 @@ TEST(Camera, TopRightCorner)
 TEST(Camera, BottomLeftCorner) 
 {
    Camera camera(400, 300, 1000, 1000);
-   SDL_FRect focal_point{100.0f, 900.0f, 50.0f, 50.0f};
+   FRect focal_point{100.0f, 900.0f, 50.0f, 50.0f};
 
    auto frame = camera.get_frame(focal_point);
    EXPECT_EQ(frame.m_rect.x, 0); // clamped
@@ -110,7 +110,7 @@ TEST(Camera, BottomLeftCorner)
 TEST(Camera, BottomRightCorner) 
 {
    Camera camera(400, 300, 1000, 1000);
-   SDL_FRect focal_point{900.0f, 900.0f, 50.0f, 50.0f};
+   FRect focal_point{900.0f, 900.0f, 50.0f, 50.0f};
 
    auto frame = camera.get_frame(focal_point);
    EXPECT_EQ(frame.m_rect.x, 600); // clamped

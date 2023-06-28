@@ -1,7 +1,6 @@
 #include "Camera.hpp"
 
 #include <algorithm>
-#include <assert.h>
 
 using namespace Graphics;
 
@@ -18,7 +17,7 @@ Camera::Camera(size_t i_camera_width,
    assert(i_camera_height <= i_level_height);
 }
 
-CameraFrame Camera::get_frame(const SDL_FRect& i_focal_point) const noexcept
+CameraFrame Camera::get_frame(const FRect& i_focal_point) const noexcept
 {
    CameraFrame o_frame{ {static_cast<int>(i_focal_point.x + (i_focal_point.w / 2.0f)) - (m_camera_width / 2), 
                          static_cast<int>(i_focal_point.y + (i_focal_point.h / 2.0f)) - (m_camera_height / 2), 

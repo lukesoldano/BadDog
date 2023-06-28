@@ -1,6 +1,7 @@
 #pragma once
 
 #include "PhysicsDefs.hpp"
+#include "ProjectDefs.hpp"
 
 #include <optional>
 
@@ -22,11 +23,11 @@ public:
    CollisionDetector() = default;
    virtual ~CollisionDetector() = default;
 
-   bool are_aabbs_colliding(const SDL_FRect& object1, const SDL_FRect& object2) const;
+   bool are_aabbs_colliding(const FRect& object1, const FRect& object2) const;
 
    std::optional<RayVsRectCollision> get_ray_vs_aabb_collision(const Vector2DFloat& ray_origin,
                                                                const Vector2DFloat& ray_direction,
-                                                               const SDL_FRect& aabb) const;
+                                                               const FRect& aabb) const;
 
 };
 
