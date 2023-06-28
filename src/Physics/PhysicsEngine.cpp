@@ -39,10 +39,10 @@ void PhysicsEngine::process()
    /////////////////////////////////////////////////////////////////////////////////////////////////
    // TODO Remove
    Vector2DFloat user_displacement;
-   if (game_state.m_key_pressed[static_cast<uint8_t>(Key::w)]) user_displacement.m_y -= 10.0f;
-   if (game_state.m_key_pressed[static_cast<uint8_t>(Key::a)]) user_displacement.m_x -= 10.0f;
-   if (game_state.m_key_pressed[static_cast<uint8_t>(Key::d)]) user_displacement.m_x += 10.0f;
-   if (game_state.m_key_pressed[static_cast<uint8_t>(Key::s)]) user_displacement.m_y += 10.0f;
+   if (game_state.m_key_pressed[static_cast<uint8_t>(Key::w)]) user_displacement.m_y -= 5.0f;
+   if (game_state.m_key_pressed[static_cast<uint8_t>(Key::a)]) user_displacement.m_x -= 5.0f;
+   if (game_state.m_key_pressed[static_cast<uint8_t>(Key::d)]) user_displacement.m_x += 5.0f;
+   if (game_state.m_key_pressed[static_cast<uint8_t>(Key::s)]) user_displacement.m_y += 5.0f;
    
    game_state.m_active_entities[0].x += user_displacement.m_x;
    game_state.m_active_entities[0].y += user_displacement.m_y;
@@ -55,8 +55,8 @@ void PhysicsEngine::process()
    // Narrow phase checks
    for (const auto& neighbor_id : neighbors)
    {
-      if (m_collision_detector.check(game_state.m_active_entities[0],
-                                     game_state.m_static_entities[neighbor_id]))
+      if (m_collision_detector.are_aabbs_colliding(game_state.m_active_entities[0],
+                                                   game_state.m_static_entities[neighbor_id]))
       {
          game_state.m_active_entities[0].x -= user_displacement.m_x;
          game_state.m_active_entities[0].y -= user_displacement.m_y;

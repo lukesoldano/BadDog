@@ -17,10 +17,10 @@ namespace RenderInstructionFactory
    inline RenderInstruction_t get_instruction(SDL_Rect i_rectangle);
    inline RenderInstruction_t get_instruction(SDL_FRect i_rectangle);
    inline RenderInstruction_t get_instruction(const Texture& i_texture,
-                                              SDL_Rect i_render_clip,
+                                              std::optional<SDL_Rect> i_render_clip,
                                               std::optional<SDL_Rect> i_render_quad = std::nullopt);
    inline RenderInstruction_t get_instruction(const Texture& i_texture,
-                                              SDL_Rect i_render_clip,
+                                              std::optional<SDL_Rect> i_render_clip,
                                               std::optional<SDL_FRect> i_render_quad = std::nullopt);
 
    /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,7 +84,7 @@ namespace RenderInstructionFactory
 
    // For rendering any specific portion of a texture
    inline RenderInstruction_t get_instruction(const Texture& i_texture,
-                                              SDL_Rect i_render_clip,
+                                              std::optional<SDL_Rect> i_render_clip,
                                               std::optional<SDL_Rect> i_render_quad)
    {
       return [&texture = i_texture, 
@@ -93,7 +93,7 @@ namespace RenderInstructionFactory
       {
          if (0 != SDL_RenderCopy(&i_renderer, 
                                  texture.get_sdl_texture(), 
-                                 &render_clip, 
+                                 render_clip.has_value() ? &render_clip.value() : nullptr, 
                                  render_quad.has_value() ? &render_quad.value() : nullptr))
          {
             LOG_ERROR("Failed to render texture, SDL Error: " << SDL_GetError());
@@ -105,7 +105,7 @@ namespace RenderInstructionFactory
 
    // For rendering any specific portion of a texture (float-based)
    inline RenderInstruction_t get_instruction(const Texture& i_texture,
-                                              SDL_Rect i_render_clip,
+                                              std::optional<SDL_Rect> i_render_clip,
                                               std::optional<SDL_FRect> i_render_quad)
    {
       return [&texture = i_texture, 
@@ -114,7 +114,7 @@ namespace RenderInstructionFactory
       {
          if (0 != SDL_RenderCopyF(&i_renderer, 
                                   texture.get_sdl_texture(), 
-                                  &render_clip, 
+                                  render_clip.has_value() ? &render_clip.value() : nullptr,
                                   render_quad.has_value() ? &render_quad.value() : nullptr))
          {
             LOG_ERROR("Failed to render f-texture, SDL Error: " << SDL_GetError());

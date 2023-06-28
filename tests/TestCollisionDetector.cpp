@@ -11,8 +11,8 @@ TEST(CollisionDetector, AABBRectOnRectCollisionOverlap)
    SDL_FRect object1{200.0, 200.0, 100.0, 100.0};
    SDL_FRect object2 = object1;
 
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 }
 
 TEST(CollisionDetector, AABBRectOnRectCollisionTop) 
@@ -22,28 +22,28 @@ TEST(CollisionDetector, AABBRectOnRectCollisionTop)
    SDL_FRect object1{0.0, 0.0, 100.0, 100.0};
    SDL_FRect object2{200.0, 200.0, 100.0, 100.0};
 
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 200.0;
    object1.y = 100.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 200.0;
    object1.y = 101.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 200.0;
    object1.y = 150.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 200.0;
    object1.y = 175.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 }
 
 TEST(CollisionDetector, AABBRectOnRectCollisionBottom) 
@@ -53,28 +53,28 @@ TEST(CollisionDetector, AABBRectOnRectCollisionBottom)
    SDL_FRect object1{0.0, 0.0, 100.0, 100.0};
    SDL_FRect object2{200.0, 200.0, 100.0, 100.0};
 
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 200.0;
    object1.y = 300.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 200.0;
    object1.y = 299.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 200.0;
    object1.y = 250.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 200.0;
    object1.y = 225.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 }
 
 TEST(CollisionDetector, AABBRectOnRectCollisionLeft) 
@@ -84,28 +84,28 @@ TEST(CollisionDetector, AABBRectOnRectCollisionLeft)
    SDL_FRect object1{0.0, 0.0, 100.0, 100.0};
    SDL_FRect object2{200.0, 200.0, 100.0, 100.0};
 
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 100.0;
    object1.y = 200.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 101.0;
    object1.y = 200.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 150.0;
    object1.y = 200.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 175.0;
    object1.y = 200.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 }
 
 TEST(CollisionDetector, AABBRectOnRectCollisionRight) 
@@ -115,28 +115,28 @@ TEST(CollisionDetector, AABBRectOnRectCollisionRight)
    SDL_FRect object1{0.0, 0.0, 100.0, 100.0};
    SDL_FRect object2{200.0, 200.0, 100.0, 100.0};
 
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 300.0;
    object1.y = 200.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 299.0;
    object1.y = 200.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 250.0;
    object1.y = 200.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 225.0;
    object1.y = 200.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 }
 
 TEST(CollisionDetector, AABBRectOnRectCollisionTopLeft) 
@@ -146,53 +146,53 @@ TEST(CollisionDetector, AABBRectOnRectCollisionTopLeft)
    SDL_FRect object1{0.0, 0.0, 100.0, 100.0};
    SDL_FRect object2{200.0, 200.0, 100.0, 100.0};
 
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 100.0;
    object1.y = 100.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 101.0;
    object1.y = 100.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 100.0;
    object1.y = 101.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 150.0;
    object1.y = 100.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
    
    object1.x = 100.0;
    object1.y = 150.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 100.0;
    object1.y = 200.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 101.0;
    object1.y = 101.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 150.0;
    object1.y = 101.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
    
    object1.x = 101.0;
    object1.y = 150.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 }
 
 TEST(CollisionDetector, AABBRectOnRectCollisionBottomLeft) 
@@ -202,48 +202,48 @@ TEST(CollisionDetector, AABBRectOnRectCollisionBottomLeft)
    SDL_FRect object1{0.0, 0.0, 100.0, 100.0};
    SDL_FRect object2{200.0, 200.0, 100.0, 100.0};
 
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 100.0;
    object1.y = 300.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 101.0;
    object1.y = 300.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 100.0;
    object1.y = 299.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 150.0;
    object1.y = 300.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
    
    object1.x = 100.0;
    object1.y = 250.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 101.0;
    object1.y = 299.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 150.0;
    object1.y = 299.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
    
    object1.x = 101.0;
    object1.y = 250.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 }
 
 TEST(CollisionDetector, AABBRectOnRectCollisionTopRight) 
@@ -253,53 +253,53 @@ TEST(CollisionDetector, AABBRectOnRectCollisionTopRight)
    SDL_FRect object1{0.0, 0.0, 100.0, 100.0};
    SDL_FRect object2{200.0, 200.0, 100.0, 100.0};
 
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 100.0;
    object1.y = 100.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 299.0;
    object1.y = 100.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 300.0;
    object1.y = 101.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 250.0;
    object1.y = 100.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
    
    object1.x = 300.0;
    object1.y = 150.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 300.0;
    object1.y = 200.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 299.0;
    object1.y = 101.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 250.0;
    object1.y = 101.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
    
    object1.x = 299.0;
    object1.y = 150.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 }
 
 TEST(CollisionDetector, AABBRectOnRectCollisionBottomRight) 
@@ -309,46 +309,46 @@ TEST(CollisionDetector, AABBRectOnRectCollisionBottomRight)
    SDL_FRect object1{0.0, 0.0, 100.0, 100.0};
    SDL_FRect object2{200.0, 200.0, 100.0, 100.0};
 
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 300.0;
    object1.y = 300.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 299.0;
    object1.y = 300.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 300.0;
    object1.y = 299.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 250.0;
    object1.y = 300.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
    
    object1.x = 300.0;
    object1.y = 250.0;
-   EXPECT_FALSE(detector.check(object1, object2));
-   EXPECT_FALSE(detector.check(object2, object1));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_FALSE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 299.0;
    object1.y = 299.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 
    object1.x = 250.0;
    object1.y = 299.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
    
    object1.x = 299.0;
    object1.y = 250.0;
-   EXPECT_TRUE(detector.check(object1, object2));
-   EXPECT_TRUE(detector.check(object2, object1));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object1, object2));
+   EXPECT_TRUE(detector.are_aabbs_colliding(object2, object1));
 }

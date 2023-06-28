@@ -1,10 +1,8 @@
 #include "Game.hpp"
 
 #include "GameState.hpp"
-#include "GraphicsEngine.hpp"
 #include "Logger.hpp"
 #include "PhysicsEngine.hpp"
-#include "UserInputEngine.hpp"
 
 #include "SDL.h"
 
@@ -25,19 +23,26 @@ int Game::initialize()
    }
 
    // Order of engines being added is important here, this is the order to process them in
-   m_engines.push_back(std::make_unique<UserInputEngine>());
-   m_engines.push_back(std::make_unique<PhysicsEngine>());
-   m_engines.push_back(std::make_unique<GraphicsEngine>());
+   m_user_input_engine = std::make_unique<UserInputEngine>();
+   m_logic_engines.push_back(std::make_unique<PhysicsEngine>());
+   m_graphics_engine = std::make_unique<GraphicsEngine>();
 
-   for (auto& engine : m_engines) engine->initialize();
+   m_user_input_engine->initialize();
+   for (auto& engine : m_logic_engines) engine->initialize();
+   m_graphics_engine->initialize();
 
    return 0;
 }
 
 void Game::teardown()
 {
-   for (auto rit = m_engines.rbegin(); rit != m_engines.rend(); ++rit) (*rit)->teardown();
-   m_engines.clear();
+   m_graphics_engine->teardown();
+   for (auto rit = m_logic_engines.rbegin(); rit != m_logic_engines.rend(); ++rit) (*rit)->teardown();
+   m_user_input_engine->teardown();
+
+   m_graphics_engine.reset();
+   m_logic_engines.clear();
+   m_user_input_engine.reset();
 
    SDL_Quit();
 }
@@ -47,12 +52,19 @@ void Game::run_gameloop()
    LOG_MESSAGE("Enter Game::run_gameloop()");
 
    auto& game_state = GameState::instance();
+
+   const double DESIRED_MS_PER_FRAME = 1000.0 /*ms*/ / 60.0 /*frame rate*/;
+
    while (!game_state.m_quit_program)
    {
-      for (auto& engine : m_engines) engine->process();
+      const double time_at_loop_start = SDL_GetTicks();
 
-      // TODO: Temporary to make framerate near 30 FPS
-      SDL_Delay(1000/30);
+      m_user_input_engine->process_input();
+      for (auto& engine : m_logic_engines) engine->process();
+      m_graphics_engine->render();
+
+      auto sleep_time_ms = time_at_loop_start + DESIRED_MS_PER_FRAME - double(SDL_GetTicks());
+      if (sleep_time_ms > 0.0) SDL_Delay(static_cast<Uint32>(sleep_time_ms));
    }
 
    LOG_MESSAGE("Exit Game::run_gameloop()");

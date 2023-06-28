@@ -2,14 +2,14 @@
 
 #include "CollisionDetector.hpp"
 #include "CollisionResolver.hpp"
-#include "IEngine.hpp"
+#include "ILogicEngine.hpp"
 #include "SpatialHashMap.hpp"
 
 namespace Physics
 {
 
 // @warning This class is not thread safe
-class PhysicsEngine : public IEngine
+class PhysicsEngine : public ILogicEngine
 {
    SpatialHashMap<7, 5, 700, 500> m_spatial_hash_map;
    CollisionDetector m_collision_detector;

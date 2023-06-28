@@ -85,7 +85,7 @@ void GraphicsEngine::teardown()
    LOG_MESSAGE("Exit GraphicsEngine::teardown()");
 }
 
-void GraphicsEngine::process()
+void GraphicsEngine::render()
 {
    if (nullptr == m_window)
    {
@@ -101,13 +101,19 @@ void GraphicsEngine::process()
    static auto background_image_surface = Graphics::Surface::create_from_image(background_image_path).value();
    static auto background_image_texture = renderer.create_texture_from_surface(std::move(background_image_surface)).value();
 
+   static FileSystem::Path kona_image_path{std::string(ASSETS_DIRECTORY) + "/KonaTemp.png"};
+   static auto kona_image_surface = Graphics::Surface::create_from_image(kona_image_path).value();
+   static auto kona_image_texture = renderer.create_texture_from_surface(std::move(kona_image_surface)).value();
+
    renderer.render(RenderInstructionFactory::get_instruction(background_image_texture,
                                                              SDL_Rect{0, 0, 700, 500},
                                                              SDL_Rect{0, 0, 700, 500}));
 
    auto& game_state = GameState::instance();
    renderer.set_draw_color(Color::black);
-   renderer.render(RenderInstructionFactory::get_instruction(game_state.m_active_entities[0]));
+   renderer.render(RenderInstructionFactory::get_instruction(kona_image_texture,
+                                                             std::nullopt,
+                                                             game_state.m_active_entities[0]));
    
    renderer.set_draw_color(Color::red);
    for (const auto& entity : game_state.m_static_entities)

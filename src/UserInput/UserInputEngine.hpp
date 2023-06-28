@@ -1,23 +1,21 @@
 #pragma once
 
-#include "IEngine.hpp"
-
 namespace UserInput
 {
 
 // @warning This class is not thread safe
 // @warning This class should not be sub-classed
-class UserInputEngine : public IEngine
+class UserInputEngine
 {
 public:
 
    UserInputEngine() = default;
-   virtual ~UserInputEngine() = default;
+   ~UserInputEngine() = default;
 
-   void initialize() override final {};
-   void teardown() override final {};
+   void initialize(){};
+   void teardown() {};
 
-   void process() override final;
+   void process_input();
 
 };
 

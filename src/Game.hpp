@@ -1,13 +1,17 @@
 #pragma once
 
-#include "IEngine.hpp"
+#include "GraphicsEngine.hpp"
+#include "ILogicEngine.hpp"
+#include "UserInputEngine.hpp"
 
 #include <memory>
 #include <vector>
 
 class Game
 {
-   std::vector<std::unique_ptr<IEngine>> m_engines;
+   std::unique_ptr<UserInput::UserInputEngine> m_user_input_engine;
+   std::unique_ptr<Graphics::GraphicsEngine> m_graphics_engine;
+   std::vector<std::unique_ptr<ILogicEngine>> m_logic_engines;
 
 public:
 

@@ -2,7 +2,8 @@
 
 using namespace Physics;
 
-bool CollisionDetector::check(SDL_FRect object1, SDL_FRect object2) 
+bool CollisionDetector::are_aabbs_colliding(const SDL_FRect& object1, 
+                                            const SDL_FRect& object2) const 
 { 
    if (object1.x <= object2.x)
    {
@@ -24,4 +25,15 @@ bool CollisionDetector::check(SDL_FRect object1, SDL_FRect object2)
    }
 
    return true;
+}
+
+std::optional<RayVsRectCollision> CollisionDetector::get_ray_vs_aabb_collision(const Vector2DFloat& ray_origin,
+                                                                               const Vector2DFloat& ray_direction,
+                                                                               const SDL_FRect& aabb) const
+{
+   std::optional<RayVsRectCollision> collision_info;
+
+   
+
+   return collision_info;
 }

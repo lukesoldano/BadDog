@@ -7,7 +7,7 @@
 
 using namespace UserInput;
 
-void UserInputEngine::process()
+void UserInputEngine::process_input()
 {
    auto& game_state = GameState::instance();
 

@@ -12,7 +12,7 @@ set(COMMON_HEADER_FILES
 
     ${CMAKE_CURRENT_LIST_DIR}/FileSystem.hpp
     ${CMAKE_CURRENT_LIST_DIR}/GameState.hpp
-    ${CMAKE_CURRENT_LIST_DIR}/IEngine.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/ILogicEngine.hpp
     ${CMAKE_CURRENT_LIST_DIR}/ProjectDefs.hpp
 
     CACHE INTERNAL "COMMON_HEADER_FILES")
