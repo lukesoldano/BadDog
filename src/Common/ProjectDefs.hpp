@@ -27,6 +27,30 @@ struct FRect;
 //// Structs
 struct Point : public SDL_Point
 {
+   int& m_x = SDL_Point::x;
+   int& m_y = SDL_Point::y;
+
+   Point() = default;
+   Point(int i_x, int i_y) :
+      SDL_Point{i_x, i_y} {}
+   Point(const Point& i_other) :
+      SDL_Point{i_other} {}
+   Point(Point&& i_other) noexcept :
+      SDL_Point{std::move(i_other)} {}
+   virtual ~Point() = default;
+
+   Point& operator=(const Point& i_other)
+   {
+      SDL_Point::operator=(i_other);
+      return *this;
+   }
+
+   Point& operator=(Point&& i_other)
+   {
+      SDL_Point::operator=(std::move(i_other));
+      return *this;
+   }
+
    inline FPoint to_fpoint() const;
    inline std::string to_string() const { TO_STRING(); }
 
@@ -41,6 +65,30 @@ struct Point : public SDL_Point
 
 struct FPoint : public SDL_FPoint
 {
+   float& m_x = SDL_FPoint::x;
+   float& m_y = SDL_FPoint::y;
+
+   FPoint() = default;
+   FPoint(float i_x, float i_y) :
+      SDL_FPoint{i_x, i_y} {}
+   FPoint(const FPoint& i_other) :
+      SDL_FPoint{i_other} {}
+   FPoint(FPoint&& i_other) noexcept :
+      SDL_FPoint{std::move(i_other)} {}
+   virtual ~FPoint() = default;
+
+   FPoint& operator=(const FPoint& i_other)
+   {
+      SDL_FPoint::operator=(i_other);
+      return *this;
+   }
+
+   FPoint& operator=(FPoint&& i_other)
+   {
+      SDL_FPoint::operator=(std::move(i_other));
+      return *this;
+   }
+
    inline Point to_point() const;
    inline std::string to_string() const { TO_STRING(); }
 
@@ -58,6 +106,32 @@ inline Point FPoint::to_point() const { return Point{std::lround(x), std::lround
 
 struct Rect : public SDL_Rect
 {
+   int& m_x = SDL_Rect::x;
+   int& m_y = SDL_Rect::y;
+   int& m_w = SDL_Rect::w;
+   int& m_h = SDL_Rect::h;
+
+   Rect() = default;
+   Rect(int i_x, int i_y, int i_w, int i_h) :
+      SDL_Rect{i_x, i_y, i_w, i_h} {}
+   Rect(const Rect& i_other) :
+      SDL_Rect{i_other} {}
+   Rect(Rect&& i_other) noexcept :
+      SDL_Rect{std::move(i_other)} {}
+   virtual ~Rect() = default;
+
+   Rect& operator=(const Rect& i_other)
+   {
+      SDL_Rect::operator=(i_other);
+      return *this;
+   }
+
+   Rect& operator=(Rect&& i_other)
+   {
+      SDL_Rect::operator=(std::move(i_other));
+      return *this;
+   }
+
    inline Point get_origin() const { return {x, y}; };
 
    inline FRect to_frect() const;
@@ -76,6 +150,32 @@ struct Rect : public SDL_Rect
 
 struct FRect : public SDL_FRect
 {
+   float& m_x = SDL_FRect::x;
+   float& m_y = SDL_FRect::y;
+   float& m_w = SDL_FRect::w;
+   float& m_h = SDL_FRect::h;
+
+   FRect() = default;
+   FRect(float i_x, float i_y, float i_w, float i_h) :
+      SDL_FRect{i_x, i_y, i_w, i_h} {}
+   FRect(const FRect& i_other) :
+      SDL_FRect{i_other} {}
+   FRect(FRect&& i_other) noexcept :
+      SDL_FRect{std::move(i_other)} {}
+   virtual ~FRect() = default;
+
+   FRect& operator=(const FRect& i_other)
+   {
+      SDL_FRect::operator=(i_other);
+      return *this;
+   }
+
+   FRect& operator=(FRect&& i_other)
+   {
+      SDL_FRect::operator=(std::move(i_other));
+      return *this;
+   }
+
    inline FPoint get_origin() const { return {x, y}; };
 
    inline Rect to_rect() const;
@@ -97,6 +197,14 @@ inline Rect FRect::to_rect() const { return Rect{std::lround(x), std::lround(y),
 
 //// Undefine shorterning macros
 #undef TO_STRING
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Asserts
+#define ASSERT(message) \
+   { \
+      LOG_ERROR("ASSERT: '" << message); \
+      assert(false && message); \
+   }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check macros
@@ -164,12 +272,14 @@ inline Rect FRect::to_rect() const { return Rect{std::lround(x), std::lround(y),
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Watch macros
-#define WATCH_VALUE_MESSAGE(value) LogMessage(#value << " is: " << value);
-#define WATCH_VALUE_WARNING(value) LogWarning(#value << " is: " << value);
-#define WATCH_VALUE_ERROR(value) LogError(#value << " is: " << value);
+#define WATCH_VALUE_MESSAGE(value) { LogMessage(#value << " is: " << value); }
+#define WATCH_VALUE_WARNING(value) { LogWarning(#value << " is: " << value); }
+#define WATCH_VALUE_ERROR(value) { LogError(#value << " is: " << value); }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Development macros
 #define NOT_IMPLEMENTED() \
-   LOG_ERROR("Unimplemented code area hit!!!"); \
-   assert(false && "Unimplemented code area hit!!!"); 
+   {\
+      LOG_ERROR("Unimplemented code area hit!!!"); \
+      assert(false && "Unimplemented code area hit!!!"); \
+   }

@@ -2,20 +2,20 @@
 
 #include "GraphicsDefs.hpp"
 #include "ProjectDefs.hpp"
+#include "RgbaColor.hpp"
+
+#include "JsonDefs.hpp"
 
 namespace Game
 {  
 
 struct RectEntity : public Rect
 {
-   const Color m_color = Color::white;
+   bool m_visible;
+   RgbaColor m_rgba_color;
 
-   RectEntity() = default;
-   RectEntity(Color i_color, 
-              Rect&& i_rect) noexcept : 
-      Rect(std::move(i_rect)), 
-      m_color(i_color) {}
-
+   NLOHMANN_DEFINE_TYPE_INTRUSIVE(RectEntity, m_visible, m_rgba_color, m_x, m_y, m_w, m_h)
 };
+
 
 } // namespace Game

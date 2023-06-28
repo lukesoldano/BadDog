@@ -2,6 +2,7 @@
 
 #include <algorithm>
 
+// All below #defines will be undefined at the bottom of this file
 // Merely a dumb helper to shorten the otherwise ludicrously long function specifiers
 #define SHM SpatialHashMap<LEVEL_WIDTH, LEVEL_HEIGHT, CELL_WIDTH, CELL_HEIGHT>
 
@@ -82,7 +83,7 @@ std::vector<EntityId> SHM::get_neighbors(FRect i_area) const
 }
 
 template <size_t LEVEL_WIDTH, size_t LEVEL_HEIGHT, size_t CELL_WIDTH, size_t CELL_HEIGHT>
-std::optional<SpatialHashMapCell_t> SHM::add_entity(EntityId i_id, FPoint i_position)
+extended_opt<SpatialHashMapCell_t> SHM::add_entity(EntityId i_id, FPoint i_position)
 {
    CHECK_CONDITION_RETURN_NULLOPT(!contains_entity(i_id));
 
@@ -95,7 +96,7 @@ std::optional<SpatialHashMapCell_t> SHM::add_entity(EntityId i_id, FPoint i_posi
 }
 
 template <size_t LEVEL_WIDTH, size_t LEVEL_HEIGHT, size_t CELL_WIDTH, size_t CELL_HEIGHT>
-std::optional<SpatialHashMapCell_t> SHM::add_entity(EntityId i_id, FRect i_rect)
+extended_opt<SpatialHashMapCell_t> SHM::add_entity(EntityId i_id, FRect i_rect)
 {
    CHECK_CONDITION_RETURN_NULLOPT(i_rect.to_rect().w <= CELL_WIDTH);
    CHECK_CONDITION_RETURN_NULLOPT(i_rect.to_rect().h <= CELL_HEIGHT);
@@ -103,7 +104,7 @@ std::optional<SpatialHashMapCell_t> SHM::add_entity(EntityId i_id, FRect i_rect)
 }
 
 template <size_t LEVEL_WIDTH, size_t LEVEL_HEIGHT, size_t CELL_WIDTH, size_t CELL_HEIGHT>
-std::optional<SpatialHashMapCell_t> SHM::move_entity(EntityId i_id, FPoint i_position)
+extended_opt<SpatialHashMapCell_t> SHM::move_entity(EntityId i_id, FPoint i_position)
 {
    CHECK_CONDITION_RETURN_NULLOPT(contains_entity(i_id));
 
@@ -119,7 +120,7 @@ std::optional<SpatialHashMapCell_t> SHM::move_entity(EntityId i_id, FPoint i_pos
 }
 
 template <size_t LEVEL_WIDTH, size_t LEVEL_HEIGHT, size_t CELL_WIDTH, size_t CELL_HEIGHT>
-std::optional<SpatialHashMapCell_t> SHM::move_entity(EntityId i_id, FRect i_rect)
+extended_opt<SpatialHashMapCell_t> SHM::move_entity(EntityId i_id, FRect i_rect)
 {
    CHECK_CONDITION_RETURN_NULLOPT(i_rect.to_rect().w <= CELL_WIDTH);
    CHECK_CONDITION_RETURN_NULLOPT(i_rect.to_rect().h <= CELL_HEIGHT);
@@ -127,17 +128,17 @@ std::optional<SpatialHashMapCell_t> SHM::move_entity(EntityId i_id, FRect i_rect
 }
 
 template <size_t LEVEL_WIDTH, size_t LEVEL_HEIGHT, size_t CELL_WIDTH, size_t CELL_HEIGHT>
-std::optional<SpatialHashMapCell_t> SHM::remove_entity(EntityId i_id)
+extended_opt<SpatialHashMapCell_t> SHM::remove_entity(EntityId i_id)
 {
    CHECK_CONDITION_RETURN_NULLOPT(contains_entity(i_id));
    const auto o_cell = std::move(m_entity_cell_map[i_id]);
    m_cells[o_cell].erase(i_id);
    m_entity_cell_map.erase(i_id);
-   return std::optional<SpatialHashMapCell_t>(std::move(o_cell));
+   return extended_opt<SpatialHashMapCell_t>(std::move(o_cell));
 }
 
 template <size_t LEVEL_WIDTH, size_t LEVEL_HEIGHT, size_t CELL_WIDTH, size_t CELL_HEIGHT>
-std::optional<SpatialHashMapCell_t> SHM::get_cell_for_position(Point i_position) const
+extended_opt<SpatialHashMapCell_t> SHM::get_cell_for_position(Point i_position) const
 {
    if (LEVEL_WIDTH <= i_position.x || LEVEL_HEIGHT <= i_position.y) return std::nullopt;
    return X_CELLS * 
@@ -146,7 +147,7 @@ std::optional<SpatialHashMapCell_t> SHM::get_cell_for_position(Point i_position)
 }
 
 template <size_t LEVEL_WIDTH, size_t LEVEL_HEIGHT, size_t CELL_WIDTH, size_t CELL_HEIGHT>
-std::optional<SpatialHashMapCell_t> SHM::get_cell_for_position(FPoint i_position) const
+extended_opt<SpatialHashMapCell_t> SHM::get_cell_for_position(FPoint i_position) const
 {
    return get_cell_for_position(i_position.to_point());
 }

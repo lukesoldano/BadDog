@@ -1,10 +1,10 @@
 #pragma once
 
+#include "ExtendedOptional.hpp"
 #include "PhysicsDefs.hpp"
 #include "ProjectDefs.hpp"
 
 #include <array>
-#include <optional>
 #include <set>
 #include <type_traits>
 #include <unordered_map>
@@ -42,18 +42,18 @@ public:
    std::vector<EntityId> get_neighbors(EntityId i_id) const;
    std::vector<EntityId> get_neighbors(FRect i_area) const;
 
-   std::optional<SpatialHashMapCell_t> add_entity(EntityId i_id, FPoint i_position);
-   std::optional<SpatialHashMapCell_t> add_entity(EntityId i_id, FRect i_position);
+   extended_opt<SpatialHashMapCell_t> add_entity(EntityId i_id, FPoint i_position);
+   extended_opt<SpatialHashMapCell_t> add_entity(EntityId i_id, FRect i_position);
 
-   std::optional<SpatialHashMapCell_t> move_entity(EntityId i_id, FPoint i_position);
-   std::optional<SpatialHashMapCell_t> move_entity(EntityId i_id, FRect i_position);
+   extended_opt<SpatialHashMapCell_t> move_entity(EntityId i_id, FPoint i_position);
+   extended_opt<SpatialHashMapCell_t> move_entity(EntityId i_id, FRect i_position);
 
-   std::optional<SpatialHashMapCell_t> remove_entity(EntityId i_id);
+   extended_opt<SpatialHashMapCell_t> remove_entity(EntityId i_id);
 
 private:
 
-   std::optional<SpatialHashMapCell_t> get_cell_for_position(Point i_position) const;
-   std::optional<SpatialHashMapCell_t> get_cell_for_position(FPoint i_position) const;
+   extended_opt<SpatialHashMapCell_t> get_cell_for_position(Point i_position) const;
+   extended_opt<SpatialHashMapCell_t> get_cell_for_position(FPoint i_position) const;
    std::vector<SpatialHashMapCell_t> get_neighboring_cells(SpatialHashMapCell_t i_cell) const;
    std::vector<SpatialHashMapCell_t> get_neighboring_cells(const Rect& i_frame) const;
 

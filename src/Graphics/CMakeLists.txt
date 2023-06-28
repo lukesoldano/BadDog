@@ -6,8 +6,8 @@ set(GRAPHICS_SOURCE_FILES
 
     ${CMAKE_CURRENT_LIST_DIR}/Camera.cpp
     ${CMAKE_CURRENT_LIST_DIR}/GraphicsEngine.cpp
-    ${CMAKE_CURRENT_LIST_DIR}/GraphicsDefs.cpp
     ${CMAKE_CURRENT_LIST_DIR}/Renderer.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/RgbaColor.cpp
     ${CMAKE_CURRENT_LIST_DIR}/Surface.cpp
     ${CMAKE_CURRENT_LIST_DIR}/Texture.cpp
     ${CMAKE_CURRENT_LIST_DIR}/Window.cpp
@@ -23,6 +23,7 @@ set(GRAPHICS_HEADER_FILES
     ${CMAKE_CURRENT_LIST_DIR}/GraphicsDefs.hpp
     ${CMAKE_CURRENT_LIST_DIR}/Renderer.hpp    
     ${CMAKE_CURRENT_LIST_DIR}/RenderInstructionFactory.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/RgbaColor.hpp
     ${CMAKE_CURRENT_LIST_DIR}/SpriteSheet.hpp
     ${CMAKE_CURRENT_LIST_DIR}/Surface.hpp
     ${CMAKE_CURRENT_LIST_DIR}/Texture.hpp

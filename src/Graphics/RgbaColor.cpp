@@ -1,5 +1,6 @@
-#include "GraphicsDefs.hpp"
+#include "RgbaColor.hpp"
 
+#include "JSONUtilities.hpp"
 #include "Logger.hpp"
 
 #include <assert.h>
@@ -91,8 +92,7 @@ namespace
          o_b = 128;
          break;
       default:
-         assert(false && "Unknown color passed to ColorToRgb switch!");
-         LOG_WARNING("Unknown color provided, defaulting to black!");
+         ASSERT("Unknown color passed to ColorToRgb switch! Defaulting to black.");
          o_r = 0;
          o_g = 0;
          o_b = 0;
@@ -124,8 +124,71 @@ Color string_to_color(const std::string& i_color) noexcept
    return Color::invalid;
 }
 
-RgbaColor::RgbaColor(Color i_color, uint8_t i_alpha) noexcept
+void from_json(const nlohmann::json& i_json, RgbaColor& o_color)
+{
+   using namespace JSON;
+   using namespace JSON::Utilities;
+
+   std::string color_str;
+   if (get_json_value(i_json, "m_color", color_str))
+   {
+      auto color = string_to_color(color_str);
+
+      uint8_t alpha;
+      if (get_json_value(i_json, "m_alpha", alpha)) o_color = RgbaColor{color, alpha};
+      else o_color = RgbaColor{color};
+   }
+   else
+   {
+      auto r = i_json.at("m_r").get<uint8_t>();
+      auto g = i_json.at("m_g").get<uint8_t>();
+      auto b = i_json.at("m_b").get<uint8_t>();
+
+      uint8_t alpha;
+      if (get_json_value(i_json, "m_alpha", alpha))
+      {
+         o_color = RgbaColor{i_json.at("m_r").get<uint8_t>(),
+                             i_json.at("m_g").get<uint8_t>(),
+                             i_json.at("m_b").get<uint8_t>(), 
+                             alpha};
+      } 
+      else 
+      {
+         o_color = RgbaColor{i_json.at("m_r").get<uint8_t>(),
+                             i_json.at("m_g").get<uint8_t>(),
+                             i_json.at("m_b").get<uint8_t>()};
+      }
+   }
+
+}
+
+void to_json(nlohmann::json& o_json, const RgbaColor& i_color)
+{
+   o_json["m_r"] = i_color.m_r;
+   o_json["m_g"] = i_color.m_g;
+   o_json["m_b"] = i_color.m_b;
+   o_json["m_a"] = i_color.m_a;
+}
+
+RgbaColor::RgbaColor(Color i_color, uint8_t i_alpha) noexcept :
+   m_a(i_alpha)
 {
    ColorToRgb(i_color, m_r, m_g, m_b);
-   m_a = i_alpha;
+}
+
+RgbaColor::RgbaColor(uint8_t i_r, uint8_t i_g, uint8_t i_b, uint8_t i_alpha) noexcept :
+   m_r(i_r),
+   m_g(i_g),
+   m_b(i_b),
+   m_a(i_alpha)
+{
+
+}
+
+bool RgbaColor::operator==(const RgbaColor& i_other) const noexcept
+{
+   return m_r == i_other.m_r &&
+          m_g == i_other.m_g &&
+          m_b == i_other.m_b &&
+          m_a == i_other.m_a;
 }

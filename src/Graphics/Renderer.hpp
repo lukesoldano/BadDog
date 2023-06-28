@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GraphicsDefs.hpp"
+#include "RgbaColor.hpp"
 #include "Surface.hpp"
 #include "Texture.hpp"
 

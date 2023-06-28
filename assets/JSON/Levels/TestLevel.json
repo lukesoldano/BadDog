@@ -1,47 +1,57 @@
 {
-   "fileInfo" :
+   "file_info" :
    {
-      "type" : "Level",
-      "authors" : [ "Luke Soldano" ],
-      "creationDate" : "2023-04-16",
-      "lastUpdatedDate" : "2023-04-23"
+      "m_type" : "Level",
+      "m_authors" : [ "Luke Soldano" ],
+      "m_creation_date" : "2023-04-16",
+      "m_last_updated_date" : "2023-04-23"
    },
 
-   "levelInfo" :
+   "level_info" :
    {
-      "name" : "Test Level",
-      "width" : 2000,
-      "height" : 2000,
-      "borderWidth" : 10,
+      "m_name" : "Test Level",
+      "m_width" : 2000,
+      "m_height" : 2000,
+      "m_border_width" : 10,
 
-      "staticEntities" :
+      "m_static_entities" :
       [
          {
-            "type" : "rect",
-            "visible" : true,
-            "instances" : 
-            [
+            "m_label" : "Test Rect 1",
+            "m_rect" : 
+            {
+               "m_visible" : true,
+               "m_x" : 100,
+               "m_y" : 100,
+               "m_w" : 20,
+               "m_h" : 20,
+               "m_rgba_color" : 
                {
-                  "label" : "Test Rect 1",
-                  "x" : 100,
-                  "y" : 100,
-                  "width" : 20,
-                  "height" : 20,
-                  "color" : "red"
-               },
-               {
-                  "label" : "Test Rect 2",
-                  "x" : 200,
-                  "y" : 200,
-                  "width" : 40,
-                  "height" : 60,
-                  "color" : "blue"
+                  "m_color" : "red"
                }
-            ]
+            }
+         },
+         {
+            "m_label" : "Test Rect 2",
+            "m_rect" :
+            {
+               "m_visible" : true,
+               "m_x" : 200,
+               "m_y" : 200,
+               "m_w" : 40,
+               "m_h" : 60,
+               "m_rgba_color" : 
+               {
+                  "m_r" : 0,
+                  "m_g" : 0,
+                  "m_b" : 255,
+                  "m_a" : 255
+               }
+            }
          }
       ],
 
-      "activeEntities" :
+      "m_active_entities" :
       [
          {
 

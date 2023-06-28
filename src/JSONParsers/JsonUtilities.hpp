@@ -8,7 +8,8 @@ namespace JSON
 {
 namespace Utilities
 {
-
+   
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // Declarations
 inline bool is_json_file(const std::filesystem::path& i_file_path) noexcept;
 
@@ -17,6 +18,7 @@ inline bool get_json_value(const nlohmann::json& i_json,
                            const std::string& i_key, 
                            T& o_value) noexcept;
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // Definitions
 bool is_json_file(const std::filesystem::path& i_file_path) noexcept
 {

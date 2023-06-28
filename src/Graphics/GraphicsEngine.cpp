@@ -20,8 +20,10 @@ using namespace Graphics;
 
 namespace
 {
-   constexpr FRect SCREEN_CENTER{Game::Settings::DEFAULT_WINDOW_WIDTH/2, 
-                                 Game::Settings::DEFAULT_WINDOW_HEIGHT/2, 0, 0};
+   const FRect SCREEN_CENTER{Game::Settings::DEFAULT_WINDOW_WIDTH/2, 
+                             Game::Settings::DEFAULT_WINDOW_HEIGHT/2, 
+                             0, 
+                             0};
 }
 
 void GraphicsEngine::initialize()
