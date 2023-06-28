@@ -1,4 +1,4 @@
-#include "Game.hpp"
+#include "GameEngine.hpp"
 #include "Logger.hpp"
 
 int main(int argc, char* args[])

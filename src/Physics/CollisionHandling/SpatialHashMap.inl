@@ -50,17 +50,18 @@ std::vector<EntityId> SHM::get_neighbors(FRect i_area) const
    std::vector<EntityId> o_neighboring_entities;
 
    // Simplify the math by stretching the area to encapsulate the entirety of the relevant cells
-   area.w += (CELL_WIDTH - (area.x + area.w) % CELL_WIDTH);
-   area.h += (CELL_HEIGHT - (area.y + area.h) % CELL_HEIGHT);
+   area.w += (area.w % CELL_WIDTH == 0 ? 0 : CELL_WIDTH - ((area.x + area.w) % CELL_WIDTH));
+   area.h += (area.h % CELL_HEIGHT == 0 ? 0 : CELL_HEIGHT - ((area.y + area.h) % CELL_HEIGHT));
    area.x = area.x - (area.x % CELL_WIDTH);
    area.y = area.y - (area.y % CELL_HEIGHT);
 
    const auto origin_cell = get_cell_for_position(area.get_origin());
    CHECK_CONDITION_RETURN_EMPTY_INITIALIZER(origin_cell.has_value());
 
-   for (auto i=0; i<=area.w/CELL_WIDTH; ++i)
+   // Add entities within the frame
+   for (auto i=0; i<area.w/CELL_WIDTH; ++i)
    {
-      for (auto j=0; j<=area.h/CELL_HEIGHT; ++j)
+      for (auto j=0; j<area.h/CELL_HEIGHT; ++j)
       {
          const auto cell = origin_cell.value() + i + (j * X_CELLS);
          std::copy(m_cells[cell].cbegin(),
@@ -203,7 +204,7 @@ std::vector<SpatialHashMapCell_t> SHM::get_neighboring_cells(const Rect& i_frame
    const auto bottom_right_corner_cell = get_cell_for_position(bottom_right_corner);
    CHECK_CONDITION_RETURN_EMPTY_INITIALIZER(bottom_right_corner_cell.has_value());
 
-   const bool bordering_bottom{(X_CELLS * Y_CELLS) - 1 == bottom_right_corner_cell.value()};
+   const bool bordering_bottom{(X_CELLS * (Y_CELLS - 1)) <= bottom_right_corner_cell.value()};
    const bool bordering_right{((bottom_right_corner_cell.value() - X_CELLS + 1) % X_CELLS) == 0};
 
    const size_t frame_cell_width = i_frame.w / CELL_WIDTH; // leverages truncation
@@ -212,10 +213,10 @@ std::vector<SpatialHashMapCell_t> SHM::get_neighboring_cells(const Rect& i_frame
    if (!bordering_top) 
    {
       if (!bordering_left) o_neighboring_cells.emplace_back(top_left_corner_cell.value() - X_CELLS - 1);
-      if (!bordering_right) o_neighboring_cells.emplace_back(top_left_corner_cell.value() + frame_cell_width - X_CELLS + 1);
+      if (!bordering_right) o_neighboring_cells.emplace_back(top_left_corner_cell.value() + frame_cell_width - X_CELLS);
    
       for (auto i = top_left_corner_cell.value() - X_CELLS; 
-           i <= top_left_corner_cell.value() + frame_cell_width - X_CELLS;
+           i <= top_left_corner_cell.value() + frame_cell_width - X_CELLS - 1;
            ++i)
       {
          o_neighboring_cells.emplace_back(i);
@@ -224,10 +225,10 @@ std::vector<SpatialHashMapCell_t> SHM::get_neighboring_cells(const Rect& i_frame
 
    if (!bordering_bottom) 
    {
-      if (!bordering_left) o_neighboring_cells.emplace_back(bottom_right_corner_cell.value() - frame_cell_width + X_CELLS - 1);
+      if (!bordering_left) o_neighboring_cells.emplace_back(bottom_right_corner_cell.value() - frame_cell_width + X_CELLS);
       if (!bordering_right) o_neighboring_cells.emplace_back(bottom_right_corner_cell.value() + X_CELLS + 1);
    
-      for (auto i = bottom_right_corner_cell.value() - frame_cell_width + X_CELLS; 
+      for (auto i = bottom_right_corner_cell.value() - frame_cell_width + X_CELLS + 1; 
            i <= bottom_right_corner_cell.value() + X_CELLS;
            ++i)
       {
@@ -237,7 +238,7 @@ std::vector<SpatialHashMapCell_t> SHM::get_neighboring_cells(const Rect& i_frame
 
    if (!bordering_left)
    {
-      for (auto i = 0; i <= i_frame.h / CELL_HEIGHT; ++i)
+      for (auto i = 0; i < i_frame.h / CELL_HEIGHT; ++i)
       {
          o_neighboring_cells.emplace_back(top_left_corner_cell.value() - 1 + i * X_CELLS);
       }
@@ -245,9 +246,9 @@ std::vector<SpatialHashMapCell_t> SHM::get_neighboring_cells(const Rect& i_frame
 
    if (!bordering_right)
    {
-      for (auto i = 0; i <= i_frame.h / CELL_HEIGHT; ++i)
+      for (auto i = 0; i < i_frame.h / CELL_HEIGHT; ++i)
       {
-         o_neighboring_cells.emplace_back(top_left_corner_cell.value() + frame_cell_width + 1 + i * X_CELLS);
+         o_neighboring_cells.emplace_back(top_left_corner_cell.value() + frame_cell_width + i * X_CELLS);
       }
    }
 

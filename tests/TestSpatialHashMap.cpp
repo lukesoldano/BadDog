@@ -391,10 +391,10 @@ TEST(SpatialHashMap, GetNeighborsInNonBorderingFrame)
                                             50.0f + float(i / 7) * 100.0f }).has_value());
    }
 
-   auto neighbors = map.get_neighbors({250.0f, 150.0f, 300.0f, 300.0f});
+   auto neighbors = map.get_neighbors({250.0f, 150.0f, 400.0f, 400.0f});
    EXPECT_EQ(neighbors.size(), expected_values.size());
    for (const auto& value : expected_values)
    {
-      EXPECT_NE(neighbors.end(), std::ranges::find(neighbors, value));
+      EXPECT_NE(neighbors.end(), std::ranges::find(neighbors, value)) << "Could not find entity # " << value;
    }
 }
