@@ -14,6 +14,9 @@ public:
    PhysicsEngine() = default;
    ~PhysicsEngine() = default;
 
+   void initialize();
+   void teardown();
+
    void process();
 
 private:

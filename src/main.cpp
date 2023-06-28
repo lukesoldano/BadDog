@@ -31,6 +31,7 @@ int initialize()
       return -1;
    }
 
+   physics_engine.initialize();
    graphics_engine.initialize();
 
    return 0;
@@ -40,6 +41,7 @@ void teardown()
 {
    // Tearing down in reverse order
    graphics_engine.teardown();
+   physics_engine.teardown();
 
    SDL_Quit();
 }

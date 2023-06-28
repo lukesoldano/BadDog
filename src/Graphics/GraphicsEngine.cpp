@@ -38,7 +38,7 @@ void GraphicsEngine::initialize()
    /////////////////////////////////////////////////////////////////////////////////////////////////
    // Create Window
    auto window_optional = Window::create();
-   if (std::nullopt == window_optional)
+   if (!window_optional.has_value())
    {
       LOG_ERROR("Failed to create Window!");
       throw std::system_error(EACCES, std::generic_category(), "Failed to create Window!");
@@ -102,15 +102,18 @@ void GraphicsEngine::render()
    static auto background_image_texture = renderer.create_texture_from_surface(std::move(background_image_surface)).value();
 
    renderer.render(RenderInstructionFactory::get_instruction(background_image_texture,
-                                                             SDL_Rect{0, 0, 680, 480},
-                                                             SDL_Rect{0, 0, 680, 480}));
+                                                             SDL_Rect{0, 0, 700, 500},
+                                                             SDL_Rect{0, 0, 700, 500}));
 
    auto& game_state = GameState::instance();
    renderer.set_draw_color(Color::black);
    renderer.render(RenderInstructionFactory::get_instruction(game_state.m_active_entities[0]));
    
    renderer.set_draw_color(Color::red);
-   renderer.render(RenderInstructionFactory::get_instruction(game_state.m_static_entities[1]));
+   for (const auto& entity : game_state.m_static_entities)
+   {
+      renderer.render(RenderInstructionFactory::get_instruction(entity.second));
+   }
    
 
    

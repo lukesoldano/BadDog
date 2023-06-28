@@ -1,7 +1,5 @@
 #pragma once
 
-#include <optional>
-
 // Forward declarations
 class SDL_Texture;
 

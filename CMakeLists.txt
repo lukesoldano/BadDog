@@ -39,11 +39,21 @@ include_directories(${${PROJECT_NAME}_DEPENDENCY_INCLUDE_DIRS}
 add_definitions(-DASSETS_DIRECTORY="${CMAKE_CURRENT_LIST_DIR}/assets")
 
 ####################################################################################################
+# Make source code a static library that can be linked to, link it to dependencies
+set(PROJECT_SOURCE_LIB_NAME ${PROJECT_NAME}_Lib)
+add_library(${PROJECT_SOURCE_LIB_NAME}
+            STATIC
+            ${${PROJECT_NAME}_SOURCE_FILES}
+            ${${PROJECT_NAME}_HEADER_FILES})
+target_link_libraries(${PROJECT_NAME}_Lib
+                      ${${PROJECT_NAME}_DEPENDENCY_LIBRARIES})
+
+####################################################################################################
 # Create executable and make necessary library linkages
 add_executable(${PROJECT_NAME} 
-               ${${PROJECT_NAME}_SOURCE_FILES}
-               ${${PROJECT_NAME}_HEADER_FILES})
+               ${CMAKE_CURRENT_LIST_DIR}/src/main.cpp)
 target_link_libraries(${PROJECT_NAME} 
+                      ${PROJECT_SOURCE_LIB_NAME}
                       ${${PROJECT_NAME}_DEPENDENCY_LIBRARIES})
 
 ####################################################################################################

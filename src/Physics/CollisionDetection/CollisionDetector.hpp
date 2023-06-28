@@ -2,10 +2,6 @@
 
 #include "PhysicsDefs.hpp"
 
-#include "SDL_rect.h"
-
-#include <optional>
-
 namespace Physics
 {
 
@@ -17,8 +13,7 @@ public:
    CollisionDetector() = default;
    virtual ~CollisionDetector() = default;
 
-   // Returns nullopt if no collision, o/w xy position where collision would occur
-   std::optional<XYPosition> check(const SDL_Rect& object1, const SDL_Rect& object2) const;
+   bool check(SDL_FRect object1, SDL_FRect object2);
 
 };
 

@@ -66,7 +66,7 @@ std::optional<Window> Window::create()
    auto renderer_optional = Renderer::create(SDL_CreateRenderer(sdl_window, 
                                                                 -1, 
                                                                 SDL_RENDERER_ACCELERATED));
-   if (std::nullopt == renderer_optional)
+   if (!renderer_optional.has_value())
    {
       LOG_ERROR("Failed to create a Renderer, SDL error: " << SDL_GetError());
       SDL_DestroyWindow(sdl_window);
@@ -109,7 +109,7 @@ Renderer& Window::get_renderer() const
 //    }
 
 //    auto surface_optional = Surface::create(SDL_GetWindowSurface(m_sdl_window));
-//    if (std::nullopt == surface_optional)
+//    if (!surface_optional.has_value())
 //    {
 //       LOG_ERROR("Failed to create a Surface, SDL error: " << SDL_GetError());
 //    }

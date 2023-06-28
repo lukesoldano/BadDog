@@ -1,16 +1,12 @@
 #pragma once
 
+#include "SDL_rect.h"
+
 #include <utility>
 
 namespace Physics
 {
 
-   struct XYPosition
-   {
-      int x = 0;
-      int y = 0;
-   };
-
-   using DisplacementVector_t = std::pair<int, int>;
+   using Vector2DFloat_t = std::pair<float, float>;
 
 } // namespace Physics

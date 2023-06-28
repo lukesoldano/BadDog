@@ -25,8 +25,13 @@ public:
    std::array<bool, static_cast<size_t>(Key::MAX_VALUE)> m_key_pressed{ false };
 
    // TODO REMOVE - HERE FOR TESTING
-   std::unordered_map<EntityId_t, SDL_Rect> m_active_entities = { {0, {0, 0, 20, 20}} };
-   std::unordered_map<EntityId_t, SDL_Rect> m_static_entities = { {1, {300, 200, 50, 50}} };
+   std::unordered_map<EntityId_t, SDL_FRect> m_active_entities = { {0, {0.0, 0.0, 20.0, 20.0}} };
+   std::unordered_map<EntityId_t, SDL_FRect> m_static_entities = { 
+                                                                    {1, {300.0, 100.0, 70.0, 70.0}},
+                                                                    {2, {200.0, 370.0, 50.0, 75.0}},
+                                                                    {3, {400.0, 400.0, 50.0, 25.0}},
+                                                                    {4, {550.0, 400.0, 50.0, 55.0}}
+                                                                 };
    //
 
 private:

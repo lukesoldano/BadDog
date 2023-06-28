@@ -23,19 +23,12 @@ enable_testing()
 ####################################################################################################
 # Create test executable
 add_executable(${TEST_PROJECT_NAME}
-
-               ${${PROJECT_NAME}_SOURCE_FILES}
-               ${${PROJECT_NAME}_HEADER_FILES}
-
-               ${CMAKE_CURRENT_LIST_DIR}/TestGraphicsDefs.cpp
-               ${CMAKE_CURRENT_LIST_DIR}/TestRenderer.cpp
+               ${CMAKE_CURRENT_LIST_DIR}/TestCollisionDetector.cpp
                ${CMAKE_CURRENT_LIST_DIR}/TestSpatialHashMap.cpp
-               ${CMAKE_CURRENT_LIST_DIR}/TestSurface.cpp
-               ${CMAKE_CURRENT_LIST_DIR}/TestTexture.cpp
-               ${CMAKE_CURRENT_LIST_DIR}/TestWindow.cpp
 )
 
 target_link_libraries(${TEST_PROJECT_NAME}
+                      ${PROJECT_SOURCE_LIB_NAME}
                       ${${PROJECT_NAME}_DEPENDENCY_LIBRARIES}
                       gtest 
                       gtest_main)
