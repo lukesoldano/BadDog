@@ -1,6 +1,0 @@
-
-
-* Need to determine how we want to manage game loop timing https://gameprogrammingpatterns.com/game-loop.html
-* Turn CollisionDetector into a namespace, does not need to be a class
-* Keep hacking within engines but breaking these pieces out into more reusable things
-* Switch SHM entity vectors for neighboring values to something with faster insert time and data adjacency
