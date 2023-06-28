@@ -217,6 +217,14 @@ inline Rect FRect::to_rect() const { return Rect{std::lround(x), std::lround(y),
       assert(false && #condition); \
    } 
 
+#define CHECK_CONDITION_RETURN_VOID(condition) \
+   if (!(condition)) \
+   { \
+      LOG_ERROR("Failed condition '" << #condition << "' !!!"); \
+      assert(false && #condition); \
+      return; \
+   } 
+
 #define CHECK_CONDITION_RETURN_FALSE(condition) \
    if (!(condition)) \
    { \
