@@ -21,6 +21,7 @@ set(PHYSICS_HEADER_FILES
 
     ${CMAKE_CURRENT_LIST_DIR}/PhysicsDefs.hpp
     ${CMAKE_CURRENT_LIST_DIR}/PhysicsEngine.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/PhysicsEventTypes.hpp
 
     CACHE INTERNAL "PHYSICS_HEADER_FILES")
 

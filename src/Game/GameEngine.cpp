@@ -1,5 +1,8 @@
 #include "GameEngine.hpp"
 
+#include "EventPublisher.hpp"
+#include "GameEventTypes.hpp"
+#include "GameplayEngine.hpp"
 #include "GameState.hpp"
 #include "Logger.hpp"
 #include "PhysicsEngine.hpp"
@@ -10,11 +13,12 @@
 #include <math.h>
 #include <system_error>
 
+using namespace Game;
+
+using namespace Gameplay;
 using namespace Graphics;
 using namespace Physics;
 using namespace UserInput;
-
-using namespace Game;
 
 int Engine::initialize()
 {
@@ -28,6 +32,7 @@ int Engine::initialize()
    // Order of engines being added is important here, this is the order to process them in
    m_user_input_engine = std::make_unique<UserInputEngine>();
    m_logic_engines.push_back(std::make_unique<PhysicsEngine>());
+   m_logic_engines.push_back(std::make_unique<GameplayEngine>());
    m_graphics_engine = std::make_unique<GraphicsEngine>();
 
    m_user_input_engine->initialize();
@@ -60,15 +65,20 @@ void Engine::run_gameloop()
 
    const double DESIRED_MS_PER_FRAME = 1000.0 /*ms*/ / 60.0 /*frame rate*/;
 
+   double loop_end_time = 0.0;
    while (!game_state.m_quit_program)
    {
       const double time_at_loop_start = SDL_GetTicks();
+
+      const auto time_elapsed_ms = time_at_loop_start - loop_end_time;
+      EventPublisher::instance().publish_event(Game::Event::GameLoopElapsedTime{time_elapsed_ms});
 
       m_user_input_engine->process_input();
       for (auto& engine : m_logic_engines) engine->process();
       m_graphics_engine->render();
 
-      auto sleep_time_ms = time_at_loop_start + DESIRED_MS_PER_FRAME - double(SDL_GetTicks());
+      loop_end_time = SDL_GetTicks();
+      auto sleep_time_ms = time_at_loop_start + DESIRED_MS_PER_FRAME - loop_end_time;
       if (sleep_time_ms > 0.0) SDL_Delay(static_cast<Uint32>(sleep_time_ms));
    }
 

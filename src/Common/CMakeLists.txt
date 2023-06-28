@@ -22,7 +22,6 @@ set(COMMON_HEADER_FILES
     ${QUEUES_HEADER_FILES}
     ${UTILITIES_HEADER_FILES}
 
-    ${CMAKE_CURRENT_LIST_DIR}/CommonEventTypes.hpp
     ${CMAKE_CURRENT_LIST_DIR}/ILogicEngine.hpp
     ${CMAKE_CURRENT_LIST_DIR}/ProjectDefs.hpp
 

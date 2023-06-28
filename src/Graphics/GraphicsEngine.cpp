@@ -172,11 +172,11 @@ void GraphicsEngine::render()
          break; // do nothing
    }
 
+   // Render background
    renderer.render(RenderInstructionFactory::get_instruction(background_image_texture,
                                                              camera_frame.m_level_position.to_rect(),
                                                              std::optional<Rect>()));
 
-   // renderer.set_draw_color(Color::black);
    // renderer.render(RenderInstructionFactory::get_instruction(player_camera_position));
    static int temp = 0;
    if (++temp % 10 == 0)
@@ -207,6 +207,19 @@ void GraphicsEngine::render()
       }
    }
    
+   // Render game progress bar
+   Rect progress_bar_rect{Game::Settings::DEFAULT_WINDOW_WIDTH/4, 30, Game::Settings::DEFAULT_WINDOW_WIDTH/2, 30};
+   renderer.set_draw_color(Color::white);
+   renderer.render(RenderInstructionFactory::get_instruction(progress_bar_rect));
+
+   progress_bar_rect.x += 5;
+   progress_bar_rect.y += 5;
+   progress_bar_rect.w -= 10;
+   progress_bar_rect.h -= 10;
+
+   progress_bar_rect.w *= (game_state.m_remaining_game_time_ms / 10000.0f);
+   renderer.set_draw_color(Color::black);
+   renderer.render(RenderInstructionFactory::get_instruction(progress_bar_rect));
 
    
    /////////////////////////////////////////////////////////////////////////////////////////////////

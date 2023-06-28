@@ -1,7 +1,6 @@
 #pragma once
 
-#include "ProjectDefs.hpp"
-
+#include <cstdint>
 #include <functional>
 #include <unordered_map>
 #include <vector>
@@ -33,21 +32,25 @@ public:
 private:
 
    // Vector position correlates with event type id
-   std::vector<std::unordered_map<EntityId, Callback<BaseEvent>>> m_subscribers;
+   std::vector<std::unordered_map<std::uintptr_t, Callback<BaseEvent>>> m_subscribers;
 
 public:
 
-   EventPublisher() = default;
-   virtual ~EventPublisher() = default;
+   inline static EventPublisher& instance();
 
    template <class EventType>
    void publish_event(const EventType& i_event);
 
    template <class EventType>
-   void subscribe_to_event(EntityId i_id, Callback<EventType> i_callback);
+   void subscribe_to_event(std::uintptr_t i_subscriber, Callback<EventType> i_callback);
 
    template <class EventType>
-   void unsubscribe_from_event(EntityId i_id);
+   void unsubscribe_from_event(std::uintptr_t i_subscriber);
+
+private:
+
+   EventPublisher() = default;
+   virtual ~EventPublisher() = default;
 
 };
 

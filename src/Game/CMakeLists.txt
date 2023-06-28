@@ -23,6 +23,7 @@ set(GAME_HEADER_FILES
     ${GAME_LEVELS_HEADER_FILES}
 
     ${CMAKE_CURRENT_LIST_DIR}/GameEngine.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/GameEventTypes.hpp
     ${CMAKE_CURRENT_LIST_DIR}/GameSettings.hpp
     ${CMAKE_CURRENT_LIST_DIR}/GameState.hpp
 

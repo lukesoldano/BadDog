@@ -12,8 +12,8 @@ public:
    UserInputEngine() = default;
    ~UserInputEngine() = default;
 
-   void initialize(){};
-   void teardown() {};
+   void initialize() {}
+   void teardown() {}
 
    void process_input();
 

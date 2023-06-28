@@ -51,6 +51,8 @@ public:
 
    float m_player_entity_rotation = 0.0f;
 
+   double m_remaining_game_time_ms = 10000.0; 
+
    //
 
 private:

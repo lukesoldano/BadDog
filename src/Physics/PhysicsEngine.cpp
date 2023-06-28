@@ -1,9 +1,12 @@
 #include "PhysicsEngine.hpp"
 
+#include "EventPublisher.hpp"
 #include "GameState.hpp"
 #include "Logger.hpp"
+#include "PhysicsEventTypes.hpp"
 
 using namespace Physics;
+using namespace Physics::Event;
 
 void PhysicsEngine::initialize()
 {
@@ -52,6 +55,7 @@ void PhysicsEngine::process()
          game_state.m_active_entities[0].x -= user_displacement.m_x;
          game_state.m_active_entities[0].y -= user_displacement.m_y;
          game_state.m_spatial_hash_map.move_entity(0, game_state.m_active_entities[0]);
+         EventPublisher::instance().publish_event(PlayerCollisionWithStaticEntity{ neighbor_id });
       }
    }
    
