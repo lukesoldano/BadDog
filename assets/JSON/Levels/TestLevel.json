@@ -12,19 +12,23 @@
       "m_name" : "Test Level",
       "m_width" : 2000,
       "m_height" : 2000,
+      "m_shm_cell_width" : 100,
+      "m_shm_cell_height" : 100,
       "m_border_width" : 10,
+      "m_player_start_x" : 1000.0,
+      "m_player_start_y" : 1000.0,
 
       "m_static_entities" :
       [
          {
             "m_label" : "Test Rect 1",
-            "m_rect" : 
+            "m_frect" : 
             {
                "m_visible" : true,
-               "m_x" : 100,
-               "m_y" : 100,
-               "m_w" : 20,
-               "m_h" : 20,
+               "m_x" : 100.0,
+               "m_y" : 100.0,
+               "m_w" : 20.0,
+               "m_h" : 20.0,
                "m_rgba_color" : 
                {
                   "m_color" : "red"
@@ -33,13 +37,13 @@
          },
          {
             "m_label" : "Test Rect 2",
-            "m_rect" :
+            "m_frect" :
             {
                "m_visible" : true,
-               "m_x" : 200,
-               "m_y" : 200,
-               "m_w" : 40,
-               "m_h" : 60,
+               "m_x" : 200.0,
+               "m_y" : 200.0,
+               "m_w" : 40.0,
+               "m_h" : 60.0,
                "m_rgba_color" : 
                {
                   "m_r" : 0,
@@ -48,7 +52,68 @@
                   "m_a" : 255
                }
             }
+         },
+         {
+            "m_label" : "Test Rect 3",
+            "m_frect" : 
+            {
+               "m_visible" : true,
+               "m_x" : 300.0,
+               "m_y" : 200.0,
+               "m_w" : 80.0,
+               "m_h" : 40.0,
+               "m_rgba_color" : 
+               {
+                  "m_color" : "black"
+               }
+            }
+         },
+         {
+            "m_label" : "Test Rect 4",
+            "m_frect" : 
+            {
+               "m_visible" : true,
+               "m_x" : 380.0,
+               "m_y" : 300.0,
+               "m_w" : 50.0,
+               "m_h" : 80.0,
+               "m_rgba_color" : 
+               {
+                  "m_color" : "grey"
+               }
+            }
+         },
+         {
+            "m_label" : "Test Rect 5",
+            "m_frect" : 
+            {
+               "m_visible" : true,
+               "m_x" : 500.0,
+               "m_y" : 500.0,
+               "m_w" : 100.0,
+               "m_h" : 100.0,
+               "m_rgba_color" : 
+               {
+                  "m_color" : "red"
+               }
+            }
+         },
+         {
+            "m_label" : "Test Rect 6",
+            "m_frect" : 
+            {
+               "m_visible" : true,
+               "m_x" : 150.0,
+               "m_y" : 400.0,
+               "m_w" : 75.0,
+               "m_h" : 80.0,
+               "m_rgba_color" : 
+               {
+                  "m_color" : "blue"
+               }
+            }
          }
+
       ],
 
       "m_active_entities" :

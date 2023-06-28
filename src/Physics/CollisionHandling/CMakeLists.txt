@@ -5,6 +5,7 @@ message("%% Entering CollisionHandling")
 set(COLLISION_HANDLING_SOURCE_FILES
 
     ${CMAKE_CURRENT_LIST_DIR}/CollisionDetector.cpp
+    ${CMAKE_CURRENT_LIST_DIR}/SpatialHashMap.cpp
 
     CACHE INTERNAL "COLLISION_DHANDLINGSOURCE_FILES")
 

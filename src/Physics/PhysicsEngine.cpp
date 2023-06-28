@@ -9,19 +9,6 @@ void PhysicsEngine::initialize()
 {
    LOG_MESSAGE("Enter PhysicsEngine::initialize()");
 
-   /////////////////////////////////////////////////////////////////////////////////////////////////
-   // TODO Remove
-   auto& game_state = Game::State::instance();
-   for (const auto& entity : game_state.m_active_entities)
-   {
-      game_state.m_spatial_hash_map.add_entity(entity.first, entity.second);
-   }
-   for (const auto& entity : game_state.m_static_entities)
-   {
-      game_state.m_spatial_hash_map.add_entity(entity.first, entity.second);
-   }
-   /////////////////////////////////////////////////////////////////////////////////////////////////
-
    LOG_MESSAGE("Exit PhysicsEngine::initialize()");
 }
 

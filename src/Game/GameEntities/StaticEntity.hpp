@@ -10,17 +10,20 @@
 namespace Game
 {  
 
+// Class is JSON deserializable
+struct StaticEntity;
+void from_json(const nlohmann::json& i_json, StaticEntity& o_static_entity);
+
 struct StaticEntity   
 {
    std::string m_label;
-   std::variant<RectEntity> m_data;
+   std::variant<FRectEntity> m_data;
 };
 
-void from_json(const nlohmann::json& i_json, StaticEntity& o_static_entity)
+inline void from_json(const nlohmann::json& i_json, StaticEntity& o_static_entity)
 {
    o_static_entity.m_label = i_json.at("m_label").get<std::string>();
-   LOG_MESSAGE(i_json.dump(4));
-   if (i_json.contains("m_rect")) o_static_entity.m_data = i_json.at("m_rect").get<RectEntity>();
+   if (i_json.contains("m_frect")) o_static_entity.m_data = i_json.at("m_frect").get<FRectEntity>();
    else ASSERT("Static Entity does not contain any data!");
 }
 

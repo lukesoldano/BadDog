@@ -1,16 +1,13 @@
 #include <gtest/gtest.h>
 
-#include "GameLevel.hpp"
-#include "SpatialHashMap.hpp"
+#include "TestLevel.hpp"
 
 using namespace Game;
 using namespace JSON;
 
-TEST(GameLevel, ParseJsonLevelFile)
+TEST(TestLevel, Initialization)
 {
-   std::filesystem::path path(JSON_LEVEL_ASSETS_DIRECTORY);
-   path.append("TestLevel.json");
-   Level level(std::move(path));
+   TestLevel level;
 
    EXPECT_EQ(level.m_name, "Test Level");
    EXPECT_EQ(level.m_width, 2000);

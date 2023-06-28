@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ExtendedOptional.hpp"
+#include "GameLevel.hpp"
 #include "GameSettings.hpp"
 #include "ProjectDefs.hpp"
 #include "SpatialHashMap.hpp"
@@ -11,9 +13,18 @@
 namespace Game
 {
 
-class State
+// @warning This class is not thread safe
+class State final
 {
+   extended_opt<Level> m_current_level;
+
 public:
+
+   State(const State& i_state) = delete;
+   State(State&& i_state) noexcept = default;
+
+   State& operator=(const State& i_state) = delete;
+   State& operator=(State&& i_state) noexcept = default;
 
    static State& instance()
    {
@@ -21,22 +32,22 @@ public:
       return game_state;
    }
 
+   const extended_opt<Level>& get_level() const noexcept { return m_current_level; }
+   bool load_level(Level&& i_level) noexcept;
+   void teardown_level() noexcept;
+
    // Meta state parameters
    bool m_quit_program = false;
 
    // User input state parameters, index associated with key enum value
    std::array<bool, static_cast<size_t>(Key::MAX_VALUE)> m_key_pressed{ false };
 
-   // TODO REMOVE - HERE FOR TESTING
-   Physics::SpatialHashMap<Settings::DEFAULT_LEVEL_WIDTH, Settings::DEFAULT_LEVEL_HEIGHT, 100, 100> m_spatial_hash_map;
+   Physics::SpatialHashMap m_spatial_hash_map{1, 1, 1, 1};
 
-   std::unordered_map<EntityId, FRect> m_active_entities = { {0, {1000.0, 1000.0, 50.0, 50.0}} };
-   std::unordered_map<EntityId, FRect> m_static_entities = { 
-                                                               {1, {300.0, 100.0, 70.0, 70.0}},
-                                                               {2, {200.0, 370.0, 50.0, 75.0}},
-                                                               {3, {400.0, 400.0, 50.0, 25.0}},
-                                                               {4, {550.0, 400.0, 50.0, 55.0}}
-                                                            };
+   // TODO REMOVE - HERE FOR TESTING
+
+   std::unordered_map<EntityId, FRect> m_active_entities;
+   std::unordered_map<EntityId, FRectEntity> m_static_entities;
 
    float m_player_entity_rotation = 0.0f;
 
@@ -44,8 +55,8 @@ public:
 
 private:
 
-   State() = default; 
-   ~State() = default;
+   State() noexcept = default; 
+   ~State() noexcept = default;
 
 };
 

@@ -3,29 +3,35 @@
 #include "JsonDefs.hpp"
 #include "StaticEntity.hpp"
 
+#include <filesystem>
+#include <memory>
 #include <string>
 #include <vector>
 
 namespace Game 
 {
 
+// Class is JSON deserializable
+struct Level;
+void from_json(const nlohmann::json& i_json, Level& o_level);
+
+// @warning This class is not thread safe
 struct Level
 {
    std::string m_name;
    size_t m_width;
    size_t m_height;
+   size_t m_shm_cell_width;
+   size_t m_shm_cell_height;
    size_t m_border_width;
+   float m_player_start_x;
+   float m_player_start_y;
 
    std::vector<StaticEntity> m_static_entities;
-};
 
-void from_json(const nlohmann::json& i_json, Level& o_level)
-{
-   o_level.m_name = i_json.at("m_name").get<std::string>();
-   o_level.m_width = i_json.at("m_width").get<size_t>();
-   o_level.m_height = i_json.at("m_height").get<size_t>();
-   o_level.m_border_width = i_json.at("m_border_width").get<size_t>();
-   o_level.m_static_entities = i_json.at("m_static_entities").get<std::vector<StaticEntity>>();
-}
+   Level() noexcept = default;
+   Level(std::filesystem::path&& i_json_file_path);
+   virtual ~Level() noexcept = default;
+};
 
 } // namespace Game

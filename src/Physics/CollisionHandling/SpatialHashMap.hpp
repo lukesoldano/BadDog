@@ -1,12 +1,9 @@
 #pragma once
 
 #include "ExtendedOptional.hpp"
-#include "PhysicsDefs.hpp"
 #include "ProjectDefs.hpp"
 
-#include <array>
 #include <set>
-#include <type_traits>
 #include <unordered_map>
 #include <vector>
 
@@ -20,23 +17,31 @@ using SpatialHashMapCell_t = size_t;
 //       same cell and all adjacent cells, that breaks down if entities can spread across more 
 //       than two cells horizontally or vertically
 // @warning This class is not thread safe
-template <size_t LEVEL_WIDTH, size_t LEVEL_HEIGHT, size_t CELL_WIDTH, size_t CELL_HEIGHT>
 class SpatialHashMap
 {
-   static_assert(CELL_WIDTH != 0, "SpatialHashMap cannot have cells of width 0");
-   static_assert(CELL_HEIGHT != 0, "SpatialHashMap cannot have cells of height 0");
-   static_assert(LEVEL_WIDTH != 0, "SpatialHashMap must have a non-zero level width");
-   static_assert(LEVEL_HEIGHT != 0, "SpatialHashMap must have at non-zero level height");
-   static_assert(LEVEL_WIDTH % CELL_WIDTH == 0, "SpatialHashMap level width should be divisible by cell width");
-   static_assert(LEVEL_HEIGHT % CELL_HEIGHT == 0, "SpatialHashMap level height should be divisible by cell height");
+   size_t m_level_width;
+   size_t m_level_height;
+   size_t m_cell_width;
+   size_t m_cell_height;
+   size_t m_num_x_cells;
+   size_t m_num_y_cells;
 
-   std::array<std::set<EntityId>, (LEVEL_WIDTH / CELL_WIDTH) * (LEVEL_HEIGHT / CELL_HEIGHT)> m_cells;
+   std::vector<std::set<EntityId>> m_cells;
    std::unordered_map<EntityId, SpatialHashMapCell_t> m_entity_cell_map;
 
 public:
 
-   SpatialHashMap() = default;
-   virtual ~SpatialHashMap() = default;
+   SpatialHashMap() = delete;
+   SpatialHashMap(size_t i_level_width, 
+                  size_t i_level_height, 
+                  size_t i_cell_width, 
+                  size_t i_cell_height) noexcept;
+   virtual ~SpatialHashMap() noexcept = default;
+
+   size_t get_width() const { return m_level_width; }
+   size_t get_height() const { return m_level_height; }
+   size_t get_cell_width() const { return m_cell_width; }
+   size_t get_cell_height() const { return m_cell_height; }
 
    bool contains_entity(EntityId i_id) const;
    std::vector<EntityId> get_neighbors(EntityId i_id) const;
@@ -58,7 +63,5 @@ private:
    std::vector<SpatialHashMapCell_t> get_neighboring_cells(const Rect& i_frame) const;
 
 };
-
-#include "SpatialHashMap.inl"
    
 } // namespace Physics

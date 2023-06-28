@@ -24,6 +24,14 @@ message("%% Using C++20")
 set(CMAKE_CXX_STANDARD 20)
 
 ####################################################################################################
+# Set compiler and linker flags
+SET(CMAKE_CXX_FLAGS 
+    "${CMAKE_CXX_FLAGS}")
+
+SET(CMAKE_EXE_LINKER_FLAGS 
+    "${CMAKE_EXE_LINKER_FLAGS}")
+
+####################################################################################################
 # Make necessary inclusions and add relevant subdirectories
 include(${CMAKE_CURRENT_LIST_DIR}/GetDependencies.cmake)
 

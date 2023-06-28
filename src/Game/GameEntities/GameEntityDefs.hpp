@@ -9,12 +9,12 @@
 namespace Game
 {  
 
-struct RectEntity : public Rect
+struct FRectEntity : public FRect
 {
    bool m_visible;
    RgbaColor m_rgba_color;
 
-   NLOHMANN_DEFINE_TYPE_INTRUSIVE(RectEntity, m_visible, m_rgba_color, m_x, m_y, m_w, m_h)
+   NLOHMANN_DEFINE_TYPE_INTRUSIVE(FRectEntity, m_visible, m_rgba_color, m_x, m_y, m_w, m_h)
 };
 
 

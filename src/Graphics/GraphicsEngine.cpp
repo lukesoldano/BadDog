@@ -193,12 +193,12 @@ void GraphicsEngine::render()
                                                              game_state.m_player_entity_rotation,
                                                              flip));
 
-   renderer.set_draw_color(Color::red);
    for (const auto& entityId : game_state.m_spatial_hash_map.get_neighbors(camera_frame.m_level_position))
    {
       if (Physics::CollisionDetector().are_aabbs_colliding(camera_frame.m_level_position, 
                                                            game_state.m_static_entities[entityId]))
       {
+         renderer.set_draw_color(game_state.m_static_entities[entityId].m_rgba_color);
          FRect render_rect{game_state.m_static_entities[entityId].x - camera_frame.m_level_position.x,
                            game_state.m_static_entities[entityId].y - camera_frame.m_level_position.y,
                            game_state.m_static_entities[entityId].w,

@@ -3,6 +3,7 @@
 #include "GameState.hpp"
 #include "Logger.hpp"
 #include "PhysicsEngine.hpp"
+#include "TestLevel.hpp" // TODO Remove
 
 #include "SDL.h"
 
@@ -54,6 +55,8 @@ void Engine::run_gameloop()
    LOG_MESSAGE("Enter Engine::run_gameloop()");
 
    auto& game_state = State::instance();
+
+   game_state.load_level(TestLevel()); // TODO Remove
 
    const double DESIRED_MS_PER_FRAME = 1000.0 /*ms*/ / 60.0 /*frame rate*/;
 

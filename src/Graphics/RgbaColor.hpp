@@ -29,6 +29,11 @@ enum class Color
 
 Color string_to_color(const std::string& i_color) noexcept;
 
+// Class is JSON serializable
+struct RgbaColor;
+void from_json(const nlohmann::json& i_json, RgbaColor& o_color);
+void to_json(nlohmann::json& o_json, const RgbaColor& i_color);
+
 struct RgbaColor
 {
    uint8_t m_r = 0;
@@ -42,6 +47,3 @@ struct RgbaColor
 
    bool operator==(const RgbaColor& i_other) const noexcept;
 };
-
-void from_json(const nlohmann::json& i_json, RgbaColor& o_color);
-void to_json(nlohmann::json& o_json, const RgbaColor& i_color);

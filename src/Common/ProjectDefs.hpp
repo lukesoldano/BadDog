@@ -30,22 +30,22 @@ struct Point : public SDL_Point
    int& m_x = SDL_Point::x;
    int& m_y = SDL_Point::y;
 
-   Point() = default;
-   Point(int i_x, int i_y) :
+   Point() noexcept = default;
+   Point(int i_x, int i_y) noexcept :
       SDL_Point{i_x, i_y} {}
-   Point(const Point& i_other) :
+   Point(const Point& i_other) noexcept :
       SDL_Point{i_other} {}
    Point(Point&& i_other) noexcept :
       SDL_Point{std::move(i_other)} {}
-   virtual ~Point() = default;
+   virtual ~Point() noexcept = default;
 
-   Point& operator=(const Point& i_other)
+   Point& operator=(const Point& i_other) noexcept 
    {
       SDL_Point::operator=(i_other);
       return *this;
    }
 
-   Point& operator=(Point&& i_other)
+   Point& operator=(Point&& i_other) noexcept 
    {
       SDL_Point::operator=(std::move(i_other));
       return *this;
@@ -68,22 +68,22 @@ struct FPoint : public SDL_FPoint
    float& m_x = SDL_FPoint::x;
    float& m_y = SDL_FPoint::y;
 
-   FPoint() = default;
-   FPoint(float i_x, float i_y) :
+   FPoint() noexcept = default;
+   FPoint(float i_x, float i_y) noexcept :
       SDL_FPoint{i_x, i_y} {}
-   FPoint(const FPoint& i_other) :
+   FPoint(const FPoint& i_other) noexcept :
       SDL_FPoint{i_other} {}
    FPoint(FPoint&& i_other) noexcept :
       SDL_FPoint{std::move(i_other)} {}
-   virtual ~FPoint() = default;
+   virtual ~FPoint() noexcept = default;
 
-   FPoint& operator=(const FPoint& i_other)
+   FPoint& operator=(const FPoint& i_other) noexcept 
    {
       SDL_FPoint::operator=(i_other);
       return *this;
    }
 
-   FPoint& operator=(FPoint&& i_other)
+   FPoint& operator=(FPoint&& i_other) noexcept 
    {
       SDL_FPoint::operator=(std::move(i_other));
       return *this;
@@ -94,7 +94,8 @@ struct FPoint : public SDL_FPoint
 
    friend std::ostream& operator<<(std::ostream& os, const FPoint& fPoint)
    {
-      os << "FPoint : {x: " << fPoint.x 
+      os << std::fixed << std::setw(6)
+         << "FPoint : {x: " << fPoint.x 
          << ", y: " << fPoint.y << "}";
       return os;
    }
@@ -111,22 +112,22 @@ struct Rect : public SDL_Rect
    int& m_w = SDL_Rect::w;
    int& m_h = SDL_Rect::h;
 
-   Rect() = default;
-   Rect(int i_x, int i_y, int i_w, int i_h) :
+   Rect() noexcept = default;
+   Rect(int i_x, int i_y, int i_w, int i_h) noexcept :
       SDL_Rect{i_x, i_y, i_w, i_h} {}
-   Rect(const Rect& i_other) :
+   Rect(const Rect& i_other) noexcept :
       SDL_Rect{i_other} {}
    Rect(Rect&& i_other) noexcept :
       SDL_Rect{std::move(i_other)} {}
-   virtual ~Rect() = default;
+   virtual ~Rect() noexcept = default;
 
-   Rect& operator=(const Rect& i_other)
+   Rect& operator=(const Rect& i_other) noexcept
    {
       SDL_Rect::operator=(i_other);
       return *this;
    }
 
-   Rect& operator=(Rect&& i_other)
+   Rect& operator=(Rect&& i_other) noexcept
    {
       SDL_Rect::operator=(std::move(i_other));
       return *this;
@@ -155,22 +156,22 @@ struct FRect : public SDL_FRect
    float& m_w = SDL_FRect::w;
    float& m_h = SDL_FRect::h;
 
-   FRect() = default;
-   FRect(float i_x, float i_y, float i_w, float i_h) :
+   FRect()  noexcept = default;
+   FRect(float i_x, float i_y, float i_w, float i_h)  noexcept :
       SDL_FRect{i_x, i_y, i_w, i_h} {}
-   FRect(const FRect& i_other) :
+   FRect(const FRect& i_other)  noexcept :
       SDL_FRect{i_other} {}
    FRect(FRect&& i_other) noexcept :
       SDL_FRect{std::move(i_other)} {}
-   virtual ~FRect() = default;
+   virtual ~FRect()  noexcept = default;
 
-   FRect& operator=(const FRect& i_other)
+   FRect& operator=(const FRect& i_other) noexcept 
    {
       SDL_FRect::operator=(i_other);
       return *this;
    }
 
-   FRect& operator=(FRect&& i_other)
+   FRect& operator=(FRect&& i_other) noexcept 
    {
       SDL_FRect::operator=(std::move(i_other));
       return *this;
@@ -183,7 +184,8 @@ struct FRect : public SDL_FRect
 
    friend std::ostream& operator<<(std::ostream& os, const FRect& frect)
    {
-      os << "FRect : {x: " << frect.x 
+      os << std::fixed << std::setw(6)
+         << "FRect : {x: " << frect.x 
          << ", y: " << frect.y 
          << ", w: " << frect.w 
          << ", h: " << frect.h << "}";
@@ -215,7 +217,7 @@ inline Rect FRect::to_rect() const { return Rect{std::lround(x), std::lround(y),
       assert(false && #condition); \
    } 
 
-#define CHECK_CONDITION_RETURN_BOOL(condition) \
+#define CHECK_CONDITION_RETURN_FALSE(condition) \
    if (!(condition)) \
    { \
       LOG_ERROR("Failed condition '" << #condition << "' !!!"); \
