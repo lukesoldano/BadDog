@@ -2,45 +2,10 @@
 
 #include "SpatialHashMap.hpp"
 
+#include <algorithm>
+#include <set>
+
 using namespace Physics;
-
-TEST(SpatialHashMap, AddEntityNegativeCases) 
-{
-   // Create a 100x100 space split in to ten cells x and ten cells y
-   SpatialHashMap<10, 10, 100, 100> map;
-
-   auto cell = map.add_entity(0, {105, 5});
-   EXPECT_FALSE(cell.has_value());
-   EXPECT_FALSE(map.contains_entity(0));
-
-   cell = map.add_entity(0, {5, 105});
-   EXPECT_FALSE(cell.has_value());
-   EXPECT_FALSE(map.contains_entity(0));
-
-   cell = map.add_entity(0, {105, 105});
-   EXPECT_FALSE(cell.has_value());
-   EXPECT_FALSE(map.contains_entity(0));
-
-   // technically width and height are 100, but valid x-y is 0-99
-   cell = map.add_entity(0, {100, 100});
-   EXPECT_FALSE(cell.has_value());
-   EXPECT_FALSE(map.contains_entity(0));
-
-   // Add valid entity and attempt to re add it to same cell
-   cell = map.add_entity(0, {5, 5});
-   ASSERT_TRUE(cell.has_value());
-   EXPECT_EQ(0, cell.value());
-   EXPECT_TRUE(map.contains_entity(0));
-
-   cell = map.add_entity(0, {5, 5});
-   EXPECT_FALSE(cell.has_value());
-   EXPECT_TRUE(map.contains_entity(0));
-
-   // Attempt to add already present entity to new cell
-   cell = map.add_entity(0, {35, 35});
-   EXPECT_FALSE(cell.has_value());
-   EXPECT_TRUE(map.contains_entity(0));
-}
 
 TEST(SpatialHashMap, AddEntityNonBorderPosition) 
 {
@@ -125,28 +90,6 @@ TEST(SpatialHashMap, AddEntityBorderPosition)
    EXPECT_TRUE(map.contains_entity(2));
 }
 
-TEST(SpatialHashMap, MoveEntityNegativeCases) 
-{
-   // Create a 100x100 space split in to ten cells x and ten cells y
-   SpatialHashMap<10, 10, 100, 100> map;
-
-   map.add_entity(0, {0, 0});
-
-   ASSERT_TRUE(map.contains_entity(0));
-
-   auto cell = map.move_entity(0, {1000, 0});
-   EXPECT_FALSE(cell.has_value());
-   EXPECT_TRUE(map.contains_entity(0));
-
-   cell = map.move_entity(0, {0, 1000});
-   EXPECT_FALSE(cell.has_value());
-   EXPECT_TRUE(map.contains_entity(0));
-
-   cell = map.remove_entity(0);
-   ASSERT_TRUE(cell.has_value());
-   EXPECT_EQ(0, cell.value());
-}
-
 TEST(SpatialHashMap, MoveEntity) 
 {
    // Create a 100x100 space split in to ten cells x and ten cells y
@@ -170,16 +113,6 @@ TEST(SpatialHashMap, MoveEntity)
    ASSERT_TRUE(cell.has_value());
    EXPECT_EQ(16, cell.value());
    EXPECT_TRUE(map.contains_entity(0));
-}
-
-TEST(SpatialHashMap, RemoveEntityNegativeCases) 
-{
-   // Create a 100x100 space split in to ten cells x and ten cells y
-   SpatialHashMap<10, 10, 100, 100> map;
-
-   EXPECT_FALSE(map.remove_entity(0).has_value());
-   EXPECT_FALSE(map.remove_entity(1).has_value());
-   EXPECT_FALSE(map.remove_entity(2).has_value());
 }
 
 TEST(SpatialHashMap, RemoveEntity) 
@@ -209,8 +142,61 @@ TEST(SpatialHashMap, RemoveEntity)
    ASSERT_TRUE(cell.has_value());
    EXPECT_EQ(97, cell.value());
    EXPECT_FALSE(map.contains_entity(2));
+}
 
-   EXPECT_FALSE(map.remove_entity(0).has_value());
-   EXPECT_FALSE(map.remove_entity(1).has_value());
-   EXPECT_FALSE(map.remove_entity(2).has_value());
+TEST(SpatialHashMap, GetNeighborsFromCenter) 
+{
+   // Create a 100x100 space split in to ten cells x and ten cells y
+   SpatialHashMap<5, 5, 100, 100> map;
+
+   // Center entity
+   ASSERT_TRUE(map.add_entity(0, {50, 50}).has_value());
+
+   // Expected neighboring entities
+   //// Row above 
+   ASSERT_TRUE(map.add_entity(1, {30, 30}).has_value());
+   ASSERT_TRUE(map.add_entity(2, {50, 30}).has_value());
+   ASSERT_TRUE(map.add_entity(3, {70, 30}).has_value());
+   //// Same row
+   ASSERT_TRUE(map.add_entity(4, {30, 50}).has_value());
+   ASSERT_TRUE(map.add_entity(5, {45, 50}).has_value());
+   ASSERT_TRUE(map.add_entity(6, {70, 50}).has_value());
+   //// Row below 
+   ASSERT_TRUE(map.add_entity(7, {30, 70}).has_value());
+   ASSERT_TRUE(map.add_entity(8, {50, 70}).has_value());
+   ASSERT_TRUE(map.add_entity(9, {70, 70}).has_value());
+
+   // All non-neighboring cells are the borders of the grid, add these
+   std::set<EntityId_t> non_neighboring_entities;
+   auto current_id = 10;
+   for (auto i=0; i<5; ++i) 
+   {
+      non_neighboring_entities.insert(current_id);
+      ASSERT_TRUE(map.add_entity(current_id++, {10*i, 10}).has_value());
+   }
+
+   for (auto i=0; i<5; ++i) 
+   {
+      non_neighboring_entities.insert(current_id);
+      ASSERT_TRUE(map.add_entity(current_id++, {10*i, 90}).has_value());
+   }
+
+   for (auto i=0; i<3; ++i) 
+   {
+      non_neighboring_entities.insert(current_id);
+      ASSERT_TRUE(map.add_entity(current_id++, {10, 10+20*i}).has_value());
+   }
+
+   for (auto i=0; i<3; ++i) 
+   {
+      non_neighboring_entities.insert(current_id);
+      ASSERT_TRUE(map.add_entity(current_id++, {90, 10+20*i}).has_value());
+   }
+   
+   const auto neighbors = map.get_neighbors(0);
+   EXPECT_FALSE(neighbors.empty());
+
+   for (auto i=1; i<10; ++i) EXPECT_NE(neighbors.end(), std::ranges::find(neighbors, i));
+   for (const auto& non_neighbor : non_neighboring_entities) 
+      EXPECT_EQ(neighbors.end(), std::ranges::find(neighbors, non_neighbor));
 }

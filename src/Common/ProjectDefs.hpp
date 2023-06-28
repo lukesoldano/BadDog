@@ -33,6 +33,14 @@ using EntityId_t = uint16_t;
       return std::nullopt; \
    } 
 
+#define CHECK_CONDITION_RETURN_EMPTY_INITIALIZER(condition) \
+   if (!condition) \
+   { \
+      LOG_ERROR("Failed condition '" << #condition << "' !!!"); \
+      assert(false && #condition); \
+      return {}; \
+   } 
+
 #define CHECK_IF_POINTER_VALID(ptr) \
    if (nullptr == ptr) \
    { \

@@ -3,6 +3,7 @@
 #include "PhysicsDefs.hpp"
 #include "ProjectDefs.hpp"
 
+#include <algorithm>
 #include <array>
 #include <optional>
 #include <set>
@@ -15,14 +16,14 @@ namespace Physics
 
 using SpatialHashMapCell_t = size_t;
 
-// @note The cell areas should be larger than the area of the largest entity in order to take 
+// @note The i_cell areas should be larger than the area of the largest entity in order to take 
 //       advantage of this container as an optimization for broad phase collision detection
 // @warning This class is not thread safe
 template <size_t X_CELLS, size_t Y_CELLS, size_t WIDTH, size_t HEIGHT>
 class SpatialHashMap
 {
-   static_assert(X_CELLS != 0, "SpatialHashMap must have at least one x-cell");
-   static_assert(Y_CELLS != 0, "SpatialHashMap must have at least one y-cell");
+   static_assert(X_CELLS != 0, "SpatialHashMap must have at least one x-i_cell");
+   static_assert(Y_CELLS != 0, "SpatialHashMap must have at least one y-i_cell");
    static_assert(WIDTH != 0, "SpatialHashMap must have a non-zero width");
    static_assert(HEIGHT != 0, "SpatialHashMap must have at non-zero height");
    static_assert(WIDTH % X_CELLS == 0, "SpatialHashMap width should be divisible by # of x-cells");
@@ -36,95 +37,139 @@ public:
    SpatialHashMap() = default;
    virtual ~SpatialHashMap() = default;
 
-   bool contains_entity(EntityId_t id) const;
+   bool contains_entity(EntityId_t i_id) const;
 
+   std::optional<SpatialHashMapCell_t> add_entity(EntityId_t i_id, XYPosition i_position);
+   std::optional<SpatialHashMapCell_t> move_entity(EntityId_t i_id, XYPosition i_position);
+   std::optional<SpatialHashMapCell_t> remove_entity(EntityId_t i_id);
 
-   std::optional<SpatialHashMapCell_t> add_entity(EntityId_t id, XYPosition position);
-   std::optional<SpatialHashMapCell_t> move_entity(EntityId_t id, XYPosition position);
-   std::optional<SpatialHashMapCell_t> remove_entity(EntityId_t id);
+   std::vector<EntityId_t> get_neighbors(EntityId_t i_id) const;
 
 private:
 
-   std::optional<SpatialHashMapCell_t> get_cell_for_position(XYPosition position) const;
-   std::vector<SpatialHashMapCell_t> get_neighboring_cells(SpatialHashMapCell_t cell) const;
+   std::optional<SpatialHashMapCell_t> get_cell_for_position(XYPosition i_position) const;
+   std::vector<SpatialHashMapCell_t> get_neighboring_cells(SpatialHashMapCell_t i_cell) const;
 
 };
 
 template <size_t X_CELLS, size_t Y_CELLS, size_t WIDTH, size_t HEIGHT>
-bool SpatialHashMap<X_CELLS, Y_CELLS, WIDTH, HEIGHT>::contains_entity(EntityId_t id) const
+bool SpatialHashMap<X_CELLS, Y_CELLS, WIDTH, HEIGHT>::contains_entity(EntityId_t i_id) const
 {
-   return m_entity_cell_map.contains(id);
+   return m_entity_cell_map.contains(i_id);
 }
 
 template <size_t X_CELLS, size_t Y_CELLS, size_t WIDTH, size_t HEIGHT>
-std::optional<SpatialHashMapCell_t> SpatialHashMap<X_CELLS, Y_CELLS, WIDTH, HEIGHT>::add_entity(EntityId_t id, 
-                                                                                                XYPosition position)
+std::optional<SpatialHashMapCell_t> SpatialHashMap<X_CELLS, Y_CELLS, WIDTH, HEIGHT>::add_entity(EntityId_t i_id, 
+                                                                                                XYPosition i_position)
 {
-   if (contains_entity(id)) return std::nullopt;
+   CHECK_CONDITION_RETURN_NULLOPT(!contains_entity(i_id));
 
-   auto cell = get_cell_for_position(position);
-   if (!cell.has_value()) return std::nullopt;
+   const auto o_cell = get_cell_for_position(i_position);
+   CHECK_CONDITION_RETURN_NULLOPT(o_cell.has_value());
 
-   m_cells[cell.value()].insert(id);
-   m_entity_cell_map.emplace(id, cell.value());
-   return cell;
+   m_cells[o_cell.value()].insert(i_id);
+   m_entity_cell_map.emplace(i_id, o_cell.value());
+   return o_cell;
 }
 
 template <size_t X_CELLS, size_t Y_CELLS, size_t WIDTH, size_t HEIGHT>
-std::optional<SpatialHashMapCell_t> SpatialHashMap<X_CELLS, Y_CELLS, WIDTH, HEIGHT>::move_entity(EntityId_t id, 
-                                                                                                 XYPosition position)
+std::optional<SpatialHashMapCell_t> SpatialHashMap<X_CELLS, Y_CELLS, WIDTH, HEIGHT>::move_entity(EntityId_t i_id, 
+                                                                                                 XYPosition i_position)
 {
-   if (!contains_entity(id)) return std::nullopt;
+   CHECK_CONDITION_RETURN_NULLOPT(contains_entity(i_id));
 
-   auto cell = get_cell_for_position(position);
-   if (!cell.has_value()) return std::nullopt;
+   const auto o_cell = get_cell_for_position(i_position);
+   CHECK_CONDITION_RETURN_NULLOPT(o_cell.has_value());
 
-   if (m_entity_cell_map[id] == cell.value()) return cell;
+   if (m_entity_cell_map[i_id] == o_cell.value()) return o_cell;
 
-   m_cells[m_entity_cell_map[id]].erase(id);
-   m_entity_cell_map[id] = cell.value();
-   m_cells[cell.value()].insert(id);
-   return cell;
+   m_cells[m_entity_cell_map[i_id]].erase(i_id);
+   m_entity_cell_map[i_id] = o_cell.value();
+   m_cells[o_cell.value()].insert(i_id);
+   return o_cell;
 }
 
 template <size_t X_CELLS, size_t Y_CELLS, size_t WIDTH, size_t HEIGHT>
-std::optional<SpatialHashMapCell_t> SpatialHashMap<X_CELLS, Y_CELLS, WIDTH, HEIGHT>::remove_entity(EntityId_t id)
+std::optional<SpatialHashMapCell_t> SpatialHashMap<X_CELLS, Y_CELLS, WIDTH, HEIGHT>::remove_entity(EntityId_t i_id)
 {
-   if (!contains_entity(id)) return std::nullopt;
-   auto cell = std::move(m_entity_cell_map[id]);
-   m_cells[cell].erase(id);
-   m_entity_cell_map.erase(id);
-   return std::optional<SpatialHashMapCell_t>(std::move(cell));
+   CHECK_CONDITION_RETURN_NULLOPT(contains_entity(i_id));
+   const auto o_cell = std::move(m_entity_cell_map[i_id]);
+   m_cells[o_cell].erase(i_id);
+   m_entity_cell_map.erase(i_id);
+   return std::optional<SpatialHashMapCell_t>(std::move(o_cell));
 }
 
 template <size_t X_CELLS, size_t Y_CELLS, size_t WIDTH, size_t HEIGHT>
-std::optional<SpatialHashMapCell_t> SpatialHashMap<X_CELLS, Y_CELLS, WIDTH, HEIGHT>::get_cell_for_position(XYPosition position) const
+std::vector<EntityId_t> SpatialHashMap<X_CELLS, Y_CELLS, WIDTH, HEIGHT>::get_neighbors(EntityId_t i_id) const
 {
-   if (WIDTH <= position.x || HEIGHT <= position.y) return std::nullopt;
-   return X_CELLS * int((position.y * Y_CELLS) / HEIGHT) + int((position.x * X_CELLS) / WIDTH);
+   const auto it = m_entity_cell_map.find(i_id);
+   CHECK_CONDITION_RETURN_EMPTY_INITIALIZER((it != m_entity_cell_map.cend()));
+
+   // Add entities in the same cell 
+   std::vector<EntityId_t> o_neighboring_entities;
+   const auto& cell = it->second;
+   std::copy_if(m_cells[cell].cbegin(),
+                m_cells[cell].cend(),
+                std::back_inserter(o_neighboring_entities),
+                [&i_id](const auto& entity){ return entity != i_id; });
+
+   // Add neighboring cell entities
+   for (const auto& neighbor_cell : get_neighboring_cells(cell))
+   {
+      o_neighboring_entities.insert(o_neighboring_entities.end(),
+                                    m_cells[neighbor_cell].cbegin(), 
+                                    m_cells[neighbor_cell].cend());
+   }
+
+   return o_neighboring_entities;
 }
 
 template <size_t X_CELLS, size_t Y_CELLS, size_t WIDTH, size_t HEIGHT>
-std::vector<SpatialHashMapCell_t> SpatialHashMap<X_CELLS, Y_CELLS, WIDTH, HEIGHT>::get_neighboring_cells(SpatialHashMapCell_t cell) const
+std::optional<SpatialHashMapCell_t> SpatialHashMap<X_CELLS, Y_CELLS, WIDTH, HEIGHT>::get_cell_for_position(XYPosition i_position) const
 {
-   if (cell > X_CELLS * Y_CELLS) return {};
-   if (1 == X_CELLS * Y_CELLS) return { 0 };
-   if (2 == X_CELLS * Y_CELLS) return { 0, 1 };
-   if (4 == X_CELLS * Y_CELLS) return { 0, 1, 2, 3 };
+   if (WIDTH <= i_position.x || HEIGHT <= i_position.y) return std::nullopt;
+   return X_CELLS * int((i_position.y * Y_CELLS) / HEIGHT) + int((i_position.x * X_CELLS) / WIDTH);
+}
+
+template <size_t X_CELLS, size_t Y_CELLS, size_t WIDTH, size_t HEIGHT>
+std::vector<SpatialHashMapCell_t> SpatialHashMap<X_CELLS, Y_CELLS, WIDTH, HEIGHT>::get_neighboring_cells(SpatialHashMapCell_t i_cell) const
+{
+   if (1 == X_CELLS * Y_CELLS) return {};
+
+   // Case for one dimmensional grid  
    if (1 == X_CELLS || 1 == Y_CELLS)
    {
-      if (0 == cell) return { 0, 1 };
-      if ((X_CELLS * Y_CELLS) - 1 == cell) return { cell, cell + 1 };
-      return { cell - 1, cell, cell + 1 };
-   } 
-   
-   std::vector<SpatialHashMapCell_t> neighboring_cells;
-   neighboring_cells.reserve(9); // Max # neighboring cells (self-inclusive) in any n x m grid
-   neighboring_cells.emplace_back(cell);
-   
-   // TODO FINISH
+      if (0 == i_cell) return { i_cell + 1 };
+      if (X_CELLS * Y_CELLS - 1 == i_cell) return { i_cell - 1 };
+      return { i_cell - 1, i_cell + 1 };
+   }
 
-   return neighboring_cells;
+   // Case for two dimmensional grid
+   std::vector<SpatialHashMapCell_t> o_neighboring_cells;
+   const auto bordering_left = i_cell % X_CELLS == 0;
+   const auto bordering_right = !bordering_left && (i_cell - (X_CELLS - 1) % X_CELLS == 0);
+
+   //// Row above
+   if (i_cell >= X_CELLS)
+   {
+      if (!bordering_left) o_neighboring_cells.emplace_back(i_cell - 1 - X_CELLS);
+      o_neighboring_cells.emplace_back(i_cell - X_CELLS);
+      if (!bordering_right) o_neighboring_cells.emplace_back(i_cell + 1 - X_CELLS);
+   }
+
+   //// Same row
+   if (!bordering_left) o_neighboring_cells.emplace_back(i_cell - 1);
+   if (!bordering_right) o_neighboring_cells.emplace_back(i_cell + 1);
+
+   //// Row below
+   if (i_cell <= (X_CELLS * Y_CELLS - 1) - X_CELLS)
+   {
+      if (!bordering_left) o_neighboring_cells.emplace_back(i_cell - 1 + X_CELLS);
+      o_neighboring_cells.emplace_back(i_cell + X_CELLS);
+      if (!bordering_right) o_neighboring_cells.emplace_back(i_cell + 1 + X_CELLS);
+   }
+
+   return o_neighboring_cells;
 }
    
 } // namespace Physics
