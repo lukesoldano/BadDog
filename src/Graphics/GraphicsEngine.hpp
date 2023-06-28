@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IEngine.hpp"
 #include "Window.hpp"
 
 #include <memory>
@@ -8,22 +9,21 @@ namespace Graphics
 {
 
 // @warning This class is not thread safe
-// @warning This class should not be sub-classed
-class GraphicsEngine
+class GraphicsEngine : public IEngine
 {
 public:
 
    GraphicsEngine() = default;
-   ~GraphicsEngine() = default;
+   virtual ~GraphicsEngine() = default;
 
    // @warning Throws on failure
-   void initialize();
+   void initialize() override final;
 
    // @note A symmetrical call to teardown should be made if a call to initialize was made
-   void teardown();
+   void teardown() override final;
 
    // @warning Throws if m_window has become invalidated
-   void render();
+   void process() override final;
 
 private:
 

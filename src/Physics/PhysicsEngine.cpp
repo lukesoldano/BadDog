@@ -2,14 +2,8 @@
 
 #include "GameState.hpp"
 #include "Logger.hpp"
-#include "SpatialHashMap.hpp"
 
 using namespace Physics;
-
-namespace
-{
-   SpatialHashMap<7, 5, 700, 500> spatial_hash_map;
-}
 
 void PhysicsEngine::initialize()
 {
@@ -20,11 +14,11 @@ void PhysicsEngine::initialize()
    auto& game_state = GameState::instance();
    for (const auto& entity : game_state.m_active_entities)
    {
-      spatial_hash_map.add_entity(entity.first, {entity.second.x, entity.second.y});
+      m_spatial_hash_map.add_entity(entity.first, {entity.second.x, entity.second.y});
    }
    for (const auto& entity : game_state.m_static_entities)
    {
-      spatial_hash_map.add_entity(entity.first, {entity.second.x, entity.second.y});
+      m_spatial_hash_map.add_entity(entity.first, {entity.second.x, entity.second.y});
    }
    /////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -44,32 +38,32 @@ void PhysicsEngine::process()
 
    /////////////////////////////////////////////////////////////////////////////////////////////////
    // TODO Remove
-   Vector2DFloat_t user_displacement = { 0.0, 0.0 };
-   if (game_state.m_key_pressed[static_cast<uint8_t>(Key::w)]) user_displacement.second -= 10.0;
-   if (game_state.m_key_pressed[static_cast<uint8_t>(Key::a)]) user_displacement.first -= 10.0;
-   if (game_state.m_key_pressed[static_cast<uint8_t>(Key::d)]) user_displacement.first += 10.0;
-   if (game_state.m_key_pressed[static_cast<uint8_t>(Key::s)]) user_displacement.second += 10.0;
+   Vector2DFloat user_displacement;
+   if (game_state.m_key_pressed[static_cast<uint8_t>(Key::w)]) user_displacement.m_y -= 10.0f;
+   if (game_state.m_key_pressed[static_cast<uint8_t>(Key::a)]) user_displacement.m_x -= 10.0f;
+   if (game_state.m_key_pressed[static_cast<uint8_t>(Key::d)]) user_displacement.m_x += 10.0f;
+   if (game_state.m_key_pressed[static_cast<uint8_t>(Key::s)]) user_displacement.m_y += 10.0f;
    
-   // auto collision_position = m_collision_detector.check(game_state.m_active_entities[0],
-   //                                                      game_state.m_static_entities[1]);
-   // if (!collision_position.has_value())
-   // {
-   game_state.m_active_entities[0].x += user_displacement.first;
-   game_state.m_active_entities[0].y += user_displacement.second;
-   spatial_hash_map.move_entity(0, { game_state.m_active_entities[0].x, 
-                                     game_state.m_active_entities[0].y });
-   // }
-   // else
-   // {
-   //    game_state.m_active_entities[0].x = collision_position.value().x;
-   //    game_state.m_active_entities[0].y = collision_position.value().y;
-   // }
+   game_state.m_active_entities[0].x += user_displacement.m_x;
+   game_state.m_active_entities[0].y += user_displacement.m_y;
+   m_spatial_hash_map.move_entity(0, { game_state.m_active_entities[0].x, 
+                                       game_state.m_active_entities[0].y });
    
    // Broad phase checks
-   const auto neighbors = spatial_hash_map.get_neighbors(0);
+   const auto neighbors = m_spatial_hash_map.get_neighbors(0);
 
    // Narrow phase checks
-   
+   for (const auto& neighbor_id : neighbors)
+   {
+      if (m_collision_detector.check(game_state.m_active_entities[0],
+                                     game_state.m_static_entities[neighbor_id]))
+      {
+         game_state.m_active_entities[0].x -= user_displacement.m_x;
+         game_state.m_active_entities[0].y -= user_displacement.m_y;
+         m_spatial_hash_map.move_entity(0, { game_state.m_active_entities[0].x, 
+                                             game_state.m_active_entities[0].y });
+      }
+   }
    
    /////////////////////////////////////////////////////////////////////////////////////////////////
 }

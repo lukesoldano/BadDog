@@ -1,27 +1,29 @@
 #pragma once
 
 #include "CollisionDetector.hpp"
+#include "CollisionResolver.hpp"
+#include "IEngine.hpp"
+#include "SpatialHashMap.hpp"
 
 namespace Physics
 {
 
 // @warning This class is not thread safe
-// @warning This class should not be sub-classed
-class PhysicsEngine
+class PhysicsEngine : public IEngine
 {
+   SpatialHashMap<7, 5, 700, 500> m_spatial_hash_map;
+   CollisionDetector m_collision_detector;
+   CollisionResolver m_collision_resolver;
+
 public:
 
    PhysicsEngine() = default;
-   ~PhysicsEngine() = default;
+   virtual ~PhysicsEngine() = default;
 
-   void initialize();
-   void teardown();
+   void initialize() override final;
+   void teardown() override final;
 
-   void process();
-
-private:
-
-   CollisionDetector m_collision_detector;
+   void process() override final;
 
 };
 

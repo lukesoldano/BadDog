@@ -85,7 +85,7 @@ void GraphicsEngine::teardown()
    LOG_MESSAGE("Exit GraphicsEngine::teardown()");
 }
 
-void GraphicsEngine::render()
+void GraphicsEngine::process()
 {
    if (nullptr == m_window)
    {

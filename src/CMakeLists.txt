@@ -17,6 +17,8 @@ set(${PROJECT_NAME}_SOURCE_FILES
     ${PHYSICS_SOURCE_FILES}
     ${USER_INPUT_SOURCE_FILES}
 
+    ${CMAKE_CURRENT_LIST_DIR}/Game.cpp
+
     CACHE INTERNAL "${PROJECT_NAME}_SOURCE_FILES")
 
 ####################################################################################################
@@ -27,6 +29,8 @@ set(${PROJECT_NAME}_HEADER_FILES
     ${LOGGING_HEADER_FILES}
     ${PHYSICS_HEADER_FILES}
     ${USER_INPUT_HEADER_FILES}
+
+    ${CMAKE_CURRENT_LIST_DIR}/Game.hpp
 
     CACHE INTERNAL "${PROJECT_NAME}_HEADER_FILES")
 
