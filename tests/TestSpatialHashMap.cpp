@@ -10,7 +10,7 @@ using namespace Physics;
 TEST(SpatialHashMap, AddEntityNonBorderPosition) 
 {
    // Create a 100x100 space split in to ten cells x and ten cells y
-   SpatialHashMap<10, 10, 100, 100> map;
+   SpatialHashMap<100, 100, 10, 10> map;
 
    auto cell = map.add_entity(0, FPoint{5.0f, 5.0f});
    ASSERT_TRUE(cell.has_value());
@@ -57,7 +57,7 @@ TEST(SpatialHashMap, AddEntityNonBorderPosition)
    EXPECT_EQ(99, cell.value());
    EXPECT_TRUE(map.contains_entity(8));
 
-   SpatialHashMap<6, 2, 300, 120> mapTwo;
+   SpatialHashMap<300, 120, 50, 60> mapTwo;
    cell = mapTwo.add_entity(0, FPoint{170.0f, 20.0f});
    ASSERT_TRUE(cell.has_value());
    EXPECT_EQ(3, cell.value());
@@ -72,7 +72,7 @@ TEST(SpatialHashMap, AddEntityNonBorderPosition)
 TEST(SpatialHashMap, AddRectEntity) 
 {
    // Create a 100x100 space split in to ten cells x and ten cells y
-   SpatialHashMap<10, 10, 100, 100> map;
+   SpatialHashMap<100, 100, 10, 10> map;
 
    auto cell = map.add_entity(0, FRect{0.0f, 0.0f, 10.0f, 10.0f});
    ASSERT_TRUE(cell.has_value());
@@ -88,7 +88,7 @@ TEST(SpatialHashMap, AddRectEntity)
 TEST(SpatialHashMap, AddEntityBorderPosition) 
 {
    // Create a 100x100 space split in to ten cells x and ten cells y
-   SpatialHashMap<10, 10, 100, 100> map;
+   SpatialHashMap<100, 100, 10, 10> map;
 
    auto cell = map.add_entity(0, FPoint{0.0f, 0.0f});
    ASSERT_TRUE(cell.has_value());
@@ -109,7 +109,7 @@ TEST(SpatialHashMap, AddEntityBorderPosition)
 TEST(SpatialHashMap, MoveEntity) 
 {
    // Create a 100x100 space split in to ten cells x and ten cells y
-   SpatialHashMap<10, 10, 100, 100> map;
+   SpatialHashMap<100, 100, 10, 10> map;
 
    map.add_entity(0, FPoint{0.0f, 0.0f});
 
@@ -134,7 +134,7 @@ TEST(SpatialHashMap, MoveEntity)
 TEST(SpatialHashMap, MoveRectEntity) 
 {
    // Create a 100x100 space split in to ten cells x and ten cells y
-   SpatialHashMap<10, 10, 100, 100> map;
+   SpatialHashMap<100, 100, 10, 10> map;
 
    map.add_entity(0, FRect{0.0f, 0.0f, 10.0f, 10.0f});
 
@@ -159,7 +159,7 @@ TEST(SpatialHashMap, MoveRectEntity)
 TEST(SpatialHashMap, RemoveEntity) 
 {
    // Create a 100x100 space split in to ten cells x and ten cells y
-   SpatialHashMap<10, 10, 100, 100> map;
+   SpatialHashMap<100, 100, 10, 10> map;
 
    map.add_entity(0, FPoint{0.0f, 0.0f});
    map.add_entity(1, FPoint{30.0f, 60.0f});
@@ -187,7 +187,7 @@ TEST(SpatialHashMap, RemoveEntity)
 
 TEST(SpatialHashMap, GetNeighborsFromCenter) 
 {
-   SpatialHashMap<5, 5, 100, 100> map;
+   SpatialHashMap<100, 100, 20, 20> map;
 
    // Center entity
    ASSERT_TRUE(map.add_entity(0, FPoint{55.0f, 50.0f}).has_value());
@@ -243,7 +243,7 @@ TEST(SpatialHashMap, GetNeighborsFromCenter)
 
 TEST(SpatialHashMap, GetNoNeighborsFromCenter) 
 {
-   SpatialHashMap<5, 5, 100, 100> map;
+   SpatialHashMap<100, 100, 5, 5> map;
 
    // Center entity
    ASSERT_TRUE(map.add_entity(0, FPoint{55.0f, 50.0f}).has_value());
@@ -281,7 +281,7 @@ TEST(SpatialHashMap, GetNoNeighborsFromCenter)
 
 TEST(SpatialHashMap, GetNoNeighborsInOneByOne) 
 {
-   SpatialHashMap<1, 1, 100, 100> map;
+   SpatialHashMap<100, 100, 100, 100> map;
 
    ASSERT_TRUE(map.add_entity(0, FPoint{5.0f, 50.0f}).has_value());
    const auto neighbors = map.get_neighbors(0);
@@ -290,7 +290,7 @@ TEST(SpatialHashMap, GetNoNeighborsInOneByOne)
 
 TEST(SpatialHashMap, GetNeighborsInOneByTwo) 
 {
-   SpatialHashMap<1, 2, 100, 100> map;
+   SpatialHashMap<100, 100, 100, 50> map;
 
    ASSERT_TRUE(map.add_entity(0, FPoint{25.0f, 25.0f}).has_value());
    ASSERT_TRUE(map.add_entity(1, FPoint{25.0f, 75.0f}).has_value());
@@ -306,7 +306,7 @@ TEST(SpatialHashMap, GetNeighborsInOneByTwo)
 
 TEST(SpatialHashMap, GetNeighborsInOneByThree) 
 {
-   SpatialHashMap<1, 3, 100, 90> map;
+   SpatialHashMap<100, 90, 100, 30> map;
 
    ASSERT_TRUE(map.add_entity(0, FPoint{25.0f, 25.0f}).has_value());
    ASSERT_TRUE(map.add_entity(1, FPoint{25.0f, 50.0f}).has_value());
@@ -328,7 +328,7 @@ TEST(SpatialHashMap, GetNeighborsInOneByThree)
 
 TEST(SpatialHashMap, GetNeighborsInTwoByTwo) 
 {
-   SpatialHashMap<2, 2, 100, 100> map;
+   SpatialHashMap<100, 100, 50, 50> map;
 
    ASSERT_TRUE(map.add_entity(0, FPoint{25.0f, 25.0f}).has_value());
    ASSERT_TRUE(map.add_entity(1, FPoint{25.0f, 75.0f}).has_value());
@@ -363,7 +363,7 @@ TEST(SpatialHashMap, GetNeighborsInTwoByTwo)
 TEST(SpatialHashMap, GetNeighborsInSevenByFive)
 { 
    // Not an uber interesting test, but this caused a runtime crash previously
-   SpatialHashMap<7, 5, 700, 500> map;
+   SpatialHashMap<700, 500, 100, 100> map;
 
    ASSERT_TRUE(map.add_entity(0, FPoint{ 650.0f, 350.0f }).has_value());
    ASSERT_TRUE(map.add_entity(1, FPoint{ 650.0f, 450.0f }).has_value());
@@ -375,4 +375,26 @@ TEST(SpatialHashMap, GetNeighborsInSevenByFive)
    neighbors = map.get_neighbors(1);
    ASSERT_EQ(1, neighbors.size());
    EXPECT_EQ(0, neighbors[0]);
+}
+
+TEST(SpatialHashMap, GetNeighborsInNonBorderingFrame)
+{
+   SpatialHashMap<700, 700, 100, 100> map;
+
+   // Add entities where the entity value matches the cell # and is centered in the cell
+   std::vector<EntityId> expected_values;
+   for (auto i=0; i<49; ++i)
+   {
+      // Only the left most column and bottom most row will not be neighbors
+      if (i % 7 != 0 && i < 42) expected_values.emplace_back(i);
+      ASSERT_TRUE(map.add_entity(i, FPoint{ 50.0f + float(i % 7) * 100.0f, 
+                                            50.0f + float(i / 7) * 100.0f }).has_value());
+   }
+
+   auto neighbors = map.get_neighbors({250.0f, 150.0f, 300.0f, 300.0f});
+   EXPECT_EQ(neighbors.size(), expected_values.size());
+   for (const auto& value : expected_values)
+   {
+      EXPECT_NE(neighbors.end(), std::ranges::find(neighbors, value));
+   }
 }

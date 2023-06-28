@@ -21,24 +21,45 @@ using EntityId = uint16_t;
       return os.str();
 
 //// Predeclarations
+struct FPoint;
 struct FRect;
 
 //// Structs
+struct Point : public SDL_Point
+{
+   inline FPoint to_fpoint() const;
+   inline std::string to_string() const { TO_STRING(); }
+
+   friend std::ostream& operator<<(std::ostream& os, const Point& point)
+   {
+      os << "Point : {x: " << point.x 
+         << ", y: " << point.y << "}";
+      return os;
+   }
+
+};
+
 struct FPoint : public SDL_FPoint
 {
+   inline Point to_point() const;
    inline std::string to_string() const { TO_STRING(); }
 
    friend std::ostream& operator<<(std::ostream& os, const FPoint& fPoint)
    {
-      os << "fPoint : {x: " << fPoint.x 
+      os << "FPoint : {x: " << fPoint.x 
          << ", y: " << fPoint.y << "}";
       return os;
    }
 
 };
 
+inline FPoint Point::to_fpoint() const { return FPoint{float(x), float(y)}; }
+inline Point FPoint::to_point() const { return Point{std::lround(x), std::lround(y)}; }
+
 struct Rect : public SDL_Rect
 {
+   inline Point get_origin() { return {x, y}; };
+
    inline FRect to_frect() const;
    inline std::string to_string() const { TO_STRING(); }
 
@@ -55,6 +76,8 @@ struct Rect : public SDL_Rect
 
 struct FRect : public SDL_FRect
 {
+   inline FPoint get_origin() { return {x, y}; };
+
    inline Rect to_rect() const;
    inline std::string to_string() const { TO_STRING(); }
 
@@ -78,14 +101,14 @@ inline Rect FRect::to_rect() const { return Rect{std::lround(x), std::lround(y),
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Check macros
 #define CHECK_CONDITION(condition) \
-   if (!condition) \
+   if (!(condition)) \
    { \
       LOG_ERROR("Failed condition '" << #condition << "' !!!"); \
       assert(false && #condition); \
    } 
 
 #define CHECK_CONDITION_RETURN_BOOL(condition) \
-   if (!condition) \
+   if (!(condition)) \
    { \
       LOG_ERROR("Failed condition '" << #condition << "' !!!"); \
       assert(false && #condition); \
@@ -93,7 +116,7 @@ inline Rect FRect::to_rect() const { return Rect{std::lround(x), std::lround(y),
    } 
 
 #define CHECK_CONDITION_RETURN_NULLOPT(condition) \
-   if (!condition) \
+   if (!(condition)) \
    { \
       LOG_ERROR("Failed condition '" << #condition << "' !!!"); \
       assert(false && #condition); \
@@ -101,7 +124,7 @@ inline Rect FRect::to_rect() const { return Rect{std::lround(x), std::lround(y),
    } 
 
 #define CHECK_CONDITION_RETURN_EMPTY_INITIALIZER(condition) \
-   if (!condition) \
+   if (!(condition)) \
    { \
       LOG_ERROR("Failed condition '" << #condition << "' !!!"); \
       assert(false && #condition); \
