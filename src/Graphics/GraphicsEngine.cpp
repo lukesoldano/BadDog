@@ -11,6 +11,10 @@
 
 #include <system_error>
 
+// TODO Remove
+#include "CollisionDetector.hpp"
+//
+
 using namespace Graphics;
 
 namespace
@@ -156,11 +160,18 @@ void GraphicsEngine::render()
                                                              std::nullopt,
                                                              player_camera_position));
    
-   // renderer.set_draw_color(Color::red);
-   // for (const auto& entity : game_state.m_static_entities)
-   // {
-   //    renderer.render(RenderInstructionFactory::get_instruction(entity.second));
-   // }
+   renderer.set_draw_color(Color::red);
+   for (const auto& entity : game_state.m_static_entities)
+   {
+      if (Physics::CollisionDetector().are_aabbs_colliding(RECT_TO_FRECT(camera_frame.m_rect), entity.second))
+      {
+         SDL_FRect render_rect{entity.second.x - camera_frame.m_rect.x,
+                               entity.second.y - camera_frame.m_rect.y,
+                               entity.second.w,
+                               entity.second.h};
+         renderer.render(RenderInstructionFactory::get_instruction(render_rect));
+      }
+   }
    
 
    
