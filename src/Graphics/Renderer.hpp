@@ -18,6 +18,8 @@ namespace Graphics
 // @warning This class is not thread safe
 class Renderer
 {
+   SDL_Renderer* m_sdl_renderer = nullptr;
+
 public:
 
    Renderer() = delete;
@@ -50,8 +52,6 @@ public:
 private:
 
    Renderer(SDL_Renderer* i_sdl_renderer);
-
-   SDL_Renderer* m_sdl_renderer = nullptr;
 
 };
 

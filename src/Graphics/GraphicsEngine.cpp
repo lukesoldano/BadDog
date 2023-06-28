@@ -5,6 +5,7 @@
 #include "GameState.hpp"
 #include "ProjectDefs.hpp"
 #include "RenderInstructionFactory.hpp"
+#include "SpriteSheet.hpp"
 
 #include "SDL.h"
 #include "SDL_image.h"
@@ -112,9 +113,11 @@ void GraphicsEngine::render()
    static auto background_image_surface = Graphics::Surface::create_from_image(background_image_path).value();
    static auto background_image_texture = renderer.create_texture_from_surface(std::move(background_image_surface)).value();
 
-   // static FileSystem::Path kona_image_path{std::string(ASSETS_DIRECTORY) + "/KonaTemp.png"};
-   // static auto kona_image_surface = Graphics::Surface::create_from_image(kona_image_path).value();
-   // static auto kona_image_texture = renderer.create_texture_from_surface(std::move(kona_image_surface)).value();
+   static FileSystem::Path kona_image_path{std::string(ASSETS_DIRECTORY) + "/Kona-Walk-Sheet.png"};
+   static auto kona_image_surface = Graphics::Surface::create_from_image(kona_image_path).value();
+   static auto kona_image_texture = renderer.create_texture_from_surface(std::move(kona_image_surface)).value();
+   static SpriteSheet<1, 8> kona_sprite_sheet(std::move(kona_image_texture));
+   static auto kona_frame = 0;
 
    static Camera camera(Game::Settings::DEFAULT_WINDOW_WIDTH, 
                         Game::Settings::DEFAULT_WINDOW_HEIGHT, 
@@ -171,9 +174,18 @@ void GraphicsEngine::render()
                                                              camera_frame.m_level_position.to_rect(),
                                                              std::optional<Rect>()));
 
-   renderer.set_draw_color(Color::black);
-   renderer.render(RenderInstructionFactory::get_instruction(player_camera_position));
-   
+   // renderer.set_draw_color(Color::black);
+   // renderer.render(RenderInstructionFactory::get_instruction(player_camera_position));
+   static int temp = 0;
+   if (++temp % 10 == 0)
+   {
+      temp = 0;
+      if (++kona_frame == 8) kona_frame = 0;
+   }
+   renderer.render(RenderInstructionFactory::get_instruction(kona_sprite_sheet.get_texture(),
+                                                             kona_sprite_sheet.get_frame(0, kona_frame),
+                                                             player_camera_position));
+
    renderer.set_draw_color(Color::red);
    for (const auto& entityId : game_state.m_spatial_hash_map.get_neighbors(camera_frame.m_level_position))
    {

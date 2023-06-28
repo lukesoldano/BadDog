@@ -118,15 +118,17 @@ bool Renderer::set_draw_color(RgbaColor i_color)
 // @TODO Refactor once we change how Surface provides SDL_Surface* more cleverly
 std::optional<Texture> Renderer::create_texture_from_surface(Surface&& i_surface)
 {
-   CHECK_IF_POINTER_VALID_RETURN_NULLOPT(m_sdl_renderer);
-   CHECK_IF_POINTER_VALID_RETURN_NULLOPT(i_surface.get_sdl_surface());
+   auto sdl_surface = i_surface.get_sdl_surface();
 
-   auto texture = SDL_CreateTextureFromSurface(m_sdl_renderer, i_surface.get_sdl_surface());
+   CHECK_IF_POINTER_VALID_RETURN_NULLOPT(m_sdl_renderer);
+   CHECK_IF_POINTER_VALID_RETURN_NULLOPT(sdl_surface);
+
+   auto texture = SDL_CreateTextureFromSurface(m_sdl_renderer, sdl_surface);
    if (nullptr == texture)
    {
       LOG_ERROR("Failed to create an SDL texture from surface, SDL error: " << SDL_GetError());
       return std::nullopt;
    }
 
-   return std::optional<Texture>({texture});
+   return std::optional<Texture>({texture, sdl_surface->w, sdl_surface->h});
 }

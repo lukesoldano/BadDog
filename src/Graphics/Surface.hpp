@@ -13,6 +13,8 @@ namespace Graphics
 // @warning This class is not thread safe
 class Surface
 {
+   SDL_Surface* m_sdl_surface = nullptr;
+
 public:
 
    Surface() = delete;
@@ -38,8 +40,6 @@ private:
    Surface(SDL_Surface* i_sdl_surface);
 
    void teardown_internal();
-
-   SDL_Surface* m_sdl_surface = nullptr;
 
 };
 
