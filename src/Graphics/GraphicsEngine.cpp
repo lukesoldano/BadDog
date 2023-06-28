@@ -107,10 +107,10 @@ void GraphicsEngine::render()
 
    auto& game_state = GameState::instance();
    renderer.set_draw_color(Color::black);
-   renderer.render(RenderInstructionFactory::get_instruction(game_state.m_obstacle_position));
+   renderer.render(RenderInstructionFactory::get_instruction(game_state.m_active_entities[0]));
    
    renderer.set_draw_color(Color::red);
-   renderer.render(RenderInstructionFactory::get_instruction(game_state.m_player_position));
+   renderer.render(RenderInstructionFactory::get_instruction(game_state.m_static_entities[1]));
    
 
    

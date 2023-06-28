@@ -1,9 +1,12 @@
 #pragma once
 
+#include "ProjectDefs.hpp"
 #include "UserInputDefs.hpp"
 
-#include <array>
 #include "SDL_rect.h"
+
+#include <array>
+#include <unordered_map>
 
 class GameState
 {
@@ -22,9 +25,8 @@ public:
    std::array<bool, static_cast<size_t>(Key::MAX_VALUE)> m_key_pressed{ false };
 
    // TODO REMOVE - HERE FOR TESTING
-   
-   SDL_Rect m_player_position = {0, 0, 20, 20};
-   SDL_Rect m_obstacle_position = {300, 200, 80, 200};
+   std::unordered_map<EntityId_t, SDL_Rect> m_active_entities = { {0, {0, 0, 20, 20}} };
+   std::unordered_map<EntityId_t, SDL_Rect> m_static_entities = { {1, {300, 200, 50, 50}} };
    //
 
 private:
