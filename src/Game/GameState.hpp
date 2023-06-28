@@ -38,6 +38,8 @@ public:
                                                                {4, {550.0, 400.0, 50.0, 55.0}}
                                                             };
 
+   float m_player_entity_rotation = 0.0f;
+
    //
 
 private:

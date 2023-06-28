@@ -44,6 +44,11 @@ void PhysicsEngine::process()
    if (game_state.m_key_pressed[static_cast<uint8_t>(Key::d)]) user_displacement.m_x += 5.0f;
    if (game_state.m_key_pressed[static_cast<uint8_t>(Key::s)]) user_displacement.m_y += 5.0f;
    
+   if (user_displacement.m_y < 0) game_state.m_player_entity_rotation += 90.0f;
+   else if (user_displacement.m_y > 0) game_state.m_player_entity_rotation -= 90.0f;
+
+   if (user_displacement.m_x < 0) game_state.m_player_entity_rotation += 180.0f;
+
    game_state.m_active_entities[0].x += user_displacement.m_x;
    game_state.m_active_entities[0].y += user_displacement.m_y;
    game_state.m_spatial_hash_map.move_entity(0, game_state.m_active_entities[0]);

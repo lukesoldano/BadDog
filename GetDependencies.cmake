@@ -69,12 +69,23 @@ set(SDL2_IMAGE_LIBRARIES  ${SDL2_IMAGE_LIBRARY_DIR}/SDL2_imaged.lib)
 # set(SDL2TTF_LIBRARIES ${SDL2_LIBRARY_DIR}/SDL2_ttfd.lib)
 
 ####################################################################################################
+# nlohmann JSON
+## Pull library
+FetchContent_Declare(JSON
+                     URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz)
+FetchContent_MakeAvailable(JSON)
+
+# Prepare dependency variables
+set(JSON_INCLUDE_DIRS ${CMAKE_CURRENT_BINARY_DIR}/_deps/json-src/include)
+
+####################################################################################################
 # Set overall project dependency variables
 set(${PROJECT_NAME}_DEPENDENCY_INCLUDE_DIRS
 
     ${SDL2_INCLUDE_DIRS}
     ${SDL2_IMAGE_INCLUDE_DIRS}
    #  ${SDL2TTF_INCLUDE_DIRS}
+    ${JSON_INCLUDE_DIRS}
     
     CACHE INTERNAL "${PROJECT_NAME}_DEPENDENCY_INCLUDE_DIRS")
 

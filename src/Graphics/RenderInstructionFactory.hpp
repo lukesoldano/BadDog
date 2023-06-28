@@ -17,10 +17,14 @@ namespace RenderInstructionFactory
    inline RenderInstruction_t get_instruction(FRect i_rectangle);
    inline RenderInstruction_t get_instruction(const Texture& i_texture,
                                               std::optional<Rect> i_render_clip,
-                                              std::optional<Rect> i_render_quad = std::nullopt);
+                                              std::optional<Rect> i_render_quad = std::nullopt,
+                                              float i_rotation_angle = 0.0f,
+                                              SDL_RendererFlip i_flip = SDL_FLIP_NONE);
    inline RenderInstruction_t get_instruction(const Texture& i_texture,
                                               std::optional<Rect> i_render_clip,
-                                              std::optional<FRect> i_render_quad = std::nullopt);
+                                              std::optional<FRect> i_render_quad = std::nullopt,
+                                              float i_rotation_angle = 0.0f,
+                                              SDL_RendererFlip i_flip = SDL_FLIP_NONE);
 
    /////////////////////////////////////////////////////////////////////////////////////////////////
    // Definitions
@@ -88,16 +92,23 @@ namespace RenderInstructionFactory
    //            texture quadrant to - entire surface allowed if nullopt is provided
    inline RenderInstruction_t get_instruction(const Texture& i_texture,
                                               std::optional<Rect> i_render_clip,
-                                              std::optional<Rect> i_render_quad)
+                                              std::optional<Rect> i_render_quad,
+                                              float i_rotation_angle,
+                                              SDL_RendererFlip i_flip)
    {
       return [&texture = i_texture, 
               render_clip = std::move(i_render_clip),
-              render_quad = std::move(i_render_quad)](SDL_Renderer& i_renderer)
+              render_quad = std::move(i_render_quad),
+              rotation_angle = i_rotation_angle,
+              flip = i_flip](SDL_Renderer& i_renderer)
       {
-         if (0 != SDL_RenderCopy(&i_renderer, 
-                                 texture.get_sdl_texture(), 
-                                 render_clip.has_value() ? &render_clip.value() : nullptr, 
-                                 render_quad.has_value() ? &render_quad.value() : nullptr))
+         if (0 != SDL_RenderCopyEx(&i_renderer, 
+                                   texture.get_sdl_texture(), 
+                                   render_clip.has_value() ? &render_clip.value() : nullptr, 
+                                   render_quad.has_value() ? &render_quad.value() : nullptr,
+                                   rotation_angle,
+                                   nullptr,
+                                   flip))
          {
             LOG_ERROR("Failed to render texture, SDL Error: " << SDL_GetError());
             return false;
@@ -114,16 +125,23 @@ namespace RenderInstructionFactory
    //            texture quadrant to - entire surface allowed if nullopt is provided
    inline RenderInstruction_t get_instruction(const Texture& i_texture,
                                               std::optional<Rect> i_render_clip,
-                                              std::optional<FRect> i_render_quad)
+                                              std::optional<FRect> i_render_quad,
+                                              float i_rotation_angle,
+                                              SDL_RendererFlip i_flip)
    {
       return [&texture = i_texture, 
               render_clip = std::move(i_render_clip),
-              render_quad = std::move(i_render_quad)](SDL_Renderer& i_renderer)
+              render_quad = std::move(i_render_quad),
+              rotation_angle = i_rotation_angle,
+              flip = i_flip](SDL_Renderer& i_renderer)
       {
-         if (0 != SDL_RenderCopyF(&i_renderer, 
-                                  texture.get_sdl_texture(), 
-                                  render_clip.has_value() ? &render_clip.value() : nullptr,
-                                  render_quad.has_value() ? &render_quad.value() : nullptr))
+         if (0 != SDL_RenderCopyExF(&i_renderer, 
+                                    texture.get_sdl_texture(), 
+                                    render_clip.has_value() ? &render_clip.value() : nullptr,
+                                    render_quad.has_value() ? &render_quad.value() : nullptr,
+                                    rotation_angle,
+                                    nullptr,
+                                    flip))
          {
             LOG_ERROR("Failed to render f-texture, SDL Error: " << SDL_GetError());
             return false;

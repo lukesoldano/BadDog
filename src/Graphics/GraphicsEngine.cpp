@@ -182,9 +182,14 @@ void GraphicsEngine::render()
       temp = 0;
       if (++kona_frame == 8) kona_frame = 0;
    }
+
+   SDL_RendererFlip flip = game_state.m_player_entity_rotation == 180.0f ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+
    renderer.render(RenderInstructionFactory::get_instruction(kona_sprite_sheet.get_texture(),
                                                              kona_sprite_sheet.get_frame(0, kona_frame),
-                                                             player_camera_position));
+                                                             player_camera_position,
+                                                             game_state.m_player_entity_rotation,
+                                                             flip));
 
    renderer.set_draw_color(Color::red);
    for (const auto& entityId : game_state.m_spatial_hash_map.get_neighbors(camera_frame.m_level_position))

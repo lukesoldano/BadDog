@@ -1,6 +1,8 @@
 #include "GameEngine.hpp"
 #include "Logger.hpp"
 
+#include <nlohmann/json.hpp>
+
 int main(int argc, char* args[])
 {
    LOG_MESSAGE("Enter main()");

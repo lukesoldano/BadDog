@@ -1,0 +1,29 @@
+{
+   "fileInfo" :
+   {
+      "type" : "Level",
+      "authors" : [ "Luke Soldano" ],
+      "creationData" : "4/16/23",
+      "lastUpdatedDate" : "4/16/23"
+   },
+
+   "levelInfo" :
+   {
+      "name" : "Test Level",
+      "widthPixels" : 2000,
+      "heightPixels" : 2000
+   },
+
+   "levelStaticEntities" :
+   [
+      {
+      }
+   ],
+
+   "levelDynamicEntities" :
+   [
+      {
+
+      }
+   ]
+}
