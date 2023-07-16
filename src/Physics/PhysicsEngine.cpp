@@ -41,7 +41,9 @@ void PhysicsEngine::process()
 
    game_state.m_player_entity.x += user_displacement.m_x;
    game_state.m_player_entity.y += user_displacement.m_y;
-   game_state.m_spatial_hash_map.move_entity(Game::PLAYER_ENTITY_ID, game_state.m_player_entity);
+   auto player_entity = game_state.m_player_entity;
+   //game_state.m_spatial_hash_map.move_entity(Game::PLAYER_ENTITY_ID, game_state.m_player_entity);
+   game_state.m_spatial_hash_map.move_entity(Game::PLAYER_ENTITY_ID, std::move(player_entity));
    
    // Broad phase checks
    const auto neighbors = game_state.m_spatial_hash_map.get_neighbors(Game::PLAYER_ENTITY_ID);
@@ -49,13 +51,20 @@ void PhysicsEngine::process()
    // Narrow phase checks
    for (const auto& neighbor_id : neighbors)
    {
-      if (m_collision_detector.are_aabbs_colliding(game_state.m_player_entity,
+      if (game_state.m_static_entities.contains(neighbor_id) &&
+          m_collision_detector.are_aabbs_colliding(game_state.m_player_entity,
                                                    game_state.m_static_entities[neighbor_id].get_hitbox()))
       {
          game_state.m_player_entity.x -= user_displacement.m_x;
          game_state.m_player_entity.y -= user_displacement.m_y;
          game_state.m_spatial_hash_map.move_entity(Game::PLAYER_ENTITY_ID, game_state.m_player_entity);
-         PUBLISH_EVENT(PlayerCollisionWithStaticEntity, { neighbor_id });
+         EventPublisher::instance().publish_event(PlayerCollisionWithStaticEntity{ neighbor_id });
+      }
+      else if (game_state.m_stationary_dynamic_entities.contains(neighbor_id) &&
+               m_collision_detector.are_aabbs_colliding(game_state.m_player_entity,
+                                                        game_state.m_stationary_dynamic_entities[neighbor_id].get_hitbox()))
+      {
+         EventPublisher::instance().publish_event(PlayerCollisionWithStationaryDynamicEntity{ neighbor_id });
       }
    }
    

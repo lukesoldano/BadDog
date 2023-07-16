@@ -14,6 +14,11 @@ struct FRectBarrier : public FRect
    bool m_visible;
    RgbaColor m_rgba_color;
 
+   FRect get_hitbox() const
+   {
+      return *this;
+   }
+
    NLOHMANN_DEFINE_TYPE_INTRUSIVE(FRectBarrier, m_visible, m_rgba_color, m_x, m_y, m_w, m_h)
 };
 

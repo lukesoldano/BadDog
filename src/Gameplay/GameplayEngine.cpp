@@ -25,6 +25,7 @@ void GameplayEngine::subscribe_to_events()
 
    M_SUBSCRIBE_TO_EVENT(GameLoopElapsedTime, on_game_loop_elapsed_time);
    M_SUBSCRIBE_TO_EVENT(PlayerCollisionWithStaticEntity, on_player_collision_with_static_entity);
+   M_SUBSCRIBE_TO_EVENT(PlayerCollisionWithStationaryDynamicEntity, on_player_collision_with_stationary_dynamic_entity);
 }
 
 void GameplayEngine::unsubscribe_from_events()
@@ -33,6 +34,8 @@ void GameplayEngine::unsubscribe_from_events()
    using namespace Physics::Event;
 
    M_UNSUBSCRIBE_FROM_EVENT(GameLoopElapsedTime);
+   M_UNSUBSCRIBE_FROM_EVENT(PlayerCollisionWithStaticEntity);
+   M_UNSUBSCRIBE_FROM_EVENT(PlayerCollisionWithStationaryDynamicEntity);
 }
 
 void GameplayEngine::process()
@@ -66,7 +69,19 @@ void GameplayEngine::on_player_collision_with_static_entity(const Physics::Event
    m_event_queue.push_back([i_event]()
       {
          auto& game_state = Game::State::instance();
-         LOG_MESSAGE("COLLISION WITH: " << i_event.m_static_entity_id);
+         LOG_MESSAGE("COLLISION WITH STATIC: " << i_event.m_entity_id);
+      });
+
+}
+
+void GameplayEngine::on_player_collision_with_stationary_dynamic_entity(const Physics::Event::PlayerCollisionWithStationaryDynamicEntity& i_event)
+{
+   m_event_queue.push_back([i_event]()
+      {
+         auto& game_state = Game::State::instance();
+         LOG_MESSAGE("COLLISION WITH DYN STATIC: " << i_event.m_entity_id);
+         game_state.m_spatial_hash_map.remove_entity(i_event.m_entity_id);
+         game_state.m_stationary_dynamic_entities.erase(i_event.m_entity_id);
       });
 
 }

@@ -116,7 +116,55 @@
 
       ],
 
-      "m_active_entities" :
+      "m_stationary_dynamic_entities" :
+      [
+         {
+            "m_label" : "Dog Bone 1",
+            "m_visible" : true,
+            "m_dog_bone" : 
+            {
+               "m_x" : 800.0,
+               "m_y" : 800.0,
+               "m_scale" : 2.5,
+               "m_rotation" : 0.0
+            }
+         },
+         {
+            "m_label" : "Dog Bone 2",
+            "m_visible" : true,
+            "m_dog_bone" : 
+            {
+               "m_x" : 1200.0,
+               "m_y" : 1200.0,
+               "m_scale" : 2.5,
+               "m_rotation" : 0.0
+            }
+         },
+         {
+            "m_label" : "Dog Bone 3",
+            "m_visible" : true,
+            "m_dog_bone" : 
+            {
+               "m_x" : 1300.0,
+               "m_y" : 700.0,
+               "m_scale" : 2.5,
+               "m_rotation" : 0.0
+            }
+         },
+         {
+            "m_label" : "Dog Bone 4",
+            "m_visible" : true,
+            "m_dog_bone" : 
+            {
+               "m_x" : 600.0,
+               "m_y" : 1000.0,
+               "m_scale" : 2.5,
+               "m_rotation" : 0.0
+            }
+         }
+      ],
+
+      "m_mobile_dynamic_entities" :
       [
          {
 

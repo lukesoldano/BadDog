@@ -10,10 +10,10 @@ namespace INTERNAL
    template <class EventType>
    struct Event : public BaseEvent
    {
-      const EventType& m_event;
+      const EventType m_event;
 
-      Event(const EventType& i_event) :
-         m_event(i_event) {}
+      Event(auto&& i_event) :
+         m_event(std::forward<decltype(i_event)>(i_event)) {}
 
       static size_t get_type_id()
       {
@@ -45,9 +45,10 @@ EventPublisher& EventPublisher::instance()
    return event_publisher;
 }
 
-template <class EventType>
-void EventPublisher::publish_event(const EventType& i_event)
+void EventPublisher::publish_event(auto&& i_event)
 {
+   using EventType = std::remove_cvref_t<decltype(i_event)>;
+
    const auto event_type_id = INTERNAL::Event<EventType>::get_type_id();
    if (event_type_id >= m_subscribers.size() || m_subscribers[event_type_id].empty())
    {
@@ -59,7 +60,7 @@ void EventPublisher::publish_event(const EventType& i_event)
    }
    else
    {
-      INTERNAL::Event<EventType> wrapped_event{i_event};
+      INTERNAL::Event<EventType> wrapped_event{std::forward<decltype(i_event)>(i_event)};
       for (auto& subscriber : m_subscribers[event_type_id])
       {
          subscriber.second(wrapped_event);

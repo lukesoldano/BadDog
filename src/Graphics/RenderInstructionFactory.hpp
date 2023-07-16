@@ -5,6 +5,7 @@
 #include "Logger.hpp"
 #include "ProjectDefs.hpp"
 #include "StaticEntity.hpp"
+#include "StationaryDynamicEntity.hpp"
 
 namespace Graphics
 {

@@ -9,7 +9,13 @@ namespace Event
 
 struct PlayerCollisionWithStaticEntity
 {
-   EntityId m_static_entity_id;
+   EntityId m_entity_id;
+   Point m_collision_point;
+};
+
+struct PlayerCollisionWithStationaryDynamicEntity
+{
+   EntityId m_entity_id;
    Point m_collision_point;
 };
 

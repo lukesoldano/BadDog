@@ -16,6 +16,7 @@ void Game::from_json(const nlohmann::json& i_json, Level& o_level)
    o_level.m_player_start_x = i_json.at("m_player_start_x").get<float>();
    o_level.m_player_start_y = i_json.at("m_player_start_y").get<float>();
    o_level.m_static_entities = i_json.at("m_static_entities").get<std::vector<StaticEntity>>();
+   o_level.m_stationary_dynamic_entities = i_json.at("m_stationary_dynamic_entities").get<std::vector<StationaryDynamicEntity>>();     
 }
 
 Level::Level(std::filesystem::path&& i_json_file_path)

@@ -4,7 +4,8 @@ using namespace Game;
 
 bool State::load_level(Level&& i_level) noexcept
 {
-   if (m_current_level) teardown_level();
+   teardown_level();
+
    m_current_level = std::move(i_level);
 
    auto& current_level = m_current_level.value();
@@ -77,7 +78,15 @@ bool State::load_level(Level&& i_level) noexcept
    for (auto& static_entity : current_level.m_static_entities)
    {
       m_static_entities.emplace(current_id, static_entity);
-      m_spatial_hash_map.add_entity(current_id, std::get<FRectBarrier>(static_entity.m_data));
+      m_spatial_hash_map.add_entity(current_id, static_entity.get_hitbox());
+      ++current_id;
+   }
+
+   // Add stationary dynamic entities
+   for (auto& stationary_dynamic_entity : current_level.m_stationary_dynamic_entities)
+   {
+      m_stationary_dynamic_entities.emplace(current_id, stationary_dynamic_entity);
+      m_spatial_hash_map.add_entity(current_id, stationary_dynamic_entity.get_hitbox());
       ++current_id;
    }
    /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -87,11 +96,9 @@ bool State::load_level(Level&& i_level) noexcept
 
 void State::teardown_level() noexcept
 {
-   if (m_current_level)
-   {
-      m_current_level.reset();
-      m_static_entities.clear();
-      m_stationary_dynamic_entities.clear();
-      m_mobile_dynamic_entities.clear();
-   }
+   if (m_current_level) m_current_level.reset();
+
+   m_static_entities.clear();
+   m_stationary_dynamic_entities.clear();
+   m_mobile_dynamic_entities.clear();
 }

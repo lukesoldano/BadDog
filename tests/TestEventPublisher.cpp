@@ -44,12 +44,12 @@ TEST(EventPublisher, ReceiveEventUsingMacros)
    };
 
    SUBSCRIBE_TO_EVENT(TestEvent, nullptr, callback);
-   PUBLISH_EVENT(TestEvent, {event_value});
+   event_publisher.publish_event(TestEvent{event_value});
    ASSERT_TRUE(event_received);
 
    event_received = false;
    event_value = 10;
-   PUBLISH_EVENT(TestEvent, {event_value});
+   event_publisher.publish_event(TestEvent{event_value});
    ASSERT_TRUE(event_received);
 
    UNSUBSCRIBE_FROM_EVENT(TestEvent, nullptr);

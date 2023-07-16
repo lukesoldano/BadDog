@@ -121,6 +121,10 @@ void GraphicsEngine::render()
    static SpriteSheet<1, 8> kona_sprite_sheet(std::move(kona_image_texture));
    static auto kona_frame = 0;
 
+   static std::filesystem::path dog_bone_image_path{std::string(ASSETS_DIRECTORY) + "/DogBone.png"};
+   static auto dog_bone_image_surface = Graphics::Surface::create_from_image(dog_bone_image_path).value();
+   static auto dog_bone_image_texture = renderer.create_texture_from_surface(std::move(dog_bone_image_surface)).value();
+
    static Camera camera(Game::Settings::DEFAULT_WINDOW_WIDTH, 
                         Game::Settings::DEFAULT_WINDOW_HEIGHT, 
                         Game::Settings::DEFAULT_LEVEL_WIDTH, 
@@ -177,7 +181,7 @@ void GraphicsEngine::render()
                                                              camera_frame.m_level_position.to_rect(),
                                                              std::optional<Rect>()));
 
-   // renderer.render(RenderInstructionFactory::get_instruction(player_camera_position));
+   renderer.render(RenderInstructionFactory::get_instruction(player_camera_position));
    static int temp = 0;
    if (++temp % 10 == 0)
    {
@@ -193,13 +197,26 @@ void GraphicsEngine::render()
                                                              game_state.m_player_entity_rotation,
                                                              flip));
 
-   for (const auto& entityId : game_state.m_spatial_hash_map.get_neighbors(camera_frame.m_level_position))
+   for (const auto& entity_id : game_state.m_spatial_hash_map.get_neighbors(camera_frame.m_level_position))
    {
-      if (Physics::CollisionDetector().are_aabbs_colliding(camera_frame.m_level_position, 
-                                                           game_state.m_static_entities[entityId].get_hitbox()))
+      if (Game::PLAYER_ENTITY_ID == entity_id) continue;
+      else if (game_state.m_static_entities.contains(entity_id) && 
+               Physics::CollisionDetector().are_aabbs_colliding(camera_frame.m_level_position, 
+                                                                game_state.m_static_entities[entity_id].get_hitbox()))
       {
          renderer.render(RenderInstructionFactory::get_static_entity_instruction(camera_frame, 
-                                                                                 game_state.m_static_entities[entityId]));
+                                                                                 game_state.m_static_entities[entity_id]));
+      }
+      else if (game_state.m_stationary_dynamic_entities.contains(entity_id) && 
+               Physics::CollisionDetector().are_aabbs_colliding(camera_frame.m_level_position, 
+                                                                game_state.m_stationary_dynamic_entities[entity_id].get_hitbox()))
+      {
+         auto render_space = game_state.m_stationary_dynamic_entities[entity_id].get_hitbox();
+         render_space.x -= camera_frame.m_level_position.x;
+         render_space.y -= camera_frame.m_level_position.y;
+         renderer.render(RenderInstructionFactory::get_instruction(dog_bone_image_texture,
+                                                                   std::nullopt,
+                                                                   render_space));
       }
    }
    

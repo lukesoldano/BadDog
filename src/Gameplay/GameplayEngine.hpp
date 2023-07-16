@@ -34,6 +34,7 @@ private:
 
    void on_game_loop_elapsed_time(const Game::Event::GameLoopElapsedTime& i_event);
    void on_player_collision_with_static_entity(const Physics::Event::PlayerCollisionWithStaticEntity& i_event);
+   void on_player_collision_with_stationary_dynamic_entity(const Physics::Event::PlayerCollisionWithStationaryDynamicEntity& i_event);
 
 };
 

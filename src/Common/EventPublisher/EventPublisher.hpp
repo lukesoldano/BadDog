@@ -2,16 +2,14 @@
 
 #include <cstdint>
 #include <functional>
+#include <type_traits>
 #include <unordered_map>
 #include <vector>
 
 // This implementation is heavily inspired by the StackOverflow design post:
 // https://codereview.stackexchange.com/questions/79211/ecs-event-messaging-implementation
 
-// These are hideous macros but it makes code easier to read than generic alternatives
-#define PUBLISH_EVENT(event_type, event) \
-   EventPublisher::instance().publish_event<event_type>(event)
-
+// Some ugly macros to make subscribing to events easier and less verbose in line
 // Macros for subscribing to events with a loose object and callback
 #define SUBSCRIBE_TO_EVENT(event_type, ptr, callback) \
    EventPublisher::instance().subscribe_to_event<event_type>(TO_UINT_PTR(ptr), callback)
@@ -56,8 +54,7 @@ public:
 
    inline static EventPublisher& instance();
 
-   template <class EventType>
-   void publish_event(const EventType& i_event);
+   void publish_event(auto&& i_event);
 
    template <class EventType>
    void subscribe_to_event(std::uintptr_t i_subscriber, Callback<EventType> i_callback);

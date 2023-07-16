@@ -19,10 +19,10 @@ struct StaticEntity
    std::string m_label;
    std::variant<FRectBarrier> m_data;
 
-   const FRect& get_hitbox() const
+   FRect get_hitbox() const
    {
       static FRect DEFAULT_HITBOX{-100.0f, -100.0f, 0.0f, 0.0f};
-      if (std::holds_alternative<FRectBarrier>(m_data)) return std::get<FRectBarrier>(m_data);
+      if (std::holds_alternative<FRectBarrier>(m_data)) return std::get<FRectBarrier>(m_data).get_hitbox();
       else ASSERT("StaticEntity does not contain any data!");
       return DEFAULT_HITBOX;
    }

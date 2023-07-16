@@ -51,7 +51,7 @@ public:
    FRect m_player_entity;
 
    std::unordered_map<EntityId, StaticEntity> m_static_entities;
-   std::unordered_map<EntityId, FRect> m_stationary_dynamic_entities = { {6969, FRect{500.0f, 500.0f, 25.0f, 25.0f}} };
+   std::unordered_map<EntityId, StationaryDynamicEntity> m_stationary_dynamic_entities;
    std::unordered_map<EntityId, FRect> m_mobile_dynamic_entities;
 
    float m_player_entity_rotation = 0.0f;

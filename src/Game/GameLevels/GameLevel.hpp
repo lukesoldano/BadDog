@@ -2,6 +2,7 @@
 
 #include "JsonDefs.hpp"
 #include "StaticEntity.hpp"
+#include "StationaryDynamicEntity.hpp"
 
 #include <filesystem>
 #include <memory>
@@ -28,6 +29,7 @@ struct Level
    float m_player_start_y;
 
    std::vector<StaticEntity> m_static_entities;
+   std::vector<StationaryDynamicEntity> m_stationary_dynamic_entities;
 
    Level() noexcept = default;
    Level(std::filesystem::path&& i_json_file_path);
