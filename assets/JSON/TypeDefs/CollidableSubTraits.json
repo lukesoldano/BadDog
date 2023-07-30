@@ -1,0 +1,34 @@
+{
+   "file_info" :
+   {
+      "m_type" : "CollidableSubTraits",
+      "m_authors" : [ "Luke Soldano" ],
+      "m_creation_date" : "2023-07-19",
+      "m_last_updated_date" : "2023-07-19"
+   },
+   "collidable_sub_traits" :
+   {
+      "chocolate" : 
+      { 
+         "consumable" :  
+         { 
+            "m_status_effect" : "food_poisoning",
+            "m_health_adjustment" : 10
+         } 
+      },
+      "dog_bone" : { "consumable" :  { "m_health_adjustment" : 10 } },
+      "dog_food_bowl" : { "consumable" :  { "m_health_adjustment" : 20 } },
+      "dog_treat" : { "consumable" :  { "m_health_adjustment" : 5 } },
+      "garbage" : 
+      { 
+         "consumable" :  
+         { 
+            "m_status_effect" : "food_poisoning",
+            "m_health_adjustment" : -5
+         } 
+      },
+      "rabbit" : { "consumable" :  { "m_health_adjustment" : 100 } }
+   },
+
+   "END_FILE" : 0
+}

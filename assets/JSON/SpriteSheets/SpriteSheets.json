@@ -1,0 +1,47 @@
+{
+   "file_info" :
+   {
+      "m_type" : "SpriteSheets",
+      "m_authors" : [ "Luke Soldano" ],
+      "m_creation_date" : "2023-07-19",
+      "m_last_updated_date" : "2023-07-19"
+   },
+   "sprite_sheets" :
+   [
+      {
+         "m_type" : "kona",
+         "m_file_name" : "Kona-Walk-Sheet.png",
+         "m_texture_width" : 2560,
+         "m_texture_height" : 320,
+         "m_frames" :
+         {
+            "animated_walk" : 
+            { 
+               "orientation_left" : 
+               [ 
+                  [ 0, 0, 320, 320],
+                  [ 320, 0, 320, 320],
+                  [ 640, 0, 320, 320],
+                  [ 960, 0, 320, 320],
+                  [ 1280, 0, 320, 320],
+                  [ 1600, 0, 320, 320],
+                  [ 1920, 0, 320, 320],
+                  [ 2240, 0, 320, 320]
+               ] 
+            }
+         }
+      },
+      { 
+         "m_type" : "dog_bone",
+         "m_file_name" : "DogBone.png",
+         "m_texture_width" : 320,
+         "m_texture_height" : 320,
+         "m_frames" :
+         {
+            "static" : { "orientation_none" : [ [ 0, 0, 320, 320] ] }
+         }
+      }
+   ],
+
+   "END_FILE" : 0
+}

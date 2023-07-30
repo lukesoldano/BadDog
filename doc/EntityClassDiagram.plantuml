@@ -1,0 +1,335 @@
+@startuml
+
+' TODO: Reconsider string keys vs enum keys 
+'       tradeoff: easy to add via json and maintainable vs performance
+
+class FPoint
+{
+   + m_x : float
+   + m_y : float
+}
+
+class FRect
+{
+   + m_width : float
+   + m_height : float
+}
+
+class FCircle
+{
+   + m_radius : float
+}
+
+class GameEntity
+{
+   + m_id : const EntityId
+   + m_label : string
+   + m_visible : bool
+   + m_position : FPoint
+}
+
+class CollidableSubTraitHandler
+{
+   - m_modifiers : vector<function<void(const GameEntity&)>>
+
+   + add_modifier(function<void(const GameEntity&)>)
+
+   + apply_modifiers(const GameEntity&) : void
+}
+
+class CollidableSubTraitManager
+{
+   - m_unordered_map<string, CollidableSubTraitHandler>
+
+   + instance() : CollidableSubTraitManager&
+
+   + load_from_json(std::file_system_path) : bool
+
+   + get_sub_trait(string) : optional<const CollidableSubTraitHandler&>
+}
+
+class CollidableEntity
+{
+   + m_hitbox : variant<FRect, FCircle>
+   + m_collision_mask : uint16
+   + m_sub_trait : string
+}
+
+class MotionEntity
+{
+   + m_velocity : float[2]
+   + m_acceleration : float[2]
+}
+
+class StatusEffectHandler
+{
+   - m_modifiers : vector<function<void(const GameEntity&)>>
+
+   + add_modifier(function<void(const GameEntity&)>)
+
+   + apply_modifiers(const GameEntity&) : void
+}
+
+class StatusEffectManager
+{
+   - m_unordered_map<string, StatusEffectHandler>
+
+   + instance() : StatusEffectManager&
+
+   + load_from_json(std::file_system_path) : bool
+
+   + get_status_effect(string) : optional<const StatusEffectHandler&>
+}
+
+' TODO: Need to add scheme for making status effects time-windowed
+class StatusEffectableEntity
+{
+   + m_health : float
+   + m_status_effects : vector<string>
+}
+
+enum AiType
+{
+   rabbit
+   squirrel
+}
+
+class AiManager
+{
+   - m_ai_types : unordered_map<AiType, function<void(const GameEntity&)>>
+
+   + instance() : AiManager&
+
+   + register_ai_type(AiType, function<void(const GameEntity&)>) : void
+
+   + get_ai_type(AiType) : optional<const AiEntity&>
+}
+
+class AiEntity
+{
+   + m_ai_type : AiType
+}
+
+enum SpriteSheetType
+{
+   chocolate
+   dog_bone
+   dog_food_bowl
+   dog_treat
+   garbage
+   kona
+   rabbit
+   squirrel
+   stick
+   tennis_ball
+}
+
+enum SpriteSheetFrameType
+{
+   static
+   animated_idle
+   animated_walk
+   animated_run
+   animated_sprint
+   animated_jump
+}
+
+enum SpriteOrientation
+{
+   none
+   left
+   right
+   up
+   down
+}
+
+class SpriteSheetFrame
+{
+   + m_frame : Rect
+   + m_orientation : SpriteOrientation
+}
+
+class SpriteSheet
+{
+   - m_type : SpriteSheetType
+   - m_file_name : std::file_system_path
+   - m_texture : SDL_Texture*
+   - m_texture_width : Pixels
+   - m_texture_height : Pixels
+   - m_frames : map<SpriteSheetFrameType, map<SpriteOrientation, vector<SpriteSheetFrame>>>
+
+   + load_from_json(Renderer, std::file_system_path) : optional<SpriteSheet>
+
+   + get_type() : SpriteSheetType
+   + get_texture() : const SDL_Texture&
+   + get_texture_width() : Pixels
+   + get_texture_height() : Pixels
+   + get_frame(SpriteSheetFrameType, SpriteOrientation, uint8) : optional<SpriteSheetFrame>
+   + get_frame_count(SpriteSheetFrameType, SpriteOrientation) : optional<uint8>
+}
+
+class SpriteSheetManager
+{
+   - m_sprite_sheets : unordered_map<SpriteSheetType, SpriteSheet>
+
+   + instance() : SpriteSheetManager&
+
+   + load_sprite_sheet(Renderer, SpriteSheetType) : optional<SpriteSheet>
+   + release_sprite_sheet(SpriteSheetType) : void
+
+   + get_sprite_sheet(SpriteSheetType) : optional<const SpriteSheet&>
+}
+
+class DrawableEntity
+{
+   + m_color : Color 
+   + m_shape : variant<FRect, FCircle>
+   + m_rotation : float
+}
+
+class AnimationFrame
+{
+   + m_frame : Rect
+   + m_rotation : float
+}
+
+class AnimationEntity
+{
+   - m_sprite_sheet_type : SpriteSheetType
+   - m_scale : float
+   - m_rotation : float
+
+   + get_sprite_sheet_type() : SpriteSheetType
+   + get_scale() : float
+   + get_current_frame() : AnimationFrame
+}
+
+enum EntityType
+{
+   player_one = 0x0000000F
+   player_two = 0x000000F0
+   player_one_projectile = 0x00000F00
+   player_two_projectile = 0x0000F000
+   player_one_types = 0x000000FF
+   player_two_types = 0x0000FF00
+   players = 0x00000F0F
+   player_projectile_types = 0x0000F0F0
+   player_types = 0x0000FFFF
+   ai = 0x000F0000
+   ai_projectile = 0x00F00000
+   ai_types = 0x00FF0000
+   projectile_types = 0x00F0F0F0
+   dynamic_object = 0x0F000000
+   static_object = 0xF0000000
+   object_types = 0xFF000000
+   non_player_types = 0xFFFF0000
+   all_types = 0xFFFFFFFF
+}
+
+class RandomNumberGenerator
+{
+   + instance() : RandomNumberGenerator&
+   + get_random_number<T>(optional<T>, optional<T>) : T
+}
+
+class EntityIdManager
+{
+   - m_id_map : unordered_map<EntityType, set<uint32>>
+
+   + instance() : EntityIdManager&
+
+   + allocate_id(EntityType) : EntityId
+   + release_id(EntityId) : void
+}
+
+class SpatialHashMap
+{
+   ' TODO: Can fill out later
+}
+
+class GameLevelInfo
+{
+   + m_level_name : string
+   + m_level_width : Pixels
+   + m_level_height : Pixels
+   + m_border_width : Pixels
+}
+
+class GameLevel
+{
+   + m_info : GameLevelInfo
+
+   + m_shm : SpatialHashMap
+
+   + m_player_entities : EntityId[2]
+   + m_entities : unordered_map<EntityId, GameEntity>
+   + m_collidable_entities : unordered_map<EntityId, CollidableEntity>
+   + m_motion_entities : unordered_map<EntityId, MotionEntity>
+   + m_status_effectable_entities : unordered_map<EntityId, StatusEffectableEntity>
+   + m_ai_entities : unordered_map<EntityId, AiEntity>
+   + m_drawable_entities : unordered_map<EntityId, DrawableEntity>
+   + m_textured_entities : unordered_map<EntityId, AnimationEntity>
+}
+
+class GameLevelLoader
+{
+   + load_from_json(GameLevel&, std::file_system_path) : bool
+   + teardown_level(GameLevel&) : void
+}
+
+class GameState
+{
+   - m_level : optional<GameLevel>
+
+   + instance() : GameState
+
+   + load_level_from_json(std::file_system_path) : void
+   + teardown_level() : void
+
+   + is_level_loaded() : bool
+   + get_level() : optional<const GameLevel&>
+}
+
+AiManager --> AiType
+
+CollidableSubTraitManager o-- CollidableSubTraitHandler
+
+CollidableEntity --> CollidableSubTraitManager
+
+StatusEffectManager o-- StatusEffectHandler
+
+StatusEffectableEntity --> StatusEffectManager
+
+AiEntity --> AiManager
+
+SpriteSheet o-- SpriteSheetFrame
+SpriteSheet --> SpriteSheetFrameType
+SpriteSheet --> SpriteOrientation
+SpriteSheet --> SpriteSheetType
+
+SpriteSheetManager o-- SpriteSheet
+
+AnimationEntity --> SpriteSheetManager
+AnimationEntity --> AnimationFrame
+
+EntityIdManager --> RandomNumberGenerator
+EntityIdManager --> EntityType
+
+GameLevel o-- GameLevelInfo
+GameLevel o-- SpatialHashMap
+GameLevel o-- GameEntity
+GameLevel o-- CollidableEntity
+GameLevel o-- MotionEntity
+GameLevel o-- StatusEffectableEntity
+GameLevel o-- AiEntity
+GameLevel o-- DrawableEntity
+GameLevel o-- AnimationEntity
+GameLevel --> EntityIdManager
+
+GameLevelLoader --> GameLevel
+
+GameState o-- GameLevel
+GameState --> GameLevelLoader
+
+
+@enduml

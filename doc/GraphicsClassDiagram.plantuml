@@ -1,0 +1,65 @@
+@startuml
+
+
+class Texture
+{
+   - SDL_Texture* : m_texture
+   - m_width : Pixels
+   - m_height : Pixels
+
+   + Texture(Renderer&, Surface&, Pixels, Pixels)
+
+   + get_sdl_texture() : SDL_Texture*
+
+   + get_width() : Pixels
+   + get_height() : Pixels
+}
+
+class Surface
+{
+   - m_sdl_surface : SDL_Surface*
+
+   + Surface(std::file_system_path)
+
+   + get_sdl_surface() : SDL_Surface*
+}
+
+class Renderer
+{
+   - m_sdl_renderer : SDL_Renderer*
+   - m_render_queue : vector<RenderInstruction>
+
+   + Renderer(SDL_Renderer* i_sdl_renderer)
+
+   + render_present() : void
+
+   + render(RenderInstruction&&) : void
+   + render(vector<RenderInstruction>&&) : void
+
+   + render_point(FPoint, FPoint) : void
+   + render_rect(FPoint, FRect, RgbaColor) : void
+   
+   + render_texture(Texture&, FPoint, FRect) : void
+   + render_texture_quad(Texture&, FPoint, FRect, FPoint, FRect) : void
+
+   + get_draw_color() : optional<RgbaColor>
+   + set_draw_color(RgbaColor) : void
+}
+
+class Window
+{
+   - m_sdl_window : SDL_Window*
+   - m_renderer : Renderer
+
+   + get_renderer() : Renderer&
+
+   + update_surface() : void
+}
+
+Texture --> Renderer
+
+Renderer o-- RenderInstruction
+
+Window o-- Renderer
+
+@enduml

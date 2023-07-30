@@ -1,0 +1,197 @@
+{
+   "file_info" :
+   {
+      "m_type" : "Level",
+      "m_authors" : [ "Luke Soldano" ],
+      "m_creation_date" : "2023-07-19",
+      "m_last_updated_date" : "2023-07-19"
+   },
+   "level_info" :
+   {
+      "m_name" : "Test Level",
+      "m_width" : 2000,
+      "m_height" : 2000,
+      "m_border_width" : 10
+   },
+   "spatial_hash_map_settings" :
+   {
+      "shm_cell_width" : 100,
+      "shm_cell_height" : 100
+   },
+   "player_one_entity" :
+   {
+      "info" :
+      {
+         "type" : "player_one",
+         "m_label" : "Player 1",
+         "m_visible" : true,
+         "m_position" : [ 1000.0, 1000.0 ]
+      },
+      "traits" :
+      {
+         "collidable" : 
+         { 
+            "m_hitbox" : { "frect" : "match_sprite" },
+            "collision_mask" : "non_player_types"
+         },
+         "moveable" : { },
+         "status_effectable" : { "m_health" : 100.0 },
+         "animated" : 
+         { 
+            "m_sprite_sheet_type" : "kona",
+            "m_scale" : 1.0 
+         }
+      }
+   },
+   "player_two_entity" :
+   {
+      "currently_useless" : 0
+   },
+   "level_entities" :
+   [
+      {
+         "info" :
+         {
+            "type" : "static_object",
+            "m_label" : "Test Rect 1",
+            "m_visible" : true,
+            "m_position" : [ 100.0, 100.0 ]
+         },
+         "traits" :
+         {
+            "collidable" : { "m_hitbox" : { "frect" : [ 20.0, 20.0 ] } },
+            "drawable" : 
+            { 
+               "m_rgba_color" : "red",
+               "m_shape" : { "frect" : [ 20.0, 20.0 ] },
+               "m_rotation" : 0.0
+            }
+         }
+      },
+      {
+         "info" : { "type" : "static_object", "m_position" : [ 200.0, 200.0 ] },
+         "traits" :
+         {
+            "collidable" : { "m_hitbox" : { "frect" : [ 40.0, 60.0 ] } },
+            "drawable" : 
+            { 
+               "m_rgba_color" : [ 0, 0, 255, 255],
+               "m_shape" : { "frect" : [ 40.0, 60.0 ] }
+            }
+         }
+      },
+      {
+         "info" : { "type" : "static_object", "m_position" : [ 300.0, 200.0 ] },
+         "traits" :
+         {
+            "collidable" : { "m_hitbox" : { "frect" : [ 80.0, 40.0 ] } },
+            "drawable" : 
+            { 
+               "m_rgba_color" : "red",
+               "m_shape" : { "frect" : [ 80.0, 40.0 ] }
+            }
+         }
+      },
+      {
+         "info" : { "type" : "static_object", "m_position" : [ 380.0, 300.0 ] },
+         "traits" :
+         {
+            "collidable" : { "m_hitbox" : { "frect" : [ 50.0, 80.0 ] } },
+            "drawable" : 
+            { 
+               "m_rgba_color" : "grey",
+               "m_shape" : { "frect" : [ 50.0, 80.0 ] }
+            }
+         }
+      },
+      {
+         "info" : { "type" : "static_object", "m_position" : [ 500.0, 500.0 ] },
+         "traits" :
+         {
+            "collidable" : { "m_hitbox" : { "frect" : [ 100.0, 100.0 ] } },
+            "drawable" : 
+            { 
+               "m_rgba_color" : "red",
+               "m_shape" : { "frect" : [ 100.0, 100.0 ] }
+            }
+         }
+      },
+      {
+         "info" : { "type" : "static_object", "m_position" : [ 150.0, 400.0 ] },
+         "traits" :
+         {
+            "collidable" : { "m_hitbox" : { "frect" : [ 75.0, 80.0 ] } },
+            "drawable" : 
+            { 
+               "m_rgba_color" : "blue",
+               "m_shape" : { "frect" : [ 75.0, 80.0 ] }
+            }
+         }
+      },
+      {
+         "info" : { "type" : "dynamic_object", "m_position" : [ 800.0, 800.0 ] },
+         "traits" :
+         {
+            "collidable" : 
+            { 
+               "m_hitbox" : { "frect" : [ 50.0, 50.0 ] },
+               "m_sub_trait" : "dog_bone"
+            },
+            "animated" : 
+            { 
+               "m_sprite_sheet_type" : "dog_bone",
+               "m_scale" : 2.5
+            }
+         }
+      },
+      {
+         "info" : { "type" : "dynamic_object", "m_position" : [ 1200.0, 1200.0 ] },
+         "traits" :
+         {
+            "collidable" : { 
+               "m_hitbox" : { "frect" : "match_sprite" },
+               "m_sub_trait" : "dog_bone"
+            },
+            "animated" : 
+            { 
+               "m_sprite_sheet_type" : "dog_bone",
+               "m_scale" : 2.5,
+               "m_rotation" : 90.0
+            }
+         }
+      },
+      {
+         "info" : { "type" : "dynamic_object", "m_position" : [ 1300.0, 700.0 ] },
+         "traits" :
+         {
+            "collidable" : { 
+               "m_hitbox" : { "frect" : "match_sprite" },
+               "m_sub_trait" : "dog_bone"
+            },
+            "animated" : 
+            { 
+               "m_sprite_sheet_type" : "dog_bone",
+               "m_scale" : 2.5,
+               "m_rotation" : 120.0
+            }
+         }
+      },
+      {
+         "info" : { "type" : "dynamic_object", "m_position" : [ 600.0, 1000.0 ] },
+         "traits" :
+         {
+            "collidable" : { 
+               "m_hitbox" : { "frect" : "match_sprite" },
+               "m_sub_trait" : "dog_bone"
+            },
+            "animated" : 
+            { 
+               "m_sprite_sheet_type" : "dog_bone",
+               "m_scale" : 2.5
+            }
+         }
+      }
+   ],
+
+   "END_FILE" : 0
+}
