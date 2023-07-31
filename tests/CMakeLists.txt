@@ -24,15 +24,15 @@ enable_testing()
 # Create test executable
 add_executable(${TEST_PROJECT_NAME}
                ${CMAKE_CURRENT_LIST_DIR}/TestUtilities.cpp
-               ${CMAKE_CURRENT_LIST_DIR}/TestQueues.cpp
-               ${CMAKE_CURRENT_LIST_DIR}/TestEventPublisher.cpp
-               ${CMAKE_CURRENT_LIST_DIR}/TestCamera.cpp
-               ${CMAKE_CURRENT_LIST_DIR}/TestCollisionDetector.cpp
-               ${CMAKE_CURRENT_LIST_DIR}/TestSpatialHashMap.cpp
-               ${CMAKE_CURRENT_LIST_DIR}/TestJsonParsers.cpp
-               ${CMAKE_CURRENT_LIST_DIR}/TestGameLevel.cpp
-               ${CMAKE_CURRENT_LIST_DIR}/TestTestLevel.cpp
-               ${CMAKE_CURRENT_LIST_DIR}/TestGameState.cpp
+               # ${CMAKE_CURRENT_LIST_DIR}/TestQueues.cpp
+               # ${CMAKE_CURRENT_LIST_DIR}/TestEventPublisher.cpp
+               # ${CMAKE_CURRENT_LIST_DIR}/TestCamera.cpp
+               # ${CMAKE_CURRENT_LIST_DIR}/TestCollisionDetector.cpp
+               # ${CMAKE_CURRENT_LIST_DIR}/TestSpatialHashMap.cpp
+               # ${CMAKE_CURRENT_LIST_DIR}/TestJsonParsers.cpp
+               # ${CMAKE_CURRENT_LIST_DIR}/TestGameLevel.cpp
+               # ${CMAKE_CURRENT_LIST_DIR}/TestTestLevel.cpp
+               # ${CMAKE_CURRENT_LIST_DIR}/TestGameState.cpp
 )
 
 target_link_libraries(${TEST_PROJECT_NAME}

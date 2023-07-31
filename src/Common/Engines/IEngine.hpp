@@ -1,11 +1,11 @@
 #pragma once
 
-class ILogicEngine
+class IEngine
 {
 public:
 
-   ILogicEngine() = default;
-   virtual ~ILogicEngine() = default;
+   IEngine() = default;
+   virtual ~IEngine() = default;
 
    virtual void initialize() = 0;
    virtual void teardown() = 0;

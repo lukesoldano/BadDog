@@ -1,7 +1,6 @@
 #pragma once
 
 #include "CollisionDetector.hpp"
-#include "CollisionResolver.hpp"
 #include "ILogicEngine.hpp"
 
 namespace Physics
@@ -11,7 +10,6 @@ namespace Physics
 class PhysicsEngine : public ILogicEngine
 {
    CollisionDetector m_collision_detector;
-   CollisionResolver m_collision_resolver;
 
 public:
 
