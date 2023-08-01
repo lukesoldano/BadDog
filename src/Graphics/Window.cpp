@@ -23,7 +23,10 @@ Window::Window()
    m_renderer = std::make_unique<Renderer>(m_sdl_window);
 
    // Make sure window surface is loaded, even if we don't care about it at this moment otherwise
-   SDL_GetWindowSurface(m_sdl_window);
+   if (nullptr == SDL_GetWindowSurface(m_sdl_window))
+   {
+      ASSERT(std::string("Failed to get SDL window surface, SDL error: ") + SDL_GetError());
+   }
 }
 
 Window::Window(Window&& other) :
@@ -60,11 +63,16 @@ Window& Window::operator=(Window&& rhs)
 
 Renderer& Window::get_renderer() const
 {
+   CHECK_IF_POINTER_VALID(m_renderer);
    return *m_renderer.get();
 }
 
 void Window::update_surface()
 {
-   SDL_UpdateWindowSurface(m_sdl_window);
+   CHECK_IF_POINTER_VALID_RETURN(m_sdl_window);
+   if (0 != SDL_UpdateWindowSurface(m_sdl_window))
+   {
+      ASSERT(std::string("Failed to update SDL window surface, SDL error: ") + SDL_GetError());
+   }
 }
 

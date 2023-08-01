@@ -1,28 +1,29 @@
-// #include "UserInputEngine.hpp"
+#include "UserInputEngine.hpp"
 
-// #include "GameState.hpp"
-// #include "Logger.hpp"
+#include "GameState.hpp"
+#include "EventPublisher.hpp"
+#include "EventTypes.hpp"
+#include "Logger.hpp"
 
-// #include "SDL.h"
+#include "SDL.h"
 
-// using namespace UserInput;
+using namespace UserInput;
 
-// void UserInputEngine::process_input()
-// {
-//    auto& game_state = Game::State::instance();
+void Engine::process()
+{
+   auto& game_state = Game::State::instance();
 
 //    // Reset inputs
 //    // game_state.m_key_pressed.fill(false);
 
-//    SDL_Event event;
-//    while (0 != SDL_PollEvent(&event) && !game_state.m_quit_program)
-//    {
-//       switch (event.type)
-//       {
-//          case SDL_QUIT:
-//             LOG_MESSAGE("USER QUIT");
-//             game_state.m_quit_program = true;
-//             break;
+   SDL_Event event;
+   while (0 != SDL_PollEvent(&event) && !game_state.m_quit_program)
+   {
+      switch (event.type)
+      {
+         case SDL_QUIT:
+            PUBLISH_EVENT(Events::QuitProgramRequested{ event.quit });
+            break;
 //          case SDL_KEYDOWN:
 //             switch (event.key.keysym.scancode)
 //             {
@@ -101,8 +102,9 @@
 //                   break;
 //             }
 //             break;
-//          default:
-//             break;
-//       }
-//    }
-// }
+         default:
+            LOG_VERBOSE("Unmapped event type: " << event.type)
+            break;
+      }
+   }
+}

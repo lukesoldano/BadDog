@@ -7,6 +7,11 @@ struct TestEvent
    int m_value;
 };
 
+TEST(EventPublisher, Singleton) 
+{
+   ASSERT_NE(nullptr, &EventPublisher::instance());
+}
+
 TEST(EventPublisher, ReceiveEvent) 
 {
    auto& event_publisher = EventPublisher::instance();
@@ -44,12 +49,12 @@ TEST(EventPublisher, ReceiveEventUsingMacros)
    };
 
    SUBSCRIBE_TO_EVENT(TestEvent, nullptr, callback);
-   event_publisher.publish_event(TestEvent{event_value});
+   PUBLISH_EVENT(TestEvent{event_value});
    ASSERT_TRUE(event_received);
 
    event_received = false;
    event_value = 10;
-   event_publisher.publish_event(TestEvent{event_value});
+   PUBLISH_EVENT(TestEvent{event_value});
    ASSERT_TRUE(event_received);
 
    UNSUBSCRIBE_FROM_EVENT(TestEvent, nullptr);

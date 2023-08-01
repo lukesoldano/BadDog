@@ -7,15 +7,33 @@ project(${PROJECT_NAME})
 
 ####################################################################################################
 # List and handle project options
+## Enables message logging
+option(MESSAGE_LOGGING "Allow message ${PROJECT_NAME} logging" ON)
+message("%% MESSAGE_LOGGING set to ${MESSAGE_LOGGING}")
+add_definitions(-DMESSAGE_LOGGING=$<BOOL:${MESSAGE_LOGGING}>)
+
+## Enables warning logging
+option(WARNING_LOGGING "Allow warning ${PROJECT_NAME} logging" ON)
+message("%% WARNING_LOGGING set to ${WARNING_LOGGING}")
+add_definitions(-DWARNING_LOGGING=$<BOOL:${WARNING_LOGGING}>)
+
+## Enables error logging
+option(ERROR_LOGGING "Allow error ${PROJECT_NAME} logging" ON)
+message("%% ERROR_LOGGING set to ${ERROR_LOGGING}")
+add_definitions(-DERROR_LOGGING=$<BOOL:${ERROR_LOGGING}>)
+
+## Enables verbose logging
+option(VERBOSE_LOGGING "Allow verbose ${PROJECT_NAME} logging" OFF)
+message("%% VERBOSE_LOGGING set to ${VERBOSE_LOGGING}")
+add_definitions(-DVERBOSE_LOGGING=$<BOOL:${VERBOSE_LOGGING}>)
+
 ## Turns off all logging
 option(SILENCE_LOGGING "Silence ${PROJECT_NAME} logging" OFF)
 message("%% SILENCE_LOGGING set to ${SILENCE_LOGGING}")
-if(SILENCE_LOGGING)
-   add_definitions(-DSILENCE_LOGGING=1)
-endif()
+add_definitions(-DSILENCE_LOGGING=$<BOOL:${SILENCE_LOGGING}>)
 
 ## Enables unit testing in build
-option(BUILD_UNIT_TESTS "Build ${PROJECT_NAME} unit tests" OFF)
+option(BUILD_UNIT_TESTS "Build ${PROJECT_NAME} unit tests" ON)
 message("%% BUILD_UNIT_TESTS set to ${BUILD_UNIT_TESTS}")
 
 ####################################################################################################

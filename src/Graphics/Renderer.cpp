@@ -8,6 +8,8 @@ using namespace Graphics;
 
 Renderer::Renderer(SDL_Window* i_sdl_window)
 {
+   CHECK_IF_POINTER_VALID_RETURN(i_sdl_window);
+
    m_sdl_renderer = SDL_CreateRenderer(i_sdl_window, -1, SDL_RENDERER_ACCELERATED);
    if (nullptr == m_sdl_renderer) 
    {
@@ -42,29 +44,11 @@ Renderer& Renderer::operator=(Renderer&& rhs)
 
 bool Renderer::render_present()
 {
-   CHECK_IF_POINTER_VALID_RETURN_FALSE(m_sdl_renderer);
+   CHECK_IF_POINTER_VALID_RETURN_VALUE(m_sdl_renderer, false);
    SDL_RenderPresent(m_sdl_renderer);
    SDL_RenderClear(m_sdl_renderer);
    return true;
 }
-
-// bool Renderer::render(RenderInstruction_t&& i_render_instruction)
-// {
-//    CHECK_IF_POINTER_VALID_RETURN_BOOL(m_sdl_renderer);
-//    return i_render_instruction(*m_sdl_renderer);
-// }
-
-// bool Renderer::render(std::vector<RenderInstruction_t>&& i_render_instructions)
-// {
-//    CHECK_IF_POINTER_VALID_RETURN_BOOL(m_sdl_renderer);
-
-//    bool o_all_renders_successful = true;
-//    for (const auto& instruction : i_render_instructions)
-//    {
-//       o_all_renders_successful &= instruction(*m_sdl_renderer);
-//    }
-//    return o_all_renders_successful;
-// }
 
 // std::optional<RgbaColor> Renderer::get_draw_color() const
 // {

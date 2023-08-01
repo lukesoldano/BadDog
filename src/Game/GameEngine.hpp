@@ -1,5 +1,6 @@
 #pragma once
 
+#include "EventTypes.hpp"
 #include "IEngine.hpp"
 
 #include <memory>
@@ -14,13 +15,29 @@ class Engine
 
 public:
 
-   Engine() = default;
+   Engine(Engine&&) = default;
    virtual ~Engine() = default;
 
-   int initialize();
-   void teardown();
+   inline static Engine& instance()
+   {
+      static Engine engine;
+      return engine;
+   }
+
+   Engine& operator=(Engine&&) = default;
+
+   bool initialize();
+   bool teardown();
 
    void run_gameloop();
+
+private:
+
+   Engine() = default;
+   Engine(const Engine&) = delete;
+   Engine& operator=(const Engine&) = delete;
+
+   void on_quit_requested(const Events::QuitProgramRequested& i_event);
 
 };
 

@@ -5,7 +5,8 @@ int main(int argc, char* args[])
 {
    LOG_MESSAGE("Enter main()");
 
-   Game::Engine game;
+   auto& game = Game::Engine::instance();
+   
    auto return_value = game.initialize();
    if (0 == return_value) game.run_gameloop();
    game.teardown();
