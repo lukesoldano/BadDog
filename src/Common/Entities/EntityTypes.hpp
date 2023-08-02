@@ -1,6 +1,15 @@
 #pragma once
 
+#include <cstdint>
+
+// The EntityId is a 64-bit integer with the MSB reflecting type and LSB reflecting id value
+// unique for the given type, where in the value 0xAAAAAAAABBBBBBBB the A values reflect type and 
+// the B values reflect the type id - together they form a unique EntityId
+using EntityTypeId = uint32_t;
+constexpr EntityTypeId INVALID_ENTITY_TYPE_ID = 0xFFFFFFFF;
+
 using EntityId = uint64_t;
+constexpr EntityTypeId INVALID_ENTITY_ID = 0xFFFFFFFF00000000 + INVALID_ENTITY_TYPE_ID;
 
 enum class EntityType : uint32_t
 {
