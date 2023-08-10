@@ -1,23 +1,22 @@
-message("%% Entering JSON")
+message("%% Entering SpatialHashMap")
 
 ####################################################################################################
 # Set source files
-set(JSON_PARSING_SOURCE_FILES
-    ${CMAKE_CURRENT_LIST_DIR}/JsonFileReader.cpp
+set(SPATIAL_HASH_MAP_SOURCE_FILES
+    ${CMAKE_CURRENT_LIST_DIR}/SpatialHashMap.cpp
 
-    CACHE INTERNAL "JSON_SOURCE_FILES")
+    CACHE INTERNAL "SPATIAL_HASH_MAP_SOURCE_FILES")
 
 ####################################################################################################
 # Set header files
-set(JSON_PARSING_HEADER_FILES
-    ${CMAKE_CURRENT_LIST_DIR}/JsonFileReader.hpp
-    ${CMAKE_CURRENT_LIST_DIR}/JsonTypes.hpp
+set(SPATIAL_HASH_MAP_HEADER_FILES
+    ${CMAKE_CURRENT_LIST_DIR}/SpatialHashMap.hpp
 
-    CACHE INTERNAL "JSON_HEADER_FILES")
+    CACHE INTERNAL "SPATIAL_HASH_MAP_HEADER_FILES")
 
 ####################################################################################################
 # Set include dirs
-set(JSON_PARSING_INCLUDE_DIRS
+set(SPATIAL_HASH_MAP_INCLUDE_DIRS
     ${CMAKE_CURRENT_LIST_DIR}
 
-    CACHE INTERNAL "JSON_INCLUDE_DIRS")
+    CACHE INTERNAL "SPATIAL_HASH_MAP_INCLUDE_DIRS")

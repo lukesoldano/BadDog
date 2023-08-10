@@ -13,8 +13,6 @@
 namespace Game
 {
 
-// constexpr EntityId PLAYER_ENTITY_ID = 0;
-
 class State final
 {
 //    extended_opt<Level> m_current_level;

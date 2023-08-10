@@ -1,12 +1,14 @@
 message("%% Entering Common")
 
-# ####################################################################################################
-# # Make necessary inclusions and add relevant subdirectories
+####################################################################################################
+# Make necessary inclusions and add relevant subdirectories
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Engines)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Entities)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Events)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Queues)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/JSON)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Logging)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/SpatialHashMap)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/Utilities)
 
 ####################################################################################################
@@ -15,9 +17,13 @@ set(COMMON_SOURCE_FILES
     ${ENGINES_SOURCE_FILES}
     ${ENTITES_SOURCE_FILES}
     ${EVENTS_SOURCE_FILES}
+    ${JSON_PARSING_SOURCE_FILES}
     ${LOGGING_SOURCE_FILES}
     ${QUEUES_SOURCE_FILES}
+    ${SPATIAL_HASH_MAP_SOURCE_FILES}
     ${UTILITIES_SOURCE_FILES}
+
+    ${CMAKE_CURRENT_LIST_DIR}/ProjectTypes.cpp
 
     CACHE INTERNAL "COMMON_SOURCE_FILES")
 
@@ -27,13 +33,16 @@ set(COMMON_HEADER_FILES
     ${ENGINES_HEADER_FILES}
     ${ENTITES_HEADER_FILES}
     ${EVENTS_HEADER_FILES}
+    ${JSON_PARSING_HEADER_FILES}
     ${LOGGING_HEADER_FILES}
     ${QUEUES_HEADER_FILES}
+    ${SPATIAL_HASH_MAP_HEADER_FILES}
     ${UTILITIES_HEADER_FILES}
 
     ${CMAKE_CURRENT_LIST_DIR}/ProjectConcepts.hpp
     ${CMAKE_CURRENT_LIST_DIR}/ProjectDefaults.hpp
     ${CMAKE_CURRENT_LIST_DIR}/ProjectMacros.hpp
+    ${CMAKE_CURRENT_LIST_DIR}/ProjectTypes.hpp
 
     CACHE INTERNAL "COMMON_HEADER_FILES")
 
@@ -45,8 +54,10 @@ set(COMMON_INCLUDE_DIRS
     ${ENGINES_INCLUDE_DIRS}
     ${ENTITES_INCLUDE_DIRS}
     ${EVENTS_INCLUDE_DIRS}
+    ${JSON_PARSING_INCLUDE_DIRS}
     ${LOGGING_INCLUDE_DIRS}
     ${QUEUES_INCLUDE_DIRS}
+    ${SPATIAL_HASH_MAP_INCLUDE_DIRS}
     ${UTILITIES_INCLUDE_DIRS}
 
     CACHE INTERNAL "COMMON_INCLUDE_DIRS")

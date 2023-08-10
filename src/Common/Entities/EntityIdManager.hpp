@@ -38,6 +38,7 @@ public:
 
    EntityId allocate_id(EntityType i_type);
    EntityId deallocate_id(EntityId i_id);
+   void deallocate_all_ids();
 
 private:
 

@@ -1,55 +1,36 @@
-// #pragma once
+#pragma once
 
-// #include "Logger.hpp"
-// #include "JsonUtilities.hpp"
+#include "ExtendedOptional.hpp"
+#include "JsonTypes.hpp"
 
-// #include <assert.h>
-// #include <filesystem>
-// #include <fstream>
-// #include <optional>
+#include <filesystem>
+#include <string>
+#include <utility>
+#include <vector>
 
-// namespace JSON
-// {
-// namespace FileReader
-// {
-//    // Declarations
-//    inline std::optional<nlohmann::json> read_json_file(std::filesystem::path i_json_file) noexcept;
-   
-//    // Definitions
-//    std::optional<nlohmann::json> read_json_file(std::filesystem::path i_json_file) noexcept
-//    {
-//       LOG_MESSAGE("Reading JSON file: " + i_json_file.string());
+namespace JSON
+{
 
-//       if (!Utilities::is_json_file(i_json_file))
-//       {
-//          LOG_ERROR("File is not a json file: '" << i_json_file.string() << "'");
-//          return std::nullopt;
-//       }
+struct FileInfo
+{
+   std::string m_type;
+   std::vector<std::string> m_authors;
+   std::string m_creation_date;
+   std::string m_last_updated_date;
 
-//       std::ifstream read_stream(i_json_file);
-//       if (!read_stream.is_open())
-//       {
-//          LOG_ERROR("Failed to open json file: '" << i_json_file.string() << "'");
-//          return std::nullopt;
-//       } 
+   NLOHMANN_DEFINE_TYPE_INTRUSIVE(FileInfo, 
+                                  m_type, 
+                                  m_authors, 
+                                  m_creation_date, 
+                                  m_last_updated_date);
+};
 
-//       try
-//       {
-//          return nlohmann::json::parse(read_stream);
-//       }
-//       catch (nlohmann::json::parse_error& e)
-//       {
-//          read_stream.close();
-//          assert(false && e.what());
-//          LOG_ERROR("Failed to parse json file: '" << 
-//                    i_json_file.string() << 
-//                    "' with error: '" << 
-//                    e.what() << 
-//                    "'");
-//          return std::nullopt;
-//       }
-//    }
+namespace FileReader
+{
 
-// } // namespace FileReader
+   bool is_json_file(const std::filesystem::path& i_file_path) noexcept;
+   extended_opt<std::pair<FileInfo, json>> read_json_file(std::filesystem::path i_json_file) noexcept;
 
-// } // namespace JSON
+} // namespace FileReader
+
+} // namespace JSON
