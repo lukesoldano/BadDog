@@ -19,20 +19,25 @@ TEST(EntityIdManager, AllocateId)
    EXPECT_EQ(get_entity_type(id), EntityType::player_one);
    EXPECT_EQ(PLAYER_ONE_ENTITY_ID, id);
    EXPECT_EQ(PLAYER_ONE_ENTITY_ID, manager.allocate_id(EntityType::player_one));
+   EXPECT_TRUE(manager.is_id_allocated(id));
  
    id = manager.allocate_id(EntityType::player_two);
    EXPECT_EQ(get_entity_type(id), EntityType::player_two);
    EXPECT_EQ(PLAYER_TWO_ENTITY_ID, id);
    EXPECT_EQ(PLAYER_TWO_ENTITY_ID, manager.allocate_id(EntityType::player_two));
+   EXPECT_TRUE(manager.is_id_allocated(id));
 
    id = manager.allocate_id(EntityType::player_one_projectile);
    EXPECT_EQ(get_entity_type(id), EntityType::player_one_projectile);
+   EXPECT_TRUE(manager.is_id_allocated(id));
+
 
    EXPECT_NE(id, manager.allocate_id(EntityType::player_one_projectile));
    EXPECT_NE(id, manager.allocate_id(EntityType::player_one_projectile));
 
    id = manager.allocate_id(EntityType::player_two_projectile);
    EXPECT_EQ(get_entity_type(id), EntityType::player_two_projectile);
+   EXPECT_TRUE(manager.is_id_allocated(id));
    
    EXPECT_NE(id, manager.allocate_id(EntityType::player_two_projectile));
    EXPECT_NE(id, manager.allocate_id(EntityType::player_two_projectile));
@@ -48,6 +53,7 @@ TEST(EntityIdManager, AllocateId)
    id = manager.allocate_id(EntityType::player_one_projectile);
    EXPECT_EQ(get_entity_type(id), EntityType::player_one_projectile);
    EXPECT_NE(id, INVALID_ENTITY_ID);
+   EXPECT_TRUE(manager.is_id_allocated(id));
    EXPECT_EQ(id, manager.deallocate_id(id));
    EXPECT_EQ(INVALID_ENTITY_ID, manager.deallocate_id(id));
 }

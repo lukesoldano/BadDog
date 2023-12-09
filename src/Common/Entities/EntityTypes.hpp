@@ -5,6 +5,7 @@
 
 #include <cstdint>
 #include <string>
+#include <string_view>
 
 // The EntityId is a 64-bit integer with the MSB reflecting type and LSB reflecting id value
 // unique for the given type, where in the value 0xAAAAAAAABBBBBBBB the A values reflect type and 
@@ -37,17 +38,17 @@ enum class EntityType : uint32_t
    all_types = 0xFFFFFFFF
 };
 
-// template <IsString T>
-inline extended_opt<EntityType> get_entity_type_from_string(std::string i_entity_type_string)
+template <IsString T>
+inline extended_opt<EntityType> get_entity_type_from_string(T i_entity_type_string)
 {
-   if (i_entity_type_string == "player_one") return EntityType::player_one;
-   if (i_entity_type_string == "player_two") return EntityType::player_two;
-   if (i_entity_type_string == "player_one_projectile") return EntityType::player_one_projectile;
-   if (i_entity_type_string == "player_two_projectile") return EntityType::player_two_projectile;
-   if (i_entity_type_string == "ai") return EntityType::ai;
-   if (i_entity_type_string == "ai_projectile") return EntityType::ai_projectile;
-   if (i_entity_type_string == "dynamic_object") return EntityType::dynamic_object;
-   if (i_entity_type_string == "static_object") return EntityType::static_object;
+   if (std::string_view{i_entity_type_string} == "player_one") return EntityType::player_one;
+   if (std::string_view{i_entity_type_string} == "player_two") return EntityType::player_two;
+   if (std::string_view{i_entity_type_string} == "player_one_projectile") return EntityType::player_one_projectile;
+   if (std::string_view{i_entity_type_string} == "player_two_projectile") return EntityType::player_two_projectile;
+   if (std::string_view{i_entity_type_string} == "ai") return EntityType::ai;
+   if (std::string_view{i_entity_type_string} == "ai_projectile") return EntityType::ai_projectile;
+   if (std::string_view{i_entity_type_string} == "dynamic_object") return EntityType::dynamic_object;
+   if (std::string_view{i_entity_type_string} == "static_object") return EntityType::static_object;
 
    return std::nullopt;
 }

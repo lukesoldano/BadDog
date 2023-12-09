@@ -12,12 +12,12 @@ namespace JSON
 using json = nlohmann::json;
 
 template <IsString T>
-bool get_json_value(const json& i_json, T i_key, auto&& o_value) noexcept
+bool get_json_value(const json& i_json, T i_key, auto&& o_value)
 {
    const auto it = i_json.find(i_key);
    if (it == i_json.end()) return false;
 
-   // TODO: Add some type safety checks here
+   // TODO: Add some type safety checks here and readd noexcept
 
    o_value = it->get<std::remove_cvref_t<decltype(o_value)>>();
    return true;

@@ -27,6 +27,7 @@ TEST(JsonFileReader, ReadJsonFile)
    const auto& file_info = json_file_pair.value().first;
    const auto& json_object = json_file_pair.value().second;
 
+   EXPECT_NE(std::string::npos, file_info.m_file_path.find("TestLevel2.json"));
    EXPECT_EQ(file_info.m_type, "Level");
    EXPECT_EQ(file_info.m_authors.size(), 1);
    EXPECT_EQ("2023-07-19", file_info.m_creation_date);

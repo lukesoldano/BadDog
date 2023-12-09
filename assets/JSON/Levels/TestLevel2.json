@@ -4,7 +4,7 @@
       "m_type" : "Level",
       "m_authors" : [ "Luke Soldano" ],
       "m_creation_date" : "2023-07-19",
-      "m_last_updated_date" : "2023-07-19"
+      "m_last_updated_date" : "2023-08-10"
    },
    "level_name" : "Test Level",
    "level_dimmensions" :
@@ -20,11 +20,10 @@
    },
    "player_one_entity" :
    {
-      "type" : "player_one",
-      "label" : "Player 1",
+      "name" : "Player 1",
       "traits" :
       {
-         "position" : [ 1000.0, 1000.0 ],
+         "positionable" : [ 1000.0, 1000.0 ],
          "collidable" : 
          { 
             "m_hitbox" : { "frect" : "match_sprite" },
@@ -32,25 +31,33 @@
          },
          "moveable" : { },
          "status_effectable" : { "m_health" : 100.0 },
-         "animated" : 
-         { 
-            "m_sprite_sheet_type" : "kona",
-            "m_scale" : 1.0 
-         }
+         "animateable" : { "m_sprite_sheet_type" : "kona", "m_scale" : 1.0 }
       }
    },
    "player_two_entity" :
    {
-      "currently_useless" : 0
+      "name" : "Player 2",
+      "traits" :
+      {
+         "positionable" : [ 1050.0, 1000.0 ],
+         "collidable" : 
+         { 
+            "m_hitbox" : { "frect" : "match_sprite" },
+            "collision_mask" : "non_player_types"
+         },
+         "moveable" : { },
+         "status_effectable" : { "m_health" : 100.0 },
+         "animateable" : { "m_sprite_sheet_type" : "kona", "m_scale" : 1.0 }
+      }
    },
    "level_entities" :
    [
       {
          "type" : "static_object",
-         "label" : "Test Rect 1",
+         "name" : "Test Rect 1",
          "traits" :
          {
-            "position" : [ 100.0, 100.0 ],
+            "positionable" : [ 100.0, 100.0 ],
             "collidable" : { "m_hitbox" : { "frect" : [ 20.0, 20.0 ] } },
             "drawable" : 
             { 
@@ -65,7 +72,7 @@
          "type" : "static_object",
          "traits" :
          {
-            "position" : [ 200.0, 200.0 ],
+            "positionable" : [ 200.0, 200.0 ],
             "collidable" : { "m_hitbox" : { "frect" : [ 40.0, 60.0 ] } },
             "drawable" : 
             { 
@@ -78,7 +85,7 @@
          "type" : "static_object", 
          "traits" :
          {
-            "position" : [ 300.0, 200.0 ],
+            "positionable" : [ 300.0, 200.0 ],
             "collidable" : { "m_hitbox" : { "frect" : [ 80.0, 40.0 ] } },
             "drawable" : 
             { 
@@ -91,7 +98,7 @@
          "type" : "static_object",
          "traits" :
          {
-            "position" : [ 380.0, 300.0 ],
+            "positionable" : [ 380.0, 300.0 ],
             "collidable" : { "m_hitbox" : { "frect" : [ 50.0, 80.0 ] } },
             "drawable" : 
             { 
@@ -104,7 +111,7 @@
          "type" : "static_object", 
          "traits" :
          {
-            "position" : [ 500.0, 500.0 ],
+            "positionable" : [ 500.0, 500.0 ],
             "collidable" : { "m_hitbox" : { "frect" : [ 100.0, 100.0 ] } },
             "drawable" : 
             { 
@@ -117,7 +124,7 @@
          "type" : "static_object",
          "traits" :
          {
-            "position" : [ 150.0, 400.0 ],
+            "positionable" : [ 150.0, 400.0 ],
             "collidable" : { "m_hitbox" : { "frect" : [ 75.0, 80.0 ] } },
             "drawable" : 
             { 
@@ -130,13 +137,13 @@
          "type" : "dynamic_object", 
          "traits" :
          {
-            "position" : [ 800.0, 800.0 ],
+            "positionable" : [ 800.0, 800.0 ],
             "collidable" : 
             { 
                "m_hitbox" : { "frect" : [ 50.0, 50.0 ] },
                "m_sub_trait" : "dog_bone"
             },
-            "animated" : 
+            "animateable" : 
             { 
                "m_visible" : true,
                "m_sprite_sheet_type" : "dog_bone",
@@ -148,12 +155,12 @@
          "type" : "dynamic_object", 
          "traits" :
          {
-            "position" : [ 1200.0, 1200.0 ],
+            "positionable" : [ 1200.0, 1200.0 ],
             "collidable" : { 
                "m_hitbox" : { "frect" : "match_sprite" },
                "m_sub_trait" : "dog_bone"
             },
-            "animated" : 
+            "animateable" : 
             { 
                "m_sprite_sheet_type" : "dog_bone",
                "m_scale" : 2.5,
@@ -165,12 +172,12 @@
          "type" : "dynamic_object",
          "traits" :
          {
-            "position" : [ 1300.0, 700.0 ],
+            "positionable" : [ 1300.0, 700.0 ],
             "collidable" : { 
                "m_hitbox" : { "frect" : "match_sprite" },
                "m_sub_trait" : "dog_bone"
             },
-            "animated" : 
+            "animateable" : 
             { 
                "m_sprite_sheet_type" : "dog_bone",
                "m_scale" : 2.5,
@@ -182,12 +189,12 @@
          "type" : "dynamic_object", 
          "traits" :
          {
-            "position" : [ 600.0, 1000.0 ],
+            "positionable" : [ 600.0, 1000.0 ],
             "collidable" : { 
                "m_hitbox" : { "frect" : "match_sprite" },
                "m_sub_trait" : "dog_bone"
             },
-            "animated" : 
+            "animateable" : 
             { 
                "m_sprite_sheet_type" : "dog_bone",
                "m_scale" : 2.5

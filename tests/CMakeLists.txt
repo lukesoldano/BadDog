@@ -33,6 +33,7 @@ add_executable(${TEST_PROJECT_NAME}
                # ${CMAKE_CURRENT_LIST_DIR}/TestJsonParsers.cpp
                ${CMAKE_CURRENT_LIST_DIR}/TestEntityUtilities.cpp
                ${CMAKE_CURRENT_LIST_DIR}/TestEntityIdManager.cpp
+               ${CMAKE_CURRENT_LIST_DIR}/TestGameLevel.cpp
                ${CMAKE_CURRENT_LIST_DIR}/TestGameLevelLoader.cpp
                ${CMAKE_CURRENT_LIST_DIR}/TestGameState.cpp
                ${CMAKE_CURRENT_LIST_DIR}/TestGameEngine.cpp

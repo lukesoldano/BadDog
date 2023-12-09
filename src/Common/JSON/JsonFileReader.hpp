@@ -13,10 +13,13 @@ namespace JSON
 
 struct FileInfo
 {
+   std::string m_file_path;
    std::string m_type;
    std::vector<std::string> m_authors;
    std::string m_creation_date;
    std::string m_last_updated_date;
+
+   std::string to_string() const;
 
    NLOHMANN_DEFINE_TYPE_INTRUSIVE(FileInfo, 
                                   m_type, 

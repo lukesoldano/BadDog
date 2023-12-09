@@ -4,6 +4,21 @@
 #include "ProjectMacros.hpp"
 
 #include <fstream>
+#include <iostream>
+
+std::string JSON::FileInfo::to_string() const
+{
+   std::ostringstream os;
+   os << "Path: " <<
+         m_file_path << 
+         ", Type: " << 
+         m_type <<
+         ", Creation Date: " <<
+         m_creation_date << 
+         ", Last Updated: " <<
+         m_last_updated_date;
+   return os.str();
+}
 
 bool JSON::FileReader::is_json_file(const std::filesystem::path& i_file_path) noexcept
 {
@@ -61,6 +76,8 @@ extended_opt<std::pair<JSON::FileInfo, JSON::json>> JSON::FileReader::read_json_
       LOG_ERROR("Failed to read 'type' from json file: '" << i_json_file.string() << "'");
       return std::nullopt;
    }
+
+   file_info.m_file_path = i_json_file.string();
 
    return std::pair<FileInfo, json>{ std::move(file_info), std::move(json_object) };
 }

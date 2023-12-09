@@ -36,6 +36,8 @@ public:
       return manager;
    }
 
+   bool is_id_allocated(EntityId i_id) const;
+
    EntityId allocate_id(EntityType i_type);
    EntityId deallocate_id(EntityId i_id);
    void deallocate_all_ids();

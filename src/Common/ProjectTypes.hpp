@@ -20,6 +20,8 @@ struct FPosition
    FPixels m_x;
    FPixels m_y;
 
+   bool operator==(const FPosition& i_other) const = default;
+
    Position to_position() const;
 };
 

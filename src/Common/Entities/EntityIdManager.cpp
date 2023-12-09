@@ -5,6 +5,17 @@
 
 using namespace Entity;
 
+bool IdManager::is_id_allocated(EntityId i_id) const
+{
+   const auto type = get_entity_type(i_id);
+   const auto type_id = get_entity_type_id(i_id);
+
+   const auto map_it = m_type_id_map.find(type);
+   if (map_it == m_type_id_map.end()) return false;
+
+   return map_it->second.find(type_id) != map_it->second.end();
+}
+
 EntityId IdManager::allocate_id(EntityType i_type)
 {
    if (EntityType::player_one == i_type || EntityType::player_two == i_type)
@@ -46,6 +57,8 @@ EntityId IdManager::allocate_id(EntityType i_type)
 
 EntityId IdManager::deallocate_id(EntityId i_id)
 {
+   if (INVALID_ENTITY_ID == i_id) return INVALID_ENTITY_ID;
+   
    const auto map_it = m_type_id_map.find(get_entity_type(i_id));
    if (map_it != m_type_id_map.end())
    {
